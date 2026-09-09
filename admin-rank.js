@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const response =
                 await fetch(
-                    "http://localhost:5000/api/admin/students",
+                    "http://https://online-management-counselling-system-1.onrender.com/api/admin/students",
                     {
                         method: "GET",
 
@@ -574,7 +574,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const response =
                         await fetch(
-                            "http://localhost:5000/api/admin/students",
+                            "http://https://online-management-counselling-system-1.onrender.com/api/admin/students",
                             {
                                 method: "POST",
 

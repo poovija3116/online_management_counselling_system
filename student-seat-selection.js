@@ -108,7 +108,7 @@ confirmSelection.addEventListener(
 
             const response =
                 await fetch(
-                    "http://localhost:5000/api/counselling/select-seat",
+                    "http://https://online-management-counselling-system-1.onrender.com/api/counselling/select-seat",
                     {
                         method: "POST",
 

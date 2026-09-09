@@ -4,7 +4,7 @@
 
 console.log("🔥 CORRECTED SEAT SCRIPT IS RUNNING 🔥");
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "http://https://online-management-counselling-system-1.onrender.com";
 
 
 // ==========================================

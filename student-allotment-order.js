@@ -8,7 +8,7 @@
    API
 ========================================================= */
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "http://https://online-management-counselling-system-1.onrender.com";
 
 
 /* =========================================================
