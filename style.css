@@ -1,238 +1,448 @@
+/* =========================================================
+   GCE ERODE - ONLINE COUNSELLING
+   SEAT AVAILABILITY
+   MODERN GREEN UI
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+/* =========================================================
+   ROOT VARIABLES
+========================================================= */
+
+:root {
+    --green-dark: #174d35;
+    --green-deep: #0d3b28;
+    --green-main: #2f7653;
+    --green-medium: #4f936d;
+    --green-light: #dcefe4;
+    --green-soft: #f0f8f3;
+
+    --white: #ffffff;
+
+    --text-dark: #20352a;
+    --text-muted: #708078;
+
+    --border: #d9e7df;
+    --border-dark: #b9d2c3;
+
+    --background: #f4f8f5;
+
+    --shadow: 0 8px 25px rgba(23, 77, 53, 0.07);
+    --shadow-hover: 0 14px 32px rgba(23, 77, 53, 0.13);
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f7f6;
-    color: #222;
+html {
+    scroll-behavior: smooth;
 }
 
-/* =========================
+body {
+    font-family: "DM Sans", Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+/* =========================================================
    COLLEGE HEADER
-========================= */
+========================================================= */
 
 .college-header {
     text-align: center;
-    background: white;
-    padding-top: 22px;
+    background: var(--white);
+
+    padding-top: 25px;
+
+    border-bottom: 1px solid var(--border);
+
+    box-shadow: 0 3px 15px rgba(23, 77, 53, 0.05);
 }
 
 .college-header h1 {
-    font-size: 24px;
+    font-family: "Playfair Display", Georgia, serif;
+
+    font-size: 25px;
     font-weight: 700;
-    color: #14532d;
-    letter-spacing: 0.4px;
+
+    color: var(--green-dark);
+
+    letter-spacing: 0.5px;
 }
 
 .college-header h2 {
-    margin-top: 8px;
-    font-size: 18px;
+    margin-top: 6px;
+
+    font-size: 14px;
     font-weight: 600;
-    color: #333;
+
+    color: var(--text-muted);
+
+    letter-spacing: 1px;
 }
+
+/* =========================================================
+   TITLE BAR
+========================================================= */
 
 .title-bar {
-    margin-top: 18px;
-    background: #d9ead3;
-    border-top: 1px solid #9bbb8e;
-    border-bottom: 1px solid #9bbb8e;
+    position: relative;
 
-    padding: 10px;
+    margin-top: 20px;
 
-    font-size: 16px;
-    font-weight: bold;
-    color: #1b4332;
+    padding: 13px 10px;
+
+    background: linear-gradient(
+        90deg,
+        var(--green-light),
+        #eaf5ee,
+        var(--green-light)
+    );
+
+    border-top: 1px solid var(--border-dark);
+    border-bottom: 1px solid var(--border-dark);
+
+    color: var(--green-dark);
+
+    font-size: 14px;
+    font-weight: 700;
+
+    letter-spacing: 0.8px;
 }
 
-/* =========================
+/* Small decorative line */
+
+.title-bar::before {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -1px;
+
+    width: 90px;
+    height: 3px;
+
+    transform: translateX(-50%);
+
+    background: var(--green-main);
+
+    border-radius: 10px;
+}
+
+/* =========================================================
    MAIN CONTAINER
-========================= */
+========================================================= */
 
 .container {
-    width: 96%;
-    margin: 25px auto 40px;
+    width: min(96%, 1500px);
+
+    margin: 32px auto 50px;
 }
+
+/* =========================================================
+   TABLE HEADING
+========================================================= */
 
 .table-heading {
     text-align: center;
-    margin-bottom: 18px;
+
+    margin-bottom: 25px;
 }
 
 .table-heading h2 {
-    font-size: 18px;
-    color: #14532d;
+    font-family: "Playfair Display", Georgia, serif;
+
+    font-size: 23px;
+    font-weight: 700;
+
+    color: var(--green-dark);
+
+    letter-spacing: 0.2px;
 }
 
 .table-heading p {
-    margin-top: 5px;
-    font-size: 13px;
-    color: #666;
+    margin-top: 7px;
+
+    font-size: 12px;
+
+    color: var(--text-muted);
 }
 
-/* =========================
-   SEARCH
-========================= */
+/* =========================================================
+   SEARCH / CONTROLS
+========================================================= */
 
 .controls {
     display: flex;
     align-items: center;
-    gap: 10px;
 
-    margin-bottom: 12px;
+    gap: 12px;
+
+    margin-bottom: 15px;
+
+    padding: 15px 18px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    box-shadow: var(--shadow);
 }
 
 .controls label {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 12px;
+    font-weight: 700;
+
+    color: var(--green-dark);
+
+    white-space: nowrap;
 }
 
 .controls input {
-    width: 230px;
+    width: 270px;
 
-    padding: 8px 10px;
+    padding: 10px 13px;
 
-    border: 1px solid #aaa;
-    border-radius: 3px;
+    background: #fbfdfc;
+
+    border: 1px solid var(--border-dark);
+
+    border-radius: 8px;
 
     outline: none;
+
+    color: var(--text-dark);
+
+    font-family: inherit;
+    font-size: 12px;
+
+    transition: all 0.25s ease;
+}
+
+.controls input::placeholder {
+    color: #9aa9a1;
+}
+
+.controls input:hover {
+    border-color: var(--green-medium);
 }
 
 .controls input:focus {
-    border-color: #3c7a45;
+    background: var(--white);
+
+    border-color: var(--green-main);
+
+    box-shadow:
+        0 0 0 3px rgba(47, 118, 83, 0.10),
+        0 4px 12px rgba(23, 77, 53, 0.06);
 }
 
-/* =========================
+/* =========================================================
    TABLE WRAPPER
-========================= */
+========================================================= */
 
 .table-wrapper {
     width: 100%;
 
     overflow-x: auto;
 
-    background: white;
+    background: var(--white);
 
-    border: 1px solid #8c8c8c;
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    box-shadow: var(--shadow);
+
+    -webkit-overflow-scrolling: touch;
 }
 
-/* =========================
+/* =========================================================
    TABLE
-========================= */
+========================================================= */
 
 table {
     width: 100%;
+
     min-width: 1500px;
 
-    border-collapse: collapse;
+    border-collapse: separate;
+
+    border-spacing: 0;
 
     table-layout: fixed;
 }
 
+/* =========================================================
+   TABLE CELLS
+========================================================= */
+
 th,
 td {
-    border: 1px solid #999;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
 
     text-align: center;
 
-    padding: 7px 5px;
+    padding: 8px 5px;
 
-    font-size: 12px;
+    font-size: 11px;
+
+    transition: background 0.2s ease;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* Remove right border from last column */
+
+th:last-child,
+td:last-child {
+    border-right: none;
+}
+
+/* =========================================================
+   TABLE HEADER
+========================================================= */
 
 thead th {
-    font-weight: bold;
+    font-weight: 700;
 
-    background: #d9ead3;
+    color: var(--green-dark);
 
-    color: #1f3b26;
+    background: var(--green-light);
+
+    letter-spacing: 0.2px;
 }
+
+/* =========================================================
+   BRANCH HEADER
+========================================================= */
 
 .branch-header {
     width: 90px;
 
-    background: #cfe2f3 !important;
+    background: var(--green-dark) !important;
+
+    color: var(--white) !important;
+
+    border-color: #286247 !important;
 }
+
+/* =========================================================
+   CATEGORY HEADER
+========================================================= */
 
 .category-header {
-    background: #b7d7a8 !important;
+    background: #cbe3d3 !important;
+
+    color: var(--green-dark) !important;
 }
+
+/* =========================================================
+   TOTAL HEADER
+========================================================= */
 
 .total-header {
-    background: #a9d18e !important;
+    background: #b7d5c2 !important;
+
+    color: var(--green-deep) !important;
 }
 
-/* SECOND HEADER */
+/* =========================================================
+   SECOND HEADER
+========================================================= */
 
 thead tr:nth-child(2) th {
-    background: #e2f0d9;
+    background: #e8f3ec;
 
-    font-size: 11px;
-}
-
-/* THIRD HEADER */
-
-thead tr:nth-child(3) th {
-    background: #d9eaf7;
+    color: var(--green-dark);
 
     font-size: 10px;
+}
+
+/* =========================================================
+   THIRD HEADER
+========================================================= */
+
+thead tr:nth-child(3) th {
+    background: #f4f9f6;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
 
     padding: 6px 3px;
 }
 
-/* =========================
-   CATEGORY COLUMNS
-========================= */
-
-/* Light blue appearance for data columns */
+/* =========================================================
+   CATEGORY DATA
+========================================================= */
 
 tbody td:nth-child(n+2):nth-child(-n+19) {
-    background: #f3f8fc;
+    background: #fcfefd;
 }
 
-/* Overall total columns */
+/* =========================================================
+   OVERALL TOTAL DATA
+========================================================= */
 
 tbody td:nth-child(n+20) {
-    background: #edf5e9;
+    background: var(--green-soft);
+
+    color: var(--green-dark);
+
+    font-weight: 600;
 }
 
-/* =========================
-   BRANCH
-========================= */
+/* =========================================================
+   BRANCH NAME
+========================================================= */
 
 .branch-name {
-    font-weight: bold;
+    font-weight: 700;
 
-    background: #eef3f7 !important;
+    background: #edf6f0 !important;
 
-    color: #173b22;
+    color: var(--green-dark);
+
+    letter-spacing: 0.3px;
 }
 
-/* =========================
+/* =========================================================
    TOTAL ROW
-========================= */
+========================================================= */
 
 .total-row td {
-    background: #d9ead3 !important;
+    background: var(--green-light) !important;
 
-    font-weight: bold;
+    color: var(--green-dark);
 
-    border-top: 2px solid #5b7f61;
+    font-weight: 700;
+
+    border-bottom: none;
+
+    border-top: 2px solid var(--green-main);
 }
 
 .total-row td:first-child {
-    background: #b7d7a8 !important;
+    background: #c4dece !important;
+
+    color: var(--green-deep);
 }
 
-/* =========================
-   VACANCY HIGHLIGHT
-========================= */
+/* =========================================================
+   VACANCY VALUES
+========================================================= */
 
 tbody td:nth-child(4),
 tbody td:nth-child(7),
@@ -241,66 +451,290 @@ tbody td:nth-child(13),
 tbody td:nth-child(16),
 tbody td:nth-child(19),
 tbody td:nth-child(22) {
-    font-weight: bold;
+    font-weight: 700;
+
+    color: var(--green-main);
 }
 
-/* =========================
-   HOVER
-========================= */
+/* =========================================================
+   OCCUPIED VALUES
+========================================================= */
+
+tbody td:nth-child(3),
+tbody td:nth-child(6),
+tbody td:nth-child(9),
+tbody td:nth-child(12),
+tbody td:nth-child(15),
+tbody td:nth-child(18),
+tbody td:nth-child(21) {
+    color: #52645a;
+}
+
+/* =========================================================
+   ROW HOVER
+========================================================= */
+
+tbody tr:not(.total-row) {
+    transition: transform 0.18s ease;
+}
 
 tbody tr:not(.total-row):hover td {
-    background: #fff8dc;
+    background: #eef7f1 !important;
 }
 
-/* =========================
+tbody tr:not(.total-row):hover .branch-name {
+    background: #dfeee5 !important;
+}
+
+/* =========================================================
+   TABLE BOTTOM
+========================================================= */
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.table-wrapper::-webkit-scrollbar {
+    height: 9px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: #edf3ef;
+
+    border-radius: 10px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #b7cfc0;
+
+    border-radius: 10px;
+
+    border: 2px solid #edf3ef;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: var(--green-main);
+}
+
+/* =========================================================
+   TEXT SELECTION
+========================================================= */
+
+::selection {
+    background: var(--green-light);
+
+    color: var(--green-dark);
+}
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+========================================================= */
+
+input:focus-visible {
+    outline: 2px solid rgba(47, 118, 83, 0.20);
+
+    outline-offset: 2px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .college-header h1 {
+        font-size: 21px;
+    }
+
+    .container {
+        width: 95%;
+
+        margin-top: 26px;
+    }
+
+    .table-heading h2 {
+        font-size: 20px;
+    }
+
+    .controls {
+        padding: 14px;
+    }
+
+    .controls input {
+        width: 240px;
+    }
+}
+
+/* =========================================================
    MOBILE
-========================= */
+========================================================= */
 
 @media (max-width: 768px) {
+
+    .college-header {
+        padding-top: 18px;
+    }
+
+    .college-header h1 {
+        font-size: 18px;
+
+        padding: 0 15px;
+
+        line-height: 1.4;
+    }
+
+    .college-header h2 {
+        margin-top: 5px;
+
+        font-size: 12px;
+
+        letter-spacing: 0.6px;
+    }
+
+    .title-bar {
+        margin-top: 15px;
+
+        padding: 11px 8px;
+
+        font-size: 12px;
+    }
+
+    .title-bar::before {
+        width: 60px;
+    }
+
+    .container {
+        width: 95%;
+
+        margin: 22px auto 35px;
+    }
+
+    .table-heading {
+        margin-bottom: 18px;
+    }
+
+    .table-heading h2 {
+        font-size: 18px;
+    }
+
+    .table-heading p {
+        font-size: 11px;
+
+        padding: 0 10px;
+    }
+
+    .controls {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 8px;
+
+        padding: 13px;
+
+        border-radius: 10px;
+    }
+
+    .controls label {
+        font-size: 11px;
+    }
+
+    .controls input {
+        width: 100%;
+
+        padding: 9px 11px;
+
+        font-size: 11px;
+    }
+
+    .table-wrapper {
+        border-radius: 10px;
+    }
+
+    th,
+    td {
+        padding: 7px 4px;
+
+        font-size: 10px;
+    }
+
+    thead tr:nth-child(2) th {
+        font-size: 9px;
+    }
+
+    thead tr:nth-child(3) th {
+        font-size: 8px;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
 
     .college-header {
         padding-top: 15px;
     }
 
     .college-header h1 {
-        font-size: 17px;
+        font-size: 16px;
+
         padding: 0 10px;
     }
 
     .college-header h2 {
-        font-size: 15px;
+        font-size: 11px;
     }
 
     .title-bar {
-        font-size: 13px;
+        font-size: 10px;
+
+        padding: 9px 6px;
     }
 
     .container {
-        width: 98%;
+        width: 94%;
+
         margin-top: 18px;
     }
 
     .table-heading h2 {
-        font-size: 15px;
+        font-size: 16px;
+    }
+
+    .table-heading p {
+        font-size: 10px;
     }
 
     .controls {
-        flex-direction: column;
-        align-items: flex-start;
+        padding: 11px;
+
+        border-radius: 8px;
+    }
+
+    .controls label {
+        font-size: 10px;
     }
 
     .controls input {
-        width: 100%;
+        padding: 8px 10px;
+
+        font-size: 10px;
+    }
+
+    .table-wrapper {
+        border-radius: 8px;
     }
 
     th,
     td {
-        padding: 6px 4px;
-        font-size: 11px;
-    }
+        padding: 6px 3px;
 
-    .table-wrapper {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        font-size: 9px;
     }
 }

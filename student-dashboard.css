@@ -1,6 +1,64 @@
-/* ==========================================
+/* =====================================================
+   STUDENT DASHBOARD
+   GCE ERODE - ONLINE MANAGEMENT COUNSELLING
+===================================================== */
+
+
+/* =====================================================
+   GOOGLE FONTS
+===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+
+/* =====================================================
+   ROOT COLORS
+===================================================== */
+
+:root {
+
+    --forest-green: #0B5D3B;
+    --deep-green: #08452D;
+    --primary-green: #176B45;
+    --dark-green: #123F30;
+
+    --green: #23875A;
+    --medium-green: #4E9B70;
+
+    --sage-green: #DDEEDF;
+    --light-green: #EEF6EF;
+    --very-light-green: #F5FAF6;
+
+    --cream: #F5F8F3;
+
+    --white: #FFFFFF;
+
+    --border: #D3E1D6;
+    --border-green: #B9D4C1;
+
+    --text: #123D2E;
+    --muted-text: #65736C;
+
+    --success: #0B8A63;
+    --success-light: #E6F5EE;
+
+    --warning: #A87918;
+    --warning-light: #FFF7DF;
+
+    --danger: #A64B4B;
+    --danger-light: #FCEEEE;
+
+    --shadow:
+        0 8px 25px rgba(20, 70, 45, 0.07);
+
+    --green-shadow:
+        0 8px 22px rgba(23, 107, 69, 0.16);
+}
+
+
+/* =====================================================
    RESET
-========================================== */
+===================================================== */
 
 * {
     margin: 0;
@@ -9,469 +67,648 @@
 }
 
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f3f6f4;
-    color: #172b1f;
-    line-height: 1.5;
+html {
+    scroll-behavior: smooth;
 }
 
 
-/* ==========================================
+body {
+
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(221, 238, 223, 0.75),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 35%,
+            rgba(238, 246, 239, 0.9),
+            transparent 35%
+        ),
+        var(--cream);
+
+    color: var(--text);
+
+    font-family:
+        "Poppins",
+        "Inter",
+        Arial,
+        sans-serif;
+
+    line-height: 1.6;
+
+    overflow-x: hidden;
+}
+
+
+/* =====================================================
+   IMPORTANT HIDDEN CLASS
+===================================================== */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =====================================================
    HEADER
-========================================== */
+===================================================== */
 
 .dashboard-header {
-    min-height: 95px;
-    background: #173f2a;
-    color: white;
+
+    min-height: 90px;
+
+    padding: 20px 6%;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
-    padding: 18px 45px;
+    gap: 25px;
 
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    background:
+        linear-gradient(
+            135deg,
+            #FFFFFF 0%,
+            #F5FAF6 100%
+        );
+
+    border-bottom: 1px solid var(--border);
+
+    position: relative;
+
+    box-shadow:
+        0 3px 15px rgba(20, 70, 45, 0.05);
+
+    z-index: 10;
 }
 
 
+/* Green line */
+
+.dashboard-header::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--deep-green),
+            var(--primary-green),
+            var(--medium-green),
+            var(--primary-green),
+            var(--deep-green)
+        );
+}
+
+
+/* =====================================================
+   COLLEGE INFORMATION
+===================================================== */
+
 .college-info h1 {
-    font-size: 22px;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
     letter-spacing: 0.4px;
+
+    color: var(--deep-green);
+
+    line-height: 1.3;
 }
 
 
 .college-info p {
+
     margin-top: 5px;
-    font-size: 13px;
-    letter-spacing: 1.5px;
-    color: #d5eadb;
-}
 
-
-.student-info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-
-.student-name {
-    font-weight: bold;
-    font-size: 15px;
-}
-
-
-.logout-btn {
-    border: 1px solid #ffffff;
-    background: transparent;
-    color: white;
-
-    padding: 9px 17px;
-
-    border-radius: 6px;
-
-    cursor: pointer;
-
-    font-weight: bold;
-}
-
-
-.logout-btn:hover {
-    background: white;
-    color: #173f2a;
-}
-
-
-/* ==========================================
-   MAIN CONTAINER
-========================================== */
-
-.dashboard-container {
-    width: min(1180px, 94%);
-    margin: 30px auto;
-}
-
-
-/* ==========================================
-   WELCOME
-========================================== */
-
-.welcome-section {
-    background: white;
-
-    border-radius: 12px;
-
-    padding: 28px 32px;
-
-    margin-bottom: 22px;
-
-    border: 1px solid #dce5df;
-
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-}
-
-
-.small-title,
-.section-label {
-    display: block;
+    color: var(--primary-green);
 
     font-size: 11px;
 
-    font-weight: bold;
+    font-weight: 600;
 
-    letter-spacing: 1.4px;
-
-    color: #36774d;
-
-    margin-bottom: 5px;
+    letter-spacing: 2px;
 }
 
 
-.welcome-section h2 {
-    font-size: 26px;
-    margin-bottom: 5px;
-}
+/* =====================================================
+   STUDENT HEADER INFO
+===================================================== */
 
+.student-info {
 
-.welcome-section p {
-    color: #66756b;
-}
+    display: flex;
 
-
-/* ==========================================
-   STUDENT DETAILS
-========================================== */
-
-.student-details-card {
-    background: white;
-
-    padding: 25px 30px;
-
-    border-radius: 12px;
-
-    border: 1px solid #dce5df;
-
-    margin-bottom: 22px;
-}
-
-
-.section-title {
-    margin-bottom: 20px;
-}
-
-
-.section-title h3 {
-    font-size: 20px;
-}
-
-
-.details-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
+    align-items: center;
 
     gap: 15px;
 }
 
 
-.detail-item {
-    background: #f5f8f6;
+.student-name {
 
-    border-radius: 8px;
+    min-width: 120px;
 
-    padding: 15px;
+    padding: 9px 16px;
+
+    background: var(--sage-green);
+
+    border: 1px solid var(--border-green);
+
+    border-radius: 30px;
+
+    text-align: center;
 }
 
 
-.detail-item span {
-    display: block;
+.student-name span {
+
+    color: var(--deep-green);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =====================================================
+   LOGOUT BUTTON
+===================================================== */
+
+.logout-btn {
+
+    min-height: 40px;
+
+    padding: 0 18px;
+
+    background: #FFFFFF;
+
+    color: var(--primary-green);
+
+    border: 2px solid var(--border-green);
+
+    border-radius: 9px;
+
+    font-family: inherit;
 
     font-size: 10px;
 
-    color: #708077;
-
-    font-weight: bold;
+    font-weight: 700;
 
     letter-spacing: 0.8px;
 
-    margin-bottom: 5px;
-}
-
-
-.detail-item strong {
-    font-size: 15px;
-}
-
-
-.rank-value {
-    color: #24643d;
-}
-
-
-.status {
-    font-size: 12px !important;
-}
-
-
-.status.pending {
-    color: #b7791f;
-}
-
-
-.status.success {
-    color: #267345;
-}
-
-
-/* ==========================================
-   CHOICE FILLING MAIN CARD
-========================================== */
-
-.choice-filling-card {
-    background: linear-gradient(
-        135deg,
-        #173f2a,
-        #245b3c
-    );
-
-    color: white;
-
-    border-radius: 14px;
-
-    padding: 35px;
-
-    margin-bottom: 24px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    min-height: 260px;
-
-    box-shadow: 0 7px 20px rgba(23, 63, 42, 0.18);
-}
-
-
-.choice-content {
-    max-width: 760px;
-}
-
-
-.choice-content .section-label {
-    color: #cce5d3;
-}
-
-
-.choice-content h2 {
-    font-size: 30px;
-
-    margin-bottom: 10px;
-}
-
-
-.choice-content > p {
-    color: #e2eee5;
-
-    max-width: 700px;
-
-    margin-bottom: 18px;
-}
-
-
-.choice-features {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(200px, 1fr));
-
-    gap: 8px 30px;
-
-    margin-bottom: 25px;
-
-    font-size: 14px;
-
-    color: #e8f3eb;
-}
-
-
-.primary-btn {
-    border: none;
-
-    background: white;
-
-    color: #173f2a;
-
-    padding: 13px 23px;
-
-    border-radius: 7px;
-
-    font-weight: bold;
-
     cursor: pointer;
 
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.logout-btn:hover {
+
+    background: var(--deep-green);
+
+    color: #FFFFFF;
+
+    border-color: var(--deep-green);
+
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.dashboard-container {
+
+    width: min(1200px, 90%);
+
+    margin: 0 auto;
+
+    padding: 45px 0 60px;
+}
+
+
+/* =====================================================
+   WELCOME SECTION
+===================================================== */
+
+.welcome-section {
+
+    margin-bottom: 28px;
+
+    padding: 32px 35px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #FFFFFF,
+            #EEF6EF
+        );
+
+    border: 1px solid var(--border);
+
+    border-left: 6px solid var(--primary-green);
+
+    border-radius: 16px;
+
+    box-shadow: var(--shadow);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.welcome-section::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 190px;
+    height: 190px;
+
+    right: -70px;
+    top: -80px;
+
+    background:
+        rgba(23, 107, 69, 0.07);
+
+    border-radius: 50%;
+}
+
+
+.small-title {
+
+    display: inline-block;
+
+    color: var(--primary-green);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.8px;
+}
+
+
+.welcome-section h2 {
+
+    margin-top: 5px;
+
+    color: var(--deep-green);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 31px;
+
+    line-height: 1.3;
+
+    position: relative;
+
+    z-index: 1;
+}
+
+
+.welcome-section h2 span {
+
+    color: var(--primary-green);
+}
+
+
+.welcome-section p {
+
+    margin-top: 8px;
+
+    color: var(--muted-text);
+
     font-size: 13px;
+
+    position: relative;
+
+    z-index: 1;
 }
 
 
-.primary-btn:hover {
-    background: #e9f2ec;
+/* =====================================================
+   SECTION TITLE
+===================================================== */
 
-    transform: translateY(-1px);
+.section-title {
+
+    padding-bottom: 18px;
+
+    margin-bottom: 23px;
+
+    border-bottom: 1px solid var(--border);
 }
 
 
-.choice-icon {
-    font-size: 90px;
+.section-label {
 
-    opacity: 0.85;
+    display: inline-block;
 
-    padding-right: 30px;
+    color: var(--primary-green);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.8px;
 }
 
 
-/* ==========================================
-   THREE DASHBOARD CARDS
-========================================== */
+.section-title h3 {
 
-.dashboard-grid {
+    margin-top: 4px;
+
+    color: var(--deep-green);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 22px;
+
+    line-height: 1.3;
+}
+
+
+/* =====================================================
+   STUDENT DETAILS CARD
+===================================================== */
+
+.student-details-card {
+
+    margin-bottom: 26px;
+
+    padding: 30px;
+
+    background: #FFFFFF;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    box-shadow: var(--shadow);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.student-details-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--deep-green),
+            var(--primary-green),
+            var(--medium-green)
+        );
+}
+
+
+/* =====================================================
+   DETAILS GRID
+===================================================== */
+
+.details-grid {
+
     display: grid;
 
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 20px;
-
-    margin-bottom: 22px;
+    gap: 16px;
 }
 
 
-.dashboard-card {
-    background: white;
+.detail-item {
 
-    border: 1px solid #dce5df;
+    min-height: 92px;
 
-    border-radius: 12px;
+    padding: 18px;
 
-    padding: 25px;
+    background:
+        linear-gradient(
+            135deg,
+            #FFFFFF,
+            #F7FBF7
+        );
 
-    display: flex;
+    border: 1px solid var(--border);
 
-    flex-direction: column;
+    border-radius: 11px;
 
-    min-height: 280px;
+    transition:
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.detail-item:hover {
+
+    border-color: var(--border-green);
+
+    transform: translateY(-2px);
 
     box-shadow:
-        0 3px 12px rgba(0, 0, 0, 0.04);
+        0 6px 18px rgba(20, 70, 45, 0.07);
 }
 
 
-.card-icon {
-    font-size: 30px;
+.detail-item span {
 
-    margin-bottom: 12px;
+    display: block;
+
+    color: var(--muted-text);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.1px;
 }
 
 
-.card-label {
-    font-size: 10px;
+.detail-item strong {
 
-    font-weight: bold;
+    display: block;
 
-    letter-spacing: 1.2px;
+    margin-top: 7px;
 
-    color: #36774d;
+    color: var(--deep-green);
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    word-break: break-word;
 }
 
 
-.dashboard-card h3 {
-    margin-top: 5px;
+.detail-item .rank-value {
 
-    font-size: 20px;
+    color: var(--primary-green);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 24px;
+
+    font-weight: 700;
 }
 
 
-.dashboard-card p {
-    color: #68776e;
+/* =====================================================
+   STATUS
+===================================================== */
 
-    font-size: 14px;
+.status {
 
-    margin-top: 8px;
-
-    margin-bottom: 20px;
-}
-
-
-.secondary-btn {
-    margin-top: auto;
-
-    border: 1px solid #27623e;
-
-    background: white;
-
-    color: #27623e;
-
-    padding: 10px 15px;
-
-    border-radius: 6px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-
-.secondary-btn:hover {
-    background: #27623e;
-
-    color: white;
-}
-
-
-/* ==========================================
-   PREFERENCE STATUS
-========================================== */
-
-.preference-status-card {
-    background: white;
-
-    border: 1px solid #dce5df;
-
-    border-radius: 12px;
-
-    padding: 27px 30px;
-
-    margin-bottom: 22px;
-}
-
-
-.preference-status-content {
-    background: #f5f8f6;
-
-    border-radius: 10px;
-
-    padding: 20px;
-
-    display: flex;
+    display: inline-flex;
 
     align-items: center;
 
-    gap: 18px;
+    justify-content: center;
+
+    padding: 4px 10px;
+
+    border-radius: 20px;
+
+    font-size: 9px !important;
+
+    font-weight: 700 !important;
+
+    letter-spacing: 0.6px;
+
+    width: fit-content;
+}
+
+
+.status.pending {
+
+    background: var(--warning-light);
+
+    color: var(--warning);
+}
+
+
+.status.success {
+
+    background: var(--success-light);
+
+    color: var(--success);
+}
+
+
+/* =====================================================
+   PREFERENCE STATUS CARD
+===================================================== */
+
+.preference-status-card {
+
+    margin-bottom: 26px;
+
+    padding: 30px;
+
+    background: #FFFFFF;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    box-shadow: var(--shadow);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.preference-status-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 5px;
+
+    background: var(--primary-green);
+}
+
+
+/* =====================================================
+   PREFERENCE STATUS CONTENT
+===================================================== */
+
+.preference-status-content {
+
+    display: grid;
+
+    grid-template-columns:
+        auto 1fr auto;
+
+    align-items: center;
+
+    gap: 20px;
 }
 
 
 .status-icon {
-    width: 52px;
 
-    height: 52px;
-
-    border-radius: 50%;
-
-    background: #e2eee5;
+    width: 58px;
+    height: 58px;
 
     display: flex;
 
@@ -479,282 +716,1511 @@ body {
 
     justify-content: center;
 
-    font-size: 24px;
-
     flex-shrink: 0;
-}
 
+    background: var(--sage-green);
 
-.preference-details {
-    flex: 1;
+    border: 1px solid var(--border-green);
+
+    border-radius: 14px;
+
+    font-size: 25px;
 }
 
 
 .preference-details h3 {
-    font-size: 18px;
 
-    margin-bottom: 4px;
+    color: var(--deep-green);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 20px;
 }
 
 
 .preference-details p {
-    font-size: 13px;
 
-    color: #69776f;
+    margin-top: 4px;
+
+    color: var(--muted-text);
+
+    font-size: 12px;
 }
 
 
 .preference-meta {
+
+    margin-top: 12px;
+
     display: flex;
 
-    gap: 25px;
+    flex-wrap: wrap;
 
-    margin-top: 10px;
+    gap: 18px;
+}
 
-    font-size: 11px;
 
-    color: #647269;
+.preference-meta span {
+
+    color: var(--muted-text);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
 }
 
 
 .preference-meta strong {
-    color: #173f2a;
+
+    color: var(--primary-green);
+
+    margin-left: 4px;
+
+    font-size: 10px;
 }
 
+
+/* =====================================================
+   EDIT BUTTON
+===================================================== */
 
 .edit-btn {
-    background: #27623e;
 
-    color: white;
+    min-width: 205px;
 
-    border: none;
+    min-height: 44px;
 
-    border-radius: 6px;
+    padding: 0 20px;
 
-    padding: 11px 17px;
+    background: var(--primary-green);
 
-    font-weight: bold;
+    color: #FFFFFF;
 
-    cursor: pointer;
-}
-
-
-.edit-btn:hover {
-    background: #1d4e31;
-}
-
-
-/* ==========================================
-   ALLOTMENT
-========================================== */
-
-.allotment-card {
-    background: white;
-
-    border: 1px solid #dce5df;
-
-    border-radius: 12px;
-
-    padding: 27px 30px;
-
-    margin-bottom: 22px;
-}
-
-
-.allotment-waiting {
-    background: #fff8e8;
-
-    border: 1px solid #f0dfae;
+    border: 2px solid var(--primary-green);
 
     border-radius: 9px;
 
-    padding: 20px;
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.edit-btn:hover:not(:disabled) {
+
+    background: var(--deep-green);
+
+    border-color: var(--deep-green);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(8, 69, 45, 0.20);
+}
+
+
+/* IMPORTANT:
+   Disabled edit preference after closing
+*/
+
+.edit-btn:disabled {
+
+    background: #B8C2BC !important;
+
+    border-color: #B8C2BC !important;
+
+    color: #FFFFFF !important;
+
+    cursor: not-allowed !important;
+
+    opacity: 0.75;
+
+    box-shadow: none !important;
+
+    transform: none !important;
+}
+
+
+/* =====================================================
+   CHOICE FILLING CARD
+===================================================== */
+
+.choice-filling-card {
+
+    margin-bottom: 26px;
+
+    padding: 34px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr auto;
+
+    align-items: center;
+
+    gap: 35px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0B5D3B 0%,
+            #176B45 65%,
+            #23875A 100%
+        );
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 10px 28px rgba(11, 93, 59, 0.20);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.choice-filling-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 230px;
+    height: 230px;
+
+    right: -80px;
+    top: -95px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.07);
+
+    pointer-events: none;
+}
+
+
+.choice-content {
+
+    position: relative;
+
+    z-index: 1;
+}
+
+
+.choice-filling-card .section-label {
+
+    color: #CDE8D5;
+}
+
+
+.choice-content h2 {
+
+    margin-top: 5px;
+
+    color: #FFFFFF;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 27px;
+
+    line-height: 1.3;
+}
+
+
+.choice-content p {
+
+    max-width: 720px;
+
+    margin-top: 9px;
+
+    color: #DDEEDF;
+
+    font-size: 12px;
+}
+
+
+/* =====================================================
+   CHOICE FEATURES
+===================================================== */
+
+.choice-features {
+
+    margin-top: 18px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 8px 25px;
+}
+
+
+.choice-features div {
+
+    color: #F1FAF3;
+
+    font-size: 11px;
+
+    font-weight: 500;
+}
+
+
+/* =====================================================
+   PRIMARY BUTTON
+===================================================== */
+
+.primary-btn {
+
+    margin-top: 23px;
+
+    min-height: 45px;
+
+    padding: 0 22px;
+
+    background: #FFFFFF;
+
+    color: var(--deep-green);
+
+    border: 2px solid #FFFFFF;
+
+    border-radius: 9px;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.primary-btn:hover:not(:disabled) {
+
+    background: var(--sage-green);
+
+    color: var(--deep-green);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+
+.primary-btn:disabled {
+
+    background: #AAB8AF !important;
+
+    border-color: #AAB8AF !important;
+
+    color: #FFFFFF !important;
+
+    cursor: not-allowed !important;
+
+    opacity: 0.8;
+
+    box-shadow: none;
+
+    transform: none;
+}
+
+
+/* =====================================================
+   CHOICE ICON
+===================================================== */
+
+.choice-icon {
+
+    width: 105px;
+    height: 105px;
 
     display: flex;
 
     align-items: center;
 
-    gap: 17px;
+    justify-content: center;
+
+    background:
+        rgba(255, 255, 255, 0.12);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.20);
+
+    border-radius: 24px;
+
+    font-size: 47px;
+
+    position: relative;
+
+    z-index: 1;
 }
 
 
-.allotment-icon {
-    font-size: 30px;
+/* =====================================================
+   CURRENT ROUND STATUS
+===================================================== */
+
+.preference-status-content .edit-btn {
+
+    align-self: center;
 }
 
 
-.allotment-waiting h3 {
-    font-size: 17px;
+/* =====================================================
+   DASHBOARD GRID
+===================================================== */
 
-    color: #745519;
-}
+.dashboard-grid {
 
+    margin-bottom: 26px;
 
-.allotment-waiting p {
-    color: #806c47;
-
-    font-size: 13px;
-
-    margin-top: 3px;
-}
-
-
-/* ==========================================
-   ALLOTMENT RESULT
-========================================== */
-
-.allotment-result {
     display: grid;
 
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 15px;
+    gap: 18px;
 }
 
 
-.result-item {
-    background: #f5f8f6;
+.dashboard-card {
 
-    border-radius: 8px;
+    padding: 25px;
 
-    padding: 17px;
+    background: #FFFFFF;
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
+
+    box-shadow: var(--shadow);
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
 }
 
 
-.result-item span {
-    display: block;
+.dashboard-card::before {
 
-    font-size: 10px;
+    content: "";
 
-    color: #718078;
+    position: absolute;
 
-    font-weight: bold;
+    top: 0;
+    left: 0;
 
-    margin-bottom: 5px;
+    width: 100%;
+    height: 4px;
+
+    background: var(--primary-green);
 }
 
 
-.result-item strong {
-    font-size: 16px;
+.dashboard-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: var(--border-green);
+
+    box-shadow: var(--green-shadow);
 }
 
 
-.hidden {
-    display: none;
-}
+/* =====================================================
+   CARD ICON
+===================================================== */
 
+.card-icon {
 
-/* ==========================================
-   NOTICE
-========================================== */
-
-.notice-card {
-    background: #fff8e8;
-
-    border: 1px solid #f0dfae;
-
-    border-radius: 10px;
-
-    padding: 20px;
+    width: 50px;
+    height: 50px;
 
     display: flex;
 
-    gap: 15px;
+    align-items: center;
 
-    align-items: flex-start;
+    justify-content: center;
 
-    margin-bottom: 30px;
+    background: var(--light-green);
+
+    border: 1px solid var(--border-green);
+
+    border-radius: 12px;
+
+    font-size: 23px;
 }
 
 
-.notice-icon {
+.card-label {
+
+    display: block;
+
+    margin-top: 18px;
+
+    color: var(--primary-green);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.dashboard-card h3 {
+
+    margin-top: 4px;
+
+    color: var(--deep-green);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 19px;
+}
+
+
+.dashboard-card p {
+
+    min-height: 58px;
+
+    margin-top: 6px;
+
+    color: var(--muted-text);
+
+    font-size: 11px;
+
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   SECONDARY BUTTON
+===================================================== */
+
+.secondary-btn {
+
+    width: 100%;
+
+    min-height: 40px;
+
+    margin-top: 17px;
+
+    padding: 0 14px;
+
+    background: #FFFFFF;
+
+    color: var(--primary-green);
+
+    border: 2px solid var(--border-green);
+
+    border-radius: 8px;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.secondary-btn:hover {
+
+    background: var(--primary-green);
+
+    border-color: var(--primary-green);
+
+    color: #FFFFFF;
+
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   ALLOTMENT CARD
+===================================================== */
+
+.allotment-card {
+
+    margin-bottom: 28px;
+
+    padding: 30px;
+
+    background: #FFFFFF;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    box-shadow: var(--shadow);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.allotment-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--deep-green),
+            var(--primary-green),
+            var(--medium-green)
+        );
+}
+
+
+/* =====================================================
+   ALLOTMENT WAITING
+===================================================== */
+
+.allotment-waiting {
+
+    min-height: 120px;
+
+    padding: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #F5FAF6,
+            #EEF6EF
+        );
+
+    border: 1px solid var(--border-green);
+
+    border-radius: 12px;
+}
+
+
+.allotment-icon {
+
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--sage-green);
+
+    border: 1px solid var(--border-green);
+
+    border-radius: 14px;
+
+    font-size: 27px;
+}
+
+
+.allotment-waiting h3 {
+
+    color: var(--deep-green);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 19px;
+}
+
+
+.allotment-waiting p {
+
+    margin-top: 4px;
+
+    color: var(--muted-text);
+
+    font-size: 12px;
+}
+
+
+/* =====================================================
+   ALLOTMENT RESULT
+===================================================== */
+
+.allotment-result {
+
+    padding: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #F7FBF8,
+            #FFFFFF
+        );
+
+    border: 1px solid var(--border-green);
+
+    border-radius: 13px;
+}
+
+
+/* =====================================================
+   RESULT HEADER
+===================================================== */
+
+.allotment-result-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 22px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.allotment-success-label {
+
+    color: var(--success);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.allotment-result-header h3 {
+
+    margin-top: 4px;
+
+    color: var(--deep-green);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
     font-size: 24px;
 }
 
 
-.notice-card h3 {
-    color: #70531b;
+.allotment-result-header p {
 
-    margin-bottom: 4px;
+    max-width: 700px;
+
+    margin-top: 5px;
+
+    color: var(--muted-text);
+
+    font-size: 12px;
+}
+
+
+.allotment-success-icon {
+
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--success-light);
+
+    color: var(--success);
+
+    border: 1px solid #B9DCCB;
+
+    border-radius: 50%;
+
+    font-size: 27px;
+
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   RESULT DETAILS
+===================================================== */
+
+.result-details {
+
+    margin-top: 22px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 14px;
+}
+
+
+.result-item {
+
+    padding: 17px;
+
+    background: #FFFFFF;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+}
+
+
+.result-item span {
+
+    display: block;
+
+    color: var(--muted-text);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+.result-item strong {
+
+    display: block;
+
+    margin-top: 7px;
+
+    color: var(--deep-green);
+
+    font-size: 15px;
+}
+
+
+/* =====================================================
+   STUDENT DECISION SECTION
+===================================================== */
+
+.student-decision-section {
+
+    margin-top: 24px;
+
+    padding: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #EEF6EF,
+            #F9FCF9
+        );
+
+    border: 1px solid var(--border-green);
+
+    border-radius: 12px;
+}
+
+
+.student-decision-label {
+
+    color: var(--primary-green);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.student-decision-info h4 {
+
+    margin-top: 5px;
+
+    color: var(--deep-green);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 20px;
+}
+
+
+.student-decision-info p {
+
+    margin-top: 4px;
+
+    color: var(--muted-text);
+
+    font-size: 12px;
+}
+
+
+/* =====================================================
+   DECISION BUTTONS
+===================================================== */
+
+.seat-decision-buttons {
+
+    margin-top: 18px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+}
+
+
+.decision-button {
+
+    min-height: 45px;
+
+    padding: 0 15px;
+
+    border-radius: 9px;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.6px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.decision-button:hover:not(:disabled) {
+
+    transform: translateY(-2px);
+}
+
+
+/* ACCEPT */
+
+.accept-button {
+
+    background: var(--success);
+
+    color: #FFFFFF;
+
+    border: 2px solid var(--success);
+
+    box-shadow:
+        0 6px 15px rgba(11, 138, 99, 0.16);
+}
+
+
+.accept-button:hover:not(:disabled) {
+
+    background: #087351;
+
+    border-color: #087351;
+}
+
+
+/* UPWARD */
+
+.upward-button {
+
+    background: #FFFFFF;
+
+    color: var(--primary-green);
+
+    border: 2px solid var(--border-green);
+}
+
+
+.upward-button:hover:not(:disabled) {
+
+    background: var(--light-green);
+
+    border-color: var(--primary-green);
+}
+
+
+/* DECLINE */
+
+.decline-button {
+
+    background: #FFFFFF;
+
+    color: var(--danger);
+
+    border: 2px solid #E3BABA;
+}
+
+
+.decline-button:hover:not(:disabled) {
+
+    background: var(--danger-light);
+
+    border-color: var(--danger);
+}
+
+
+/* Disabled decision */
+
+.decision-button:disabled {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none !important;
+
+    box-shadow: none !important;
+}
+
+
+/* =====================================================
+   DECISION RESULT
+===================================================== */
+
+.decision-result {
+
+    margin-top: 18px;
+
+    padding: 17px 19px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    background: var(--success-light);
+
+    border: 1px solid #B9DCCB;
+
+    border-radius: 10px;
+}
+
+
+.decision-result-icon {
+
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--success);
+
+    color: #FFFFFF;
+
+    border-radius: 50%;
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+
+.decision-result h4 {
+
+    color: var(--deep-green);
+
+    font-size: 14px;
+}
+
+
+.decision-result p {
+
+    margin-top: 2px;
+
+    color: var(--muted-text);
+
+    font-size: 11px;
+}
+
+
+/* =====================================================
+   ALLOTMENT ORDER ACTION
+===================================================== */
+
+.allotment-order-action {
+
+    margin-top: 20px;
+
+    padding: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #F1F9F4,
+            #FFFFFF,
+            #E8F4EA
+        );
+
+    border: 1px solid var(--border-green);
+
+    border-left: 5px solid var(--primary-green);
+
+    border-radius: 12px;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.allotment-order-action::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    right: -65px;
+    top: -65px;
+
+    background:
+        rgba(23, 107, 69, 0.07);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+
+.allotment-order-info {
+
+    position: relative;
+
+    z-index: 1;
+}
+
+
+.allotment-order-label {
+
+    color: var(--primary-green);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.allotment-order-info h4 {
+
+    margin-top: 4px;
+
+    color: var(--deep-green);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 20px;
+}
+
+
+.allotment-order-info p {
+
+    max-width: 800px;
+
+    margin-top: 5px;
+
+    color: var(--muted-text);
+
+    font-size: 12px;
+}
+
+
+/* =====================================================
+   ALLOTMENT ORDER BUTTONS
+===================================================== */
+
+.allotment-order-buttons {
+
+    margin-top: 18px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 10px;
+
+    position: relative;
+
+    z-index: 1;
+}
+
+
+.allotment-order-button,
+.allotment-print-button {
+
+    min-height: 44px;
+
+    border-radius: 8px;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.6px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.allotment-order-button {
+
+    background: var(--primary-green);
+
+    color: #FFFFFF;
+
+    border: 2px solid var(--primary-green);
+
+    box-shadow:
+        0 6px 15px rgba(23, 107, 69, 0.18);
+}
+
+
+.allotment-order-button:hover {
+
+    background: var(--deep-green);
+
+    border-color: var(--deep-green);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(8, 69, 45, 0.20);
+}
+
+
+.allotment-print-button {
+
+    background: var(--sage-green);
+
+    color: var(--primary-green);
+
+    border: 2px solid var(--border-green);
+}
+
+
+.allotment-print-button:hover {
+
+    background: var(--light-green);
+
+    border-color: var(--primary-green);
+
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   IMPORTANT NOTICE
+===================================================== */
+
+.notice-card {
+
+    margin-bottom: 0;
+
+    padding: 22px 25px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #EAF5EC,
+            #F7FBF7
+        );
+
+    border: 1px solid var(--border-green);
+
+    border-left: 5px solid var(--primary-green);
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 6px 20px rgba(20, 70, 45, 0.05);
+}
+
+
+.notice-icon {
+
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--primary-green);
+
+    color: #FFFFFF;
+
+    border-radius: 50%;
+
+    font-size: 18px;
+}
+
+
+.notice-card h3 {
+
+    color: var(--deep-green);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 18px;
 }
 
 
 .notice-card p {
-    color: #715f3b;
 
-    font-size: 13px;
+    margin-top: 5px;
+
+    color: var(--muted-text);
+
+    font-size: 12px;
+
+    line-height: 1.7;
 }
 
 
-/* ==========================================
+.notice-card strong {
+
+    color: var(--primary-green);
+}
+
+
+/* =====================================================
    FOOTER
-========================================== */
+===================================================== */
 
 .dashboard-footer {
-    background: #173f2a;
 
-    color: white;
+    padding: 25px 6%;
 
-    text-align: center;
+    display: flex;
 
-    padding: 22px;
+    align-items: center;
 
-    margin-top: 40px;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    background: var(--deep-green);
+
+    color: #FFFFFF;
+
+    font-size: 11px;
+
+    letter-spacing: 0.3px;
 }
 
 
 .dashboard-footer p {
-    font-weight: bold;
 
-    font-size: 13px;
+    font-weight: 600;
 }
 
 
 .dashboard-footer span {
-    display: block;
 
-    color: #c9ddd0;
+    color: #CFE4D4;
 
-    font-size: 11px;
-
-    margin-top: 4px;
+    font-size: 10px;
 }
 
 
-/* ==========================================
-   RESPONSIVE
-========================================== */
+/* =====================================================
+   FOCUS ACCESSIBILITY
+===================================================== */
 
-@media (max-width: 900px) {
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
 
-    .dashboard-header {
-        padding: 18px 25px;
+    outline: 3px solid rgba(23, 107, 69, 0.25);
+
+    outline-offset: 3px;
+}
+
+
+/* =====================================================
+   SELECTION
+===================================================== */
+
+::selection {
+
+    background: var(--sage-green);
+
+    color: var(--deep-green);
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1000px) {
+
+    .dashboard-container {
+
+        width: 92%;
     }
 
 
     .details-grid {
+
         grid-template-columns:
             repeat(2, 1fr);
     }
 
 
     .dashboard-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .result-details {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+
+    .choice-filling-card {
+
         grid-template-columns:
             1fr;
     }
 
 
     .choice-icon {
+
         display: none;
     }
 
 }
 
 
-@media (max-width: 600px) {
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
 
     .dashboard-header {
+
+        padding: 18px 5%;
+
         flex-direction: column;
 
         align-items: flex-start;
@@ -763,52 +2229,358 @@ body {
     }
 
 
+    .college-info h1 {
+
+        font-size: 16px;
+    }
+
+
+    .college-info p {
+
+        font-size: 9px;
+
+        letter-spacing: 1.4px;
+    }
+
+
     .student-info {
+
         width: 100%;
 
         justify-content: space-between;
     }
 
 
+    .student-name {
+
+        flex: 1;
+    }
+
+
+    .dashboard-container {
+
+        width: 92%;
+
+        padding: 30px 0 45px;
+    }
+
+
+    .welcome-section {
+
+        padding: 25px 22px;
+    }
+
+
+    .welcome-section h2 {
+
+        font-size: 25px;
+    }
+
+
+    .student-details-card,
+    .preference-status-card,
+    .allotment-card {
+
+        padding: 22px 18px;
+    }
+
+
     .details-grid {
-        grid-template-columns:
-            1fr;
-    }
 
-
-    .choice-filling-card {
-        padding: 25px;
-
-        min-height: auto;
-    }
-
-
-    .choice-content h2 {
-        font-size: 24px;
-    }
-
-
-    .choice-features {
         grid-template-columns:
             1fr;
     }
 
 
     .preference-status-content {
-        flex-direction: column;
+
+        grid-template-columns:
+            auto 1fr;
+    }
+
+
+    .preference-status-content .edit-btn {
+
+        grid-column: 1 / -1;
+
+        width: 100%;
+    }
+
+
+    .choice-filling-card {
+
+        padding: 26px 22px;
+    }
+
+
+    .choice-content h2 {
+
+        font-size: 23px;
+    }
+
+
+    .choice-features {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .dashboard-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .dashboard-card p {
+
+        min-height: auto;
+    }
+
+
+    .result-details {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .allotment-result {
+
+        padding: 20px;
+    }
+
+
+    .allotment-result-header {
 
         align-items: flex-start;
     }
 
 
-    .edit-btn {
-        width: 100%;
+    .allotment-success-icon {
+
+        width: 48px;
+        height: 48px;
+
+        font-size: 22px;
     }
 
 
-    .allotment-result {
+    .seat-decision-buttons {
+
         grid-template-columns:
             1fr;
     }
 
+
+    .allotment-order-buttons {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .notice-card {
+
+        padding: 19px;
+    }
+
+
+    .dashboard-footer {
+
+        padding: 22px 5%;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .dashboard-header {
+
+        padding: 17px 5%;
+    }
+
+
+    .college-info h1 {
+
+        font-size: 14px;
+    }
+
+
+    .student-info {
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .student-name {
+
+        width: 100%;
+    }
+
+
+    .logout-btn {
+
+        width: 100%;
+    }
+
+
+    .welcome-section h2 {
+
+        font-size: 22px;
+    }
+
+
+    .welcome-section p {
+
+        font-size: 11px;
+    }
+
+
+    .section-title h3 {
+
+        font-size: 19px;
+    }
+
+
+    .detail-item {
+
+        min-height: 82px;
+
+        padding: 15px;
+    }
+
+
+    .choice-filling-card {
+
+        padding: 23px 18px;
+    }
+
+
+    .choice-content h2 {
+
+        font-size: 21px;
+    }
+
+
+    .choice-content p {
+
+        font-size: 11px;
+    }
+
+
+    .primary-btn {
+
+        width: 100%;
+    }
+
+
+    .allotment-waiting {
+
+        align-items: flex-start;
+
+        padding: 18px;
+
+        flex-direction: column;
+    }
+
+
+    .allotment-result-header {
+
+        flex-direction: column;
+    }
+
+
+    .allotment-result-header h3 {
+
+        font-size: 21px;
+    }
+
+
+    .student-decision-section {
+
+        padding: 18px;
+    }
+
+
+    .allotment-order-action {
+
+        padding: 18px;
+    }
+
+
+    .notice-card {
+
+        gap: 11px;
+    }
+
+
+    .notice-icon {
+
+        width: 32px;
+        height: 32px;
+
+        font-size: 15px;
+    }
+
+}
+
+/* =========================================================
+   STUDENT DECISION CONFIRMATION MODAL
+========================================================= */
+.decision-confirmation-modal {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    background: rgba(15, 40, 32, .58);
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+    z-index: 10000;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .22s ease, visibility .22s ease;
+}
+.decision-confirmation-modal.show { opacity: 1; visibility: visible; pointer-events: auto; }
+.decision-confirmation-box {
+    width: min(430px, 100%); padding: 32px 30px;
+    background: #fff; border: 1px solid #dce7e3; border-radius: 18px;
+    text-align: center; box-shadow: 0 24px 70px rgba(18,60,54,.25);
+    transform: translateY(14px) scale(.97); transition: transform .22s ease;
+}
+.decision-confirmation-modal.show .decision-confirmation-box { transform: translateY(0) scale(1); }
+.decision-confirmation-icon {
+    width: 62px; height: 62px; margin: 0 auto 17px;
+    display: flex; align-items: center; justify-content: center; border-radius: 50%;
+    background: #e5f1ee; border: 1px solid #c7ddd7; color: #23786b;
+    font-size: 25px; font-weight: 800;
+}
+.decision-confirmation-box h3 {
+    margin: 0; color: #17201c; font-family: Georgia, serif; font-size: 23px; font-weight: 700;
+}
+.decision-confirmation-box p {
+    margin: 12px auto 25px; max-width: 360px; color: #66756f; font-size: 13px; line-height: 1.65;
+}
+.decision-confirmation-buttons { display: flex; justify-content: center; gap: 12px; }
+.decision-confirmation-cancel, .decision-confirmation-confirm {
+    min-width: 120px; padding: 11px 18px; border-radius: 9px;
+    font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; transition: .2s ease;
+}
+.decision-confirmation-cancel { background: #fff; color: #23786b; border: 1px solid #b9d2cb; }
+.decision-confirmation-cancel:hover { background: #f0f7f4; border-color: #23786b; }
+.decision-confirmation-confirm { background: #23786b; color: #fff; border: 1px solid #23786b; }
+.decision-confirmation-confirm:hover { background: #185c52; border-color: #185c52; }
+@media (max-width: 500px) {
+    .decision-confirmation-box { padding: 27px 21px; }
+    .decision-confirmation-buttons { flex-direction: column-reverse; }
+    .decision-confirmation-cancel, .decision-confirmation-confirm { width: 100%; }
 }

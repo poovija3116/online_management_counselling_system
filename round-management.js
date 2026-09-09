@@ -59,6 +59,11 @@ const selectedRoundStatus =
 const selectedChoiceStatus =
     document.getElementById("selectedChoiceStatus");
 
+const selectedChoiceStatusSummary =
+    document.getElementById(
+        "selectedChoiceStatusSummary"
+    );
+
 const preferenceStart =
     document.getElementById("preferenceStart");
 
@@ -71,26 +76,254 @@ const allotmentAt =
 const paymentDeadline =
     document.getElementById("paymentDeadline");
 
-const updateRoundSettingsButton =
-    document.getElementById("updateRoundSettingsButton");
+
+// ============================================================
+// SAVE TIME SETTINGS BUTTON
+// ============================================================
+
+const saveTimeSettingsButton =
+    document.getElementById(
+        "saveTimeSettingsButton"
+    );
 
 const openChoiceFillingButton =
-    document.getElementById("openChoiceFillingButton");
+    document.getElementById(
+        "openChoiceFillingButton"
+    );
 
 const lockChoiceFillingButton =
-    document.getElementById("lockChoiceFillingButton");
+    document.getElementById(
+        "lockChoiceFillingButton"
+    );
 
 const allotmentCompletedButton =
-    document.getElementById("allotmentCompletedButton");
+    document.getElementById(
+        "allotmentCompletedButton"
+    );
 
 const paymentPeriodButton =
-    document.getElementById("paymentPeriodButton");
+    document.getElementById(
+        "paymentPeriodButton"
+    );
 
 const completeRoundButton =
-    document.getElementById("completeRoundButton");
+    document.getElementById(
+        "completeRoundButton"
+    );
 
 const controlMessage =
-    document.getElementById("controlMessage");
+    document.getElementById(
+        "controlMessage"
+    );
+
+
+// ============================================================
+// RESET
+// ============================================================
+
+const resetCounsellingButton =
+    document.getElementById(
+        "resetCounsellingButton"
+    );
+
+const resetModal =
+    document.getElementById(
+        "resetModal"
+    );
+
+const cancelResetButton =
+    document.getElementById(
+        "cancelResetButton"
+    );
+
+const confirmResetButton =
+    document.getElementById(
+        "confirmResetButton"
+    );
+
+
+// ============================================================
+// OPEN RESET CONFIRMATION
+// ============================================================
+
+if (
+    resetCounsellingButton &&
+    resetModal
+) {
+
+    resetCounsellingButton.addEventListener(
+        "click",
+        function () {
+
+            if (!checkAuthentication()) {
+                return;
+            }
+
+            resetModal.classList.add(
+                "show"
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// CANCEL RESET
+// ============================================================
+
+if (
+    cancelResetButton &&
+    resetModal
+) {
+
+    cancelResetButton.addEventListener(
+        "click",
+        function () {
+
+            resetModal.classList.remove(
+                "show"
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// CLOSE RESET MODAL WHEN CLICKING OUTSIDE
+// ============================================================
+
+if (resetModal) {
+
+    resetModal.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                resetModal
+            ) {
+
+                resetModal.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// CONFIRM RESET
+// ============================================================
+
+if (
+    confirmResetButton &&
+    resetModal
+) {
+
+    confirmResetButton.addEventListener(
+        "click",
+        async function () {
+
+            try {
+
+                // Close confirmation box
+
+                resetModal.classList.remove(
+                    "show"
+                );
+
+
+                // Disable reset button
+
+                if (resetCounsellingButton) {
+
+                    resetCounsellingButton.disabled =
+                        true;
+
+                    resetCounsellingButton.textContent =
+                        "Resetting...";
+
+                }
+
+
+                // Show progress message
+
+                setControlMessage(
+                    "Resetting counselling process..."
+                );
+
+
+                // ====================================================
+                // EXISTING RESET API
+                // ====================================================
+
+                await apiRequest(
+                    "/api/rounds/reset-process",
+                    {
+                        method: "POST",
+
+                        body:
+                            JSON.stringify({})
+                    }
+                );
+
+
+                // ====================================================
+                // SUCCESS
+                // ====================================================
+
+                setControlMessage(
+                    "✓ Counselling process has been completely reset."
+                );
+
+
+                // Reload rounds
+
+                await loadRounds();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "RESET COUNSELLING ERROR:",
+                    error
+                );
+
+                setControlMessage(
+                    "Reset failed: " +
+                    error.message,
+                    true
+                );
+
+            }
+
+            finally {
+
+                if (resetCounsellingButton) {
+
+                    resetCounsellingButton.disabled =
+                        false;
+
+                    resetCounsellingButton.textContent =
+                        "↻ Reset Entire Process";
+
+                }
+
+            }
+
+        }
+    );
+
+}
 
 
 // ============================================================
@@ -118,7 +351,7 @@ function getToken() {
 
 
 // ============================================================
-// AUTH CHECK
+// AUTHENTICATION
 // ============================================================
 
 function checkAuthentication() {
@@ -163,7 +396,7 @@ function getHeaders() {
 
 
 // ============================================================
-// API HELPER
+// API REQUEST
 // ============================================================
 
 async function apiRequest(
@@ -184,7 +417,6 @@ async function apiRequest(
             }
         );
 
-
     let data = {};
 
     try {
@@ -192,12 +424,13 @@ async function apiRequest(
         data =
             await response.json();
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         data = {};
 
     }
-
 
     console.log(
         "API REQUEST:",
@@ -206,8 +439,10 @@ async function apiRequest(
         data
     );
 
-
-    if (!response.ok || !data.success) {
+    if (
+        !response.ok ||
+        !data.success
+    ) {
 
         throw new Error(
             data.message ||
@@ -216,14 +451,13 @@ async function apiRequest(
 
     }
 
-
     return data;
 
 }
 
 
 // ============================================================
-// LOAD ALL ROUNDS
+// LOAD ROUNDS
 // ============================================================
 
 async function loadRounds() {
@@ -234,16 +468,13 @@ async function loadRounds() {
             "Loading counselling rounds..."
         );
 
-
         const data =
             await apiRequest(
                 "/api/rounds"
             );
 
-
         rounds =
             data.rounds || [];
-
 
         renderRoundCards();
 
@@ -263,13 +494,16 @@ async function loadRounds() {
                         "completed"
                 );
 
-
             if (activeRound) {
 
-                controlRoundSelect.value =
-                    String(
-                        activeRound.id
-                    );
+                if (controlRoundSelect) {
+
+                    controlRoundSelect.value =
+                        String(
+                            activeRound.id
+                        );
+
+                }
 
                 selectRound(
                     activeRound.id
@@ -279,10 +513,7 @@ async function loadRounds() {
 
         }
 
-
-        setControlMessage(
-            ""
-        );
+        setControlMessage("");
 
     }
 
@@ -292,7 +523,6 @@ async function loadRounds() {
             "LOAD ROUNDS ERROR:",
             error
         );
-
 
         setControlMessage(
             error.message,
@@ -311,14 +541,10 @@ async function loadRounds() {
 function renderRoundCards() {
 
     if (!roundContainer) {
-
         return;
-
     }
 
-
     roundContainer.innerHTML = "";
-
 
     if (rounds.length === 0) {
 
@@ -334,21 +560,17 @@ function renderRoundCards() {
 
     }
 
-
     rounds.forEach(
         round => {
 
             const card =
                 document.createElement("div");
 
-
             card.className =
                 "round-card";
 
-
             card.dataset.roundId =
                 round.id;
-
 
             card.innerHTML = `
 
@@ -372,7 +594,8 @@ function renderRoundCards() {
                         type="number"
                         class="from-rank"
                         value="${round.min_rank}"
-                        min="1">
+                        min="1"
+                    >
 
                 </div>
 
@@ -392,7 +615,8 @@ function renderRoundCards() {
                         type="number"
                         class="to-rank"
                         value="${round.max_rank}"
-                        min="1">
+                        min="1"
+                    >
 
                 </div>
 
@@ -417,7 +641,6 @@ function renderRoundCards() {
 
             `;
 
-
             roundContainer.appendChild(
                 card
             );
@@ -425,21 +648,20 @@ function renderRoundCards() {
         }
     );
 
+    addCalculationListeners();
+
 }
 
 
 // ============================================================
-// POPULATE ROUND SELECT
+// ROUND SELECTOR
 // ============================================================
 
 function populateRoundSelector() {
 
     if (!controlRoundSelect) {
-
         return;
-
     }
-
 
     controlRoundSelect.innerHTML = `
 
@@ -449,7 +671,6 @@ function populateRoundSelector() {
 
     `;
 
-
     rounds.forEach(
         round => {
 
@@ -458,14 +679,11 @@ function populateRoundSelector() {
                     "option"
                 );
 
-
             option.value =
                 round.id;
 
-
             option.textContent =
                 `Round ${round.round_number} - Rank ${round.min_rank}-${round.max_rank} - ${formatStatus(round.status)}`;
-
 
             controlRoundSelect.appendChild(
                 option
@@ -486,13 +704,11 @@ function selectRound(roundId) {
     const id =
         Number(roundId);
 
-
     selectedRound =
         rounds.find(
             round =>
                 Number(round.id) === id
         );
-
 
     if (!selectedRound) {
 
@@ -503,50 +719,94 @@ function selectRound(roundId) {
     }
 
 
-    selectedRoundNumber.textContent =
-        `ROUND ${String(
-            selectedRound.round_number
-        ).padStart(2, "0")}`;
+    if (selectedRoundNumber) {
+
+        selectedRoundNumber.textContent =
+            `ROUND ${String(
+                selectedRound.round_number
+            ).padStart(2, "0")}`;
+
+    }
 
 
-    selectedRoundRank.textContent =
-        `${selectedRound.min_rank} - ${selectedRound.max_rank}`;
+    if (selectedRoundRank) {
+
+        selectedRoundRank.textContent =
+            `${selectedRound.min_rank} - ${selectedRound.max_rank}`;
+
+    }
 
 
-    selectedRoundStatus.textContent =
-        formatStatus(
-            selectedRound.status
-        );
+    if (selectedRoundStatus) {
+
+        selectedRoundStatus.textContent =
+            formatStatus(
+                selectedRound.status
+            );
+
+    }
 
 
-    selectedChoiceStatus.textContent =
+    const choiceStatus =
         getChoiceStatus(
             selectedRound.status
         );
 
 
-    preferenceStart.value =
-        toDateTimeLocal(
-            selectedRound.preference_start
-        );
+    if (selectedChoiceStatus) {
+
+        selectedChoiceStatus.textContent =
+            choiceStatus;
+
+    }
 
 
-    preferenceEnd.value =
-        toDateTimeLocal(
-            selectedRound.preference_end
-        );
+    if (selectedChoiceStatusSummary) {
+
+        selectedChoiceStatusSummary.textContent =
+            choiceStatus;
+
+    }
 
 
-    allotmentAt.value =
-        toDateTimeLocal(
-            selectedRound.allotment_at
-        );
+    if (preferenceStart) {
+
+        preferenceStart.value =
+            toDateTimeLocal(
+                selectedRound.preference_start
+            );
+
+    }
 
 
-    paymentDeadline.value =
-        toDateTimeLocal(
-            selectedRound.payment_deadline
-        );
+    if (preferenceEnd) {
+
+        preferenceEnd.value =
+            toDateTimeLocal(
+                selectedRound.preference_end
+            );
+
+    }
+
+
+    if (allotmentAt) {
+
+        allotmentAt.value =
+            toDateTimeLocal(
+                selectedRound.allotment_at
+            );
+
+    }
+
+
+    if (paymentDeadline) {
+
+        paymentDeadline.value =
+            toDateTimeLocal(
+                selectedRound.payment_deadline
+            );
+
+    }
 
 
     updateControlButtons();
@@ -596,31 +856,31 @@ function clearSelectedRound() {
     }
 
 
+    if (selectedChoiceStatusSummary) {
+
+        selectedChoiceStatusSummary.textContent =
+            "-";
+
+    }
+
+
     if (preferenceStart) {
-
         preferenceStart.value = "";
-
     }
 
 
     if (preferenceEnd) {
-
         preferenceEnd.value = "";
-
     }
 
 
     if (allotmentAt) {
-
         allotmentAt.value = "";
-
     }
 
 
     if (paymentDeadline) {
-
         paymentDeadline.value = "";
-
     }
 
 
@@ -630,74 +890,95 @@ function clearSelectedRound() {
 
 
 // ============================================================
-// UPDATE CONTROL BUTTONS
+// CONTROL BUTTONS
 // ============================================================
 
 function updateControlButtons() {
 
+    disableAllControlButtons();
+
     if (!selectedRound) {
-
-        disableAllControlButtons();
-
         return;
-
     }
-
 
     const status =
         selectedRound.status;
 
 
-    disableAllControlButtons();
-
+    // ROUND NOT STARTED
 
     if (status === "not_started") {
 
-        updateRoundSettingsButton.disabled =
-            false;
+        if (openChoiceFillingButton) {
 
-        openChoiceFillingButton.disabled =
-            false;
+            openChoiceFillingButton.disabled =
+                false;
+
+        }
 
         return;
 
     }
 
+
+    // CHOICE FILLING OPEN
 
     if (status === "preference_open") {
 
-        lockChoiceFillingButton.disabled =
-            false;
+        if (lockChoiceFillingButton) {
+
+            lockChoiceFillingButton.disabled =
+                false;
+
+        }
 
         return;
 
     }
 
+
+    // CHOICE FILLING LOCKED
 
     if (status === "preferences_locked") {
 
-        allotmentCompletedButton.disabled =
-            false;
+        if (allotmentCompletedButton) {
+
+            allotmentCompletedButton.disabled =
+                false;
+
+        }
 
         return;
 
     }
 
+
+    // ALLOTMENT COMPLETED
 
     if (status === "allotment_completed") {
 
-        paymentPeriodButton.disabled =
-            false;
+        if (paymentPeriodButton) {
+
+            paymentPeriodButton.disabled =
+                false;
+
+        }
 
         return;
 
     }
 
 
+    // PAYMENT PERIOD
+
     if (status === "payment_period") {
 
-        completeRoundButton.disabled =
-            false;
+        if (completeRoundButton) {
+
+            completeRoundButton.disabled =
+                false;
+
+        }
 
         return;
 
@@ -707,14 +988,12 @@ function updateControlButtons() {
 
 
 // ============================================================
-// DISABLE ALL CONTROL BUTTONS
+// DISABLE CONTROL BUTTONS
 // ============================================================
 
 function disableAllControlButtons() {
 
     const buttons = [
-
-        updateRoundSettingsButton,
 
         openChoiceFillingButton,
 
@@ -755,6 +1034,11 @@ if (generateButton) {
         "click",
         function () {
 
+            if (!numberOfRounds) {
+                return;
+            }
+
+
             const totalRounds =
                 Number(
                     numberOfRounds.value
@@ -762,6 +1046,23 @@ if (generateButton) {
 
 
             if (
+                document.getElementById(
+                    "displayRoundCount"
+                )
+            ) {
+
+                document.getElementById(
+                    "displayRoundCount"
+                ).textContent =
+                    totalRounds;
+
+            }
+
+
+            // Validate
+
+            if (
+                !Number.isInteger(totalRounds) ||
                 totalRounds < 1 ||
                 totalRounds > 20
             ) {
@@ -775,6 +1076,13 @@ if (generateButton) {
             }
 
 
+            if (!roundContainer) {
+                return;
+            }
+
+
+            // Clear existing generated cards
+
             roundContainer.innerHTML =
                 "";
 
@@ -783,9 +1091,13 @@ if (generateButton) {
                 1;
 
 
+            // Default students per round
+
             const studentsPerRound =
                 100;
 
+
+            // Create EXACTLY selected number of rounds
 
             for (
                 let i = 1;
@@ -809,6 +1121,10 @@ if (generateButton) {
                     "round-card";
 
 
+                card.dataset.roundNumber =
+                    i;
+
+
                 card.innerHTML = `
 
                     <div class="round-number">
@@ -829,7 +1145,8 @@ if (generateButton) {
                             type="number"
                             class="from-rank"
                             value="${startRank}"
-                            min="1">
+                            min="1"
+                        >
 
                     </div>
 
@@ -849,7 +1166,8 @@ if (generateButton) {
                             type="number"
                             class="to-rank"
                             value="${endRank}"
-                            min="1">
+                            min="1"
+                        >
 
                     </div>
 
@@ -861,9 +1179,7 @@ if (generateButton) {
                         </span>
 
                         <strong class="student-number">
-
                             ${studentsPerRound}
-
                         </strong>
 
                     </div>
@@ -891,7 +1207,7 @@ if (generateButton) {
 
 
 // ============================================================
-// UPDATE STUDENT COUNT
+// STUDENT COUNT
 // ============================================================
 
 function addCalculationListeners() {
@@ -958,7 +1274,9 @@ function addCalculationListeners() {
                         fromValue +
                         1;
 
-                } else {
+                }
+
+                else {
 
                     countElement.textContent =
                         0;
@@ -989,7 +1307,7 @@ function addCalculationListeners() {
 
 
 // ============================================================
-// SAVE GENERATED ROUND SETTINGS
+// SAVE ROUND RANK SETTINGS
 // ============================================================
 
 if (saveButton) {
@@ -1015,19 +1333,66 @@ if (saveButton) {
             }
 
 
+            // Number of rounds selected
+
+            const totalRounds =
+                cards.length;
+
+
             try {
 
                 saveButton.disabled =
                     true;
 
 
-                saveMessage.textContent =
-                    "Saving round settings...";
+                if (saveMessage) {
+
+                    saveMessage.textContent =
+                        "Saving round settings...";
+
+                }
 
 
-                // --------------------------------------------
-                // Update each existing round
-                // --------------------------------------------
+                // ====================================================
+                // STEP 1
+                // SAVE EXACT NUMBER OF ROUNDS
+                // ====================================================
+
+                await apiRequest(
+                    "/api/rounds/set-count",
+                    {
+                        method: "PUT",
+
+                        body:
+                            JSON.stringify({
+
+                                numberOfRounds:
+                                    totalRounds
+
+                            })
+                    }
+                );
+
+
+                // ====================================================
+                // STEP 2
+                // GET THE UPDATED DATABASE ROUNDS
+                // ====================================================
+
+                const roundData =
+                    await apiRequest(
+                        "/api/rounds"
+                    );
+
+
+                rounds =
+                    roundData.rounds || [];
+
+
+                // ====================================================
+                // STEP 3
+                // SAVE RANK RANGE
+                // ====================================================
 
                 for (
                     let index = 0;
@@ -1041,28 +1406,46 @@ if (saveButton) {
 
                     if (!round) {
 
-                        continue;
+                        throw new Error(
+                            `Round ${index + 1} could not be found.`
+                        );
+
+                    }
+
+
+                    const fromInput =
+                        cards[index].querySelector(
+                            ".from-rank"
+                        );
+
+
+                    const toInput =
+                        cards[index].querySelector(
+                            ".to-rank"
+                        );
+
+
+                    if (
+                        !fromInput ||
+                        !toInput
+                    ) {
+
+                        throw new Error(
+                            `Rank fields missing for Round ${index + 1}`
+                        );
 
                     }
 
 
                     const from =
                         Number(
-                            cards[index]
-                                .querySelector(
-                                    ".from-rank"
-                                )
-                                .value
+                            fromInput.value
                         );
 
 
                     const to =
                         Number(
-                            cards[index]
-                                .querySelector(
-                                    ".to-rank"
-                                )
-                                .value
+                            toInput.value
                         );
 
 
@@ -1080,6 +1463,9 @@ if (saveButton) {
                     }
 
 
+                    // Rank-only request
+                    // No schedule fields are sent here.
+
                     await apiRequest(
                         `/api/rounds/${round.id}/settings`,
                         {
@@ -1087,8 +1473,13 @@ if (saveButton) {
 
                             body:
                                 JSON.stringify({
-                                    min_rank: from,
-                                    max_rank: to
+
+                                    min_rank:
+                                        from,
+
+                                    max_rank:
+                                        to
+
                                 })
                         }
                     );
@@ -1096,9 +1487,19 @@ if (saveButton) {
                 }
 
 
-                saveMessage.textContent =
-                    "✓ Round settings saved successfully.";
+                // ====================================================
+                // SUCCESS
+                // ====================================================
 
+                if (saveMessage) {
+
+                    saveMessage.textContent =
+                        "✓ Round settings saved successfully.";
+
+                }
+
+
+                // Reload from database
 
                 await loadRounds();
 
@@ -1112,15 +1513,23 @@ if (saveButton) {
                 );
 
 
-                saveMessage.textContent =
-                    `❌ ${error.message}`;
+                if (saveMessage) {
+
+                    saveMessage.textContent =
+                        `❌ ${error.message}`;
+
+                }
 
             }
 
             finally {
 
-                saveButton.disabled =
-                    false;
+                if (saveButton) {
+
+                    saveButton.disabled =
+                        false;
+
+                }
 
             }
 
@@ -1151,84 +1560,299 @@ if (controlRoundSelect) {
 
 
 // ============================================================
-// UPDATE SELECTED ROUND SETTINGS
+// SAVE TIME SETTINGS
 // ============================================================
 
-if (updateRoundSettingsButton) {
+async function saveTimeSettings() {
 
-    updateRoundSettingsButton.addEventListener(
-        "click",
-        async function () {
+    if (!selectedRound) {
 
-            if (!selectedRound) {
+        alert(
+            "Select a counselling round first."
+        );
 
-                alert(
-                    "Select a counselling round first."
-                );
+        return;
 
-                return;
-
-            }
+    }
 
 
-            const minRank =
-                Number(
-                    document.querySelector(
-                        `[data-round-id="${selectedRound.id}"] .from-rank`
-                    )?.value ||
-                    selectedRound.min_rank
-                );
+    if (!preferenceStart) {
+
+        alert(
+            "Choice filling start field is missing."
+        );
+
+        return;
+
+    }
 
 
-            const maxRank =
-                Number(
-                    document.querySelector(
-                        `[data-round-id="${selectedRound.id}"] .to-rank`
-                    )?.value ||
-                    selectedRound.max_rank
-                );
+    if (!preferenceEnd) {
+
+        alert(
+            "Choice filling end field is missing."
+        );
+
+        return;
+
+    }
 
 
-            try {
+    if (!allotmentAt) {
 
-                setControlMessage(
-                    "Updating round settings..."
-                );
+        alert(
+            "Allotment time field is missing."
+        );
 
+        return;
 
-                await apiRequest(
-                    `/api/rounds/${selectedRound.id}/settings`,
-                    {
-                        method: "PUT",
-
-                        body:
-                            JSON.stringify({
-                                min_rank: minRank,
-                                max_rank: maxRank
-                            })
-                    }
-                );
+    }
 
 
-                setControlMessage(
-                    "✓ Round settings updated successfully."
-                );
+    if (!paymentDeadline) {
+
+        alert(
+            "Payment deadline field is missing."
+        );
+
+        return;
+
+    }
 
 
-                await loadRounds();
+    if (!preferenceStart.value) {
 
-            }
+        alert(
+            "Select the choice-filling opening date and time."
+        );
 
-            catch (error) {
+        preferenceStart.focus();
 
-                setControlMessage(
-                    error.message,
-                    true
-                );
+        return;
 
-            }
+    }
+
+
+    if (!preferenceEnd.value) {
+
+        alert(
+            "Select the choice-filling closing date and time."
+        );
+
+        preferenceEnd.focus();
+
+        return;
+
+    }
+
+
+    if (!allotmentAt.value) {
+
+        alert(
+            "Select the allotment date and time."
+        );
+
+        allotmentAt.focus();
+
+        return;
+
+    }
+
+
+    if (!paymentDeadline.value) {
+
+        alert(
+            "Select the payment deadline."
+        );
+
+        paymentDeadline.focus();
+
+        return;
+
+    }
+
+
+    const start =
+        new Date(
+            preferenceStart.value
+        );
+
+
+    const end =
+        new Date(
+            preferenceEnd.value
+        );
+
+
+    const allotment =
+        new Date(
+            allotmentAt.value
+        );
+
+
+    const payment =
+        new Date(
+            paymentDeadline.value
+        );
+
+
+    if (start >= end) {
+
+        alert(
+            "Choice filling closing time must be after opening time."
+        );
+
+        return;
+
+    }
+
+
+    if (allotment <= end) {
+
+        alert(
+            "Allotment time must be after choice filling closes."
+        );
+
+        return;
+
+    }
+
+
+    if (payment <= allotment) {
+
+        alert(
+            "Payment deadline must be after allotment time."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        if (saveTimeSettingsButton) {
+
+            saveTimeSettingsButton.disabled =
+                true;
+
+            saveTimeSettingsButton.textContent =
+                "Saving...";
 
         }
+
+
+        setControlMessage(
+            "Saving time settings..."
+        );
+
+
+        await apiRequest(
+            `/api/rounds/${selectedRound.id}/settings`,
+            {
+                method: "PUT",
+
+                body:
+                    JSON.stringify({
+
+                        preference_start:
+                            preferenceStart.value,
+
+                        preference_end:
+                            preferenceEnd.value,
+
+                        allotment_at:
+                            allotmentAt.value,
+
+                        payment_deadline:
+                            paymentDeadline.value
+
+                    })
+            }
+        );
+
+
+        // Backend saves schedule
+        // and sends schedule email.
+
+        setControlMessage(
+            "✓ Time settings saved successfully. Schedule email sent to eligible students."
+        );
+
+
+        if (saveMessage) {
+
+            saveMessage.textContent =
+                `✓ Round ${selectedRound.round_number} schedule saved successfully.`;
+
+        }
+
+
+        const savedRoundId =
+            selectedRound.id;
+
+
+        await loadRounds();
+
+
+        if (controlRoundSelect) {
+
+            controlRoundSelect.value =
+                String(
+                    savedRoundId
+                );
+
+        }
+
+
+        selectRound(
+            savedRoundId
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "SAVE TIME SETTINGS ERROR:",
+            error
+        );
+
+
+        setControlMessage(
+            "Failed to save time settings: " +
+            error.message,
+            true
+        );
+
+    }
+
+    finally {
+
+        if (saveTimeSettingsButton) {
+
+            saveTimeSettingsButton.disabled =
+                false;
+
+            saveTimeSettingsButton.textContent =
+                "💾 Save Settings";
+
+        }
+
+    }
+
+}
+
+
+// ============================================================
+// SAVE TIME BUTTON
+// ============================================================
+
+if (saveTimeSettingsButton) {
+
+    saveTimeSettingsButton.addEventListener(
+        "click",
+        saveTimeSettings
     );
 
 }
@@ -1248,6 +1872,17 @@ if (openChoiceFillingButton) {
 
                 alert(
                     "Select a counselling round first."
+                );
+
+                return;
+
+            }
+
+
+            if (!preferenceStart) {
+
+                alert(
+                    "Choice filling start field is missing."
                 );
 
                 return;
@@ -1296,8 +1931,10 @@ if (openChoiceFillingButton) {
 
                         body:
                             JSON.stringify({
+
                                 preference_start:
                                     preferenceStart.value
+
                             })
                     }
                 );
@@ -1348,6 +1985,17 @@ if (lockChoiceFillingButton) {
             }
 
 
+            if (!preferenceEnd) {
+
+                alert(
+                    "Choice filling end field is missing."
+                );
+
+                return;
+
+            }
+
+
             if (!preferenceEnd.value) {
 
                 alert(
@@ -1389,8 +2037,10 @@ if (lockChoiceFillingButton) {
 
                         body:
                             JSON.stringify({
+
                                 preference_end:
                                     preferenceEnd.value
+
                             })
                     }
                 );
@@ -1498,7 +2148,7 @@ if (allotmentCompletedButton) {
 
 
 // ============================================================
-// START PAYMENT PERIOD
+// PAYMENT PERIOD
 // ============================================================
 
 if (paymentPeriodButton) {
@@ -1511,6 +2161,17 @@ if (paymentPeriodButton) {
 
                 alert(
                     "Select a counselling round first."
+                );
+
+                return;
+
+            }
+
+
+            if (!paymentDeadline) {
+
+                alert(
+                    "Payment deadline field is missing."
                 );
 
                 return;
@@ -1559,8 +2220,10 @@ if (paymentPeriodButton) {
 
                         body:
                             JSON.stringify({
+
                                 payment_deadline:
                                     paymentDeadline.value
+
                             })
                     }
                 );
@@ -1668,15 +2331,13 @@ if (completeRoundButton) {
 
 
 // ============================================================
-// UPDATE OVERALL STATUS
+// OVERALL STATUS
 // ============================================================
 
 function updateOverallStatus() {
 
     if (!overallStatus) {
-
         return;
-
     }
 
 
@@ -1705,7 +2366,7 @@ function updateOverallStatus() {
 
 
 // ============================================================
-// UPDATE CURRENT ROUND
+// CURRENT ROUND
 // ============================================================
 
 function updateCurrentRound() {
@@ -1849,9 +2510,7 @@ function getChoiceStatus(status) {
 function toDateTimeLocal(value) {
 
     if (!value) {
-
         return "";
-
     }
 
 
@@ -1913,9 +2572,7 @@ function setControlMessage(
 ) {
 
     if (!controlMessage) {
-
         return;
-
     }
 
 
@@ -1935,7 +2592,9 @@ function setControlMessage(
             "error"
         );
 
-    } else {
+    }
+
+    else {
 
         controlMessage.classList.remove(
             "error"
@@ -2011,6 +2670,7 @@ if (logoutButton) {
                 "studentToken"
             );
 
+
             window.location.href =
                 "student-login.html";
 
@@ -2021,7 +2681,7 @@ if (logoutButton) {
 
 
 // ============================================================
-// PAGE INITIALIZATION
+// INITIALIZATION
 // ============================================================
 
 async function initializeRoundManagement() {
@@ -2032,9 +2692,7 @@ async function initializeRoundManagement() {
 
 
     if (!checkAuthentication()) {
-
         return;
-
     }
 
 

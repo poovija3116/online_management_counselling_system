@@ -388,7 +388,61 @@
     </footer>
 
 
-    <script src="choice-filling.js"></script>
+<!-- =========================================================
+     CHOICE FILLING CONFIRMATION MODAL
+========================================================= -->
+
+<div
+    id="confirmationModal"
+    class="confirmation-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="confirmationTitle"
+    aria-describedby="confirmationMessage">
+
+    <div class="confirmation-modal-box">
+
+        <!-- Icon -->
+        <div
+            class="confirmation-icon"
+            id="confirmationIcon">
+            ✓
+        </div>
+
+        <!-- Title -->
+        <h3 id="confirmationTitle">
+            Confirm
+        </h3>
+
+        <!-- Message -->
+        <p id="confirmationMessage">
+            Are you sure you want to continue?
+        </p>
+
+        <!-- Buttons -->
+        <div class="confirmation-buttons">
+
+            <button
+                type="button"
+                id="confirmationCancel"
+                class="confirmation-cancel">
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                id="confirmationConfirm"
+                class="confirmation-confirm">
+                Confirm
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="choice-filling.js"></script>
 
 </body>
 

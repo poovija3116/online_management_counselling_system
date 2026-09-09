@@ -631,7 +631,8 @@
 
                 <p>
                     Your seat allotment result will appear here
-                    after the admin runs the automatic allotment.
+                    after the automatic allotment process is
+                    completed.
                 </p>
 
             </div>
@@ -650,7 +651,9 @@
             class="allotment-result hidden">
 
 
-            <!-- RESULT HEADER -->
+            <!-- =========================================
+                 RESULT HEADER
+            ========================================== -->
 
             <div class="allotment-result-header">
 
@@ -685,7 +688,9 @@
 
 
 
-            <!-- RESULT DETAILS -->
+            <!-- =========================================
+                 RESULT DETAILS
+            ========================================== -->
 
             <div class="result-details">
 
@@ -738,10 +743,132 @@
 
 
             <!-- =========================================
-                 ALLOTMENT ORDER
+                 STUDENT DECISION
             ========================================== -->
 
-            <div class="allotment-order-action">
+            <div
+                id="studentDecisionSection"
+                class="student-decision-section">
+
+
+                <div class="student-decision-info">
+
+
+                    <span class="student-decision-label">
+                        STUDENT DECISION
+                    </span>
+
+
+                    <h4 id="seatDecisionTitle">
+                        Seat Decision Pending
+                    </h4>
+
+
+                    <p id="seatDecisionMessage">
+                        Please choose what you want to do with
+                        your allotted seat.
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- =====================================
+                     DECISION BUTTONS
+                ====================================== -->
+
+                <div
+                    id="seatDecisionButtons"
+                    class="seat-decision-buttons">
+
+
+                    <button
+                        type="button"
+                        id="acceptSeatButton"
+                        class="decision-button accept-button">
+
+                        ✓ ACCEPT SEAT
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="upwardSeatButton"
+                        class="decision-button upward-button">
+
+                        ↑ UPWARD
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="declineSeatButton"
+                        class="decision-button decline-button">
+
+                        ✕ DECLINE SEAT
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =========================================
+                 DECISION RESULT
+            ========================================== -->
+
+            <div
+                id="decisionResult"
+                class="decision-result hidden">
+
+
+                <div
+                    id="decisionResultIcon"
+                    class="decision-result-icon">
+
+                    ✓
+
+                </div>
+
+
+                <div>
+
+                    <h4 id="decisionResultTitle">
+                        Seat Accepted
+                    </h4>
+
+
+                    <p id="decisionResultMessage">
+                        Your decision has been recorded.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =========================================
+                 ALLOTMENT ORDER
+
+                 IMPORTANT:
+                 Hidden by default.
+
+                 JavaScript will show this ONLY when:
+                 student_decision === "accepted"
+            ========================================== -->
+
+            <div
+                id="allotmentOrderAction"
+                class="allotment-order-action hidden">
 
 
                 <div class="allotment-order-info">
@@ -758,10 +885,9 @@
 
 
                     <p>
-                        Print or save your official allotment
-                        order and bring it to Government College
-                        of Engineering, Erode for fee payment
-                        and admission processing.
+                        Your seat has been accepted. You can now
+                        view or print your official allotment order
+                        for admission processing.
                     </p>
 
 
@@ -864,65 +990,25 @@
 
 
 <!-- =====================================================
+     STUDENT DECISION CONFIRMATION MODAL
+====================================================== -->
+<div id="decisionConfirmationModal" class="decision-confirmation-modal" role="dialog" aria-modal="true" aria-labelledby="decisionConfirmationTitle" aria-describedby="decisionConfirmationMessage">
+    <div class="decision-confirmation-box">
+        <div id="decisionConfirmationIcon" class="decision-confirmation-icon">?</div>
+        <h3 id="decisionConfirmationTitle">Confirm Your Decision</h3>
+        <p id="decisionConfirmationMessage">Are you sure you want to continue?</p>
+        <div class="decision-confirmation-buttons">
+            <button type="button" id="decisionConfirmationCancel" class="decision-confirmation-cancel">Cancel</button>
+            <button type="button" id="decisionConfirmationConfirm" class="decision-confirmation-confirm">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
      JAVASCRIPT
 ====================================================== -->
 
 <script src="student-dashboard.js"></script>
-
-
-<script>
-
-
-/* =====================================================
-   VIEW ALLOTMENT ORDER
-===================================================== */
-
-const viewAllotmentOrder =
-    document.getElementById("viewAllotmentOrder");
-
-
-if (viewAllotmentOrder) {
-
-    viewAllotmentOrder.addEventListener(
-        "click",
-        function () {
-
-            window.location.href =
-                "student-allotment-order.html";
-
-        }
-    );
-
-}
-
-
-
-/* =====================================================
-   PRINT ALLOTMENT ORDER
-===================================================== */
-
-const printAllotmentOrder =
-    document.getElementById("printAllotmentOrder");
-
-
-if (printAllotmentOrder) {
-
-    printAllotmentOrder.addEventListener(
-        "click",
-        function () {
-
-            window.open(
-                "student-allotment-order.html",
-                "_blank"
-            );
-
-        }
-    );
-
-}
-
-
-</script>
 
 
 </body>

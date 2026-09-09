@@ -19,7 +19,7 @@ const router = express.Router();
 router.get(
     "/",
     authenticateToken,
-    requireRole("admin","student"),
+    requireRole("admin","student","counsellor"),
     async (req, res) => {
 
         try {

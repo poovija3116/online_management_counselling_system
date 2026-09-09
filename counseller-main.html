@@ -46,6 +46,8 @@
     <main class="counsellor-container">
 
 
+        <!-- WELCOME -->
+
         <section class="welcome-section">
 
             <span>
@@ -64,66 +66,34 @@
 
 
 
-        <!-- COUNSELLING CONTROL -->
-
-        <section class="control-card">
-
-            <div class="control-info">
-
-                <span>
-                    LIVE STATUS
-                </span>
-
-                <h3 id="controlStatus">
-                    COUNSELLING OFF
-                </h3>
-
-                <p id="controlMessage">
-                    Counselling is currently stopped.
-                </p>
-
-            </div>
-
-
-            <button
-                id="controlButton"
-                class="control-button off"
-                type="button">
-
-                TURN ON
-
-            </button>
-
-        </section>
-
-
-
         <!-- NAVIGATION BUTTONS -->
 
         <section class="counsellor-actions">
 
 
+            <!-- 01 - ROUND MANAGEMENT -->
+
             <button
                 class="portal-button"
                 type="button"
-                onclick="window.location.href='admin.html'">
+                onclick="window.location.href='round-management.html'">
 
                 <span class="button-number">
                     01
                 </span>
 
                 <div class="button-icon">
-                    A
+                    ↻
                 </div>
 
                 <div class="button-content">
 
                     <h3>
-                        ADMIN PORTAL
+                        ROUND MANAGEMENT
                     </h3>
 
                     <p>
-                        Access administration controls
+                        Create and manage counselling rounds
                     </p>
 
                 </div>
@@ -136,27 +106,29 @@
 
 
 
+            <!-- 02 - COUNSELLOR DASHBOARD -->
+
             <button
                 class="portal-button"
                 type="button"
-                onclick="window.location.href='counselling-officer.html'">
+                onclick="window.location.href='counsellor-dashboard.html'">
 
                 <span class="button-number">
                     02
                 </span>
 
                 <div class="button-icon">
-                    C
+                    ▣
                 </div>
 
                 <div class="button-content">
 
                     <h3>
-                        COUNSELLING OFFICER
+                        COUNSELLOR DASHBOARD
                     </h3>
 
                     <p>
-                        Manage student counselling
+                        Monitor counselling activities and status
                     </p>
 
                 </div>
@@ -166,26 +138,30 @@
                 </span>
 
             </button>
-            <a
-    href="counselling-edit.html"
-    class="portal-button">
+
+            <!-- 03 - SEAT AVAILABILITY -->
+
+<button
+    class="portal-button"
+    type="button"
+    onclick="window.location.href='index.html'">
 
     <span class="button-number">
         03
     </span>
 
     <div class="button-icon">
-        A
+        ▦
     </div>
 
     <div class="button-content">
 
         <h3>
-            ANNOUNCEMENTS
+            SEAT AVAILABILITY
         </h3>
 
         <p>
-            Manage counselling announcements
+            View current department-wise seat availability
         </p>
 
     </div>
@@ -194,7 +170,40 @@
         →
     </span>
 
-</a>
+</button>
+
+            <!-- 03 - STUDENT ALLOTMENT -->
+
+            <button
+                class="portal-button"
+                type="button"
+                onclick="window.location.href='allotment-overview.html'">
+
+                <span class="button-number">
+                    04
+                </span>
+
+                <div class="button-icon">
+                    ✓
+                </div>
+
+                <div class="button-content">
+
+                    <h3>
+                        ALLOTMENT OVERVIEW
+                    </h3>
+
+                    <p>
+                        View and manage student seat allotment
+                    </p>
+
+                </div>
+
+                <span class="arrow">
+                    →
+                </span>
+
+            </button>
 
 
         </section>
@@ -202,8 +211,6 @@
 
     </main>
 
-
-    <script src="counseller-main.js"></script>
 
 </body>
 

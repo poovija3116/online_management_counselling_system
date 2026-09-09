@@ -5,13 +5,17 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <title>Allotment Order - GCE Erode</title>
+    <title>
+        Student Allotment Order | GCE Erode
+    </title>
 
-    <link rel="stylesheet"
-          href="student-allotment-order.css">
+    <link
+        rel="stylesheet"
+        href="student-allotment-order.css">
 
 </head>
 
@@ -20,37 +24,154 @@
 
 
     <!-- =====================================================
-         PAGE
+         SCREEN ONLY TOOLBAR
     ====================================================== -->
 
-    <div class="page">
+    <div class="screen-toolbar">
+
+        <button
+            type="button"
+            id="backButton"
+            class="back-button">
+
+            ← Back to Dashboard
+
+        </button>
+
+
+        <button
+            type="button"
+            id="printOrderButton"
+            class="print-button">
+
+            🖨 Print Allotment Order
+
+        </button>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         DOCUMENT
+    ====================================================== -->
+
+    <div class="document">
 
 
         <!-- =================================================
-             HEADER
+             PAGE 1
         ================================================== -->
 
-        <header class="header">
+        <section class="page page-one">
 
-            <div class="header-left">
 
-                <div class="college-mark">
-                    GCE
+            <!-- =============================================
+                 HEADER
+            ============================================== -->
+
+            <header class="college-header">
+
+
+                <!-- LOGO -->
+
+                <div class="logo-area">
+
+                    <img
+                        src="logo.jpeg"
+                        alt="GCE Erode Logo"
+                        class="college-logo">
+
                 </div>
 
 
-                <div class="college-info">
+                <!-- COLLEGE INFORMATION -->
+
+                <div class="college-heading">
 
                     <h1>
-                        GOVERNMENT COLLEGE OF ENGINEERING, ERODE
+                        GOVERNMENT COLLEGE OF
+                        <br>
+                        ENGINEERING, ERODE
                     </h1>
 
+                    <h2>
+                        (NONAUTONOMOUS)
+                    </h2>
+
                     <p>
-                        ERODE - 638316
+                        ANNA UNIVERSITY, CHENNAI AFFILIATED
                     </p>
 
-                    <span>
-                        MANAGEMENT COUNSELLING 2026
+                    <p>
+                        PERUNDURAI, ERODE - 638 052
+                    </p>
+
+                </div>
+
+
+                <!-- PAGE NUMBER -->
+
+                <div class="page-number">
+                    Page 1 of 2
+                </div>
+
+
+            </header>
+
+
+
+            <!-- HEADER LINE -->
+
+            <div class="header-line"></div>
+
+
+
+            <!-- =================================================
+                 TITLE
+            ================================================== -->
+
+            <div class="order-heading">
+
+                <h2>
+                    STUDENT ALLOTMENT ORDER
+                </h2>
+
+                <h3>
+                    (PROVISIONAL)
+                </h3>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 REFERENCE
+            ================================================== -->
+
+            <div class="reference-row">
+
+                <div>
+
+                    <strong>
+                        Ref.No. :
+                    </strong>
+
+                    <span id="referenceNumber">
+                        GCE/2026/CA/______
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Date :
+                    </strong>
+
+                    <span id="allotmentDate">
+                        --/--/2026
                     </span>
 
                 </div>
@@ -58,437 +179,335 @@
             </div>
 
 
-            <div class="header-right">
 
-                <span>
-                    STUDENT PORTAL
-                </span>
+            <!-- =================================================
+                 INTRODUCTION
+            ================================================== -->
+
+            <p class="intro-text">
+
+                The candidate is informed that he / she has been
+                <strong>PROVISIONALLY ALLOTTED</strong>
+                as per the option exercised for admission to
+                the First year Degree Course, College and Branch
+                as detailed below.
+
+            </p>
+
+
+
+            <!-- =================================================
+                 STUDENT INFORMATION BOX
+            ================================================== -->
+
+            <div class="student-information-box">
+
+
+                <!-- APPLICATION NUMBER -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Application No.
+                    </div>
+
+                    <div class="colon">
+                        :
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="applicationNumber">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- NAME -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Name
+                    </div>
+
+                    <div class="colon">
+                        :
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="studentName">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- COMMUNITY -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Community
+                    </div>
+
+                    <div class="colon">
+                        :
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="community">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CATEGORY -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Category
+                    </div>
+
+                    <div class="colon">
+                        :
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="category">
+
+                        MANAGEMENT
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- COURSE -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Course
+                    </div>
+
+                    <div class="colon">
+                        :
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="course">
+
+                        B.E.
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CUTOFF MARK -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Cutoff Mark
+                    </div>
+
+                    <div class="colon">
+                        :
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="cutoffMark">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- COLLEGE ALLOTTED -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        College Allotted
+                    </div>
+
+                    <div class="colon">
+                        :
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="collegeAllotted">
+
+                        GOVERNMENT COLLEGE OF ENGINEERING,
+                        ERODE
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- BRANCH ALLOTTED -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Branch Allotted
+                    </div>
+
+                    <div class="colon">
+                        :
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="branchAllotted">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- SEAT ALLOTTED CATEGORY -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Seat Allotted Category
+                    </div>
+
+                    <div class="colon">
+                        :
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="seatCategory">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ELIGIBLE FOR -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Eligible For
+                    </div>
+
+                    <div class="colon">
+                        :
+                    </div>
+
+                    <div
+                        class="info-value"
+                        id="eligibleFor">
+
+                        MANAGEMENT COUNSELLING
+
+                    </div>
+
+                </div>
+
 
             </div>
 
-        </header>
 
 
+            <!-- =================================================
+                 REPORTING INFORMATION
+            ================================================== -->
 
-        <!-- =================================================
-             PAGE HEADER
-        ================================================== -->
+            <div class="reporting-information">
 
-        <section class="page-heading">
 
-            <div>
+                <p class="important-reporting">
 
-                <span class="eyebrow">
-                    COUNSELLING DOCUMENT
-                </span>
+                    The candidate should report to the
+                    Principal/Dean of the above allotted college
+                    on or before
+                    <strong id="reportingDate">
+                        --/--/2026
+                    </strong>.
 
-                <h2>
-                    Allotment Order
-                </h2>
+                </p>
+
 
                 <p>
-                    Official seat allotment details issued
-                    through GCE Erode Management Counselling 2026.
+
+                    The surrendered original certificates will be
+                    transferred to the respective allotted
+                    institute.
+
+                </p>
+
+
+                <p>
+
+                    The candidate who does not report for admission
+                    to the college on the stipulated date will lose
+                    the seat and cannot claim the seat afterwards.
+
                 </p>
 
             </div>
 
 
-            <div class="heading-actions">
 
-                <button
-                    type="button"
-                    id="printButton"
-                    class="print-button">
+            <!-- =================================================
+                 SECRETARY
+            ================================================== -->
 
-                    PRINT / SAVE PDF
+            <div class="secretary-section">
 
-                </button>
+                <div class="secretary-content">
 
-            </div>
+                    <div class="signature-space"></div>
 
-        </section>
-
-
-
-        <!-- =================================================
-             ALLOTMENT STATUS
-        ================================================== -->
-
-        <section class="status-card">
-
-            <div class="status-left">
-
-                <div class="status-icon">
-                    ✓
-                </div>
-
-
-                <div class="status-content">
-
-                    <span class="section-label">
-                        ALLOTMENT STATUS
-                    </span>
-
-                    <h3 id="allotmentStatus">
-                        SEAT ALLOTTED
-                    </h3>
-
-                    <p id="statusDescription">
-                        A seat has been allotted to you based on
-                        your counselling rank, preferences and
-                        available seats.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="status-badge"
-                 id="statusBadge">
-
-                ALLOTTED
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             ORDER IDENTIFICATION
-        ================================================== -->
-
-        <section class="order-card">
-
-            <div class="card-heading">
-
-                <div>
-
-                    <span class="section-label">
-                        ORDER INFORMATION
-                    </span>
-
-                    <h3>
-                        Allotment Order Details
-                    </h3>
-
-                </div>
-
-            </div>
-
-
-            <div class="order-grid">
-
-
-                <div class="order-item">
-
-                    <span>
-                        ALLOTMENT ORDER NUMBER
-                    </span>
-
-                    <strong id="orderNumber">
-                        GCE-2026-ALLOT-XXXX
+                    <strong>
+                        Secretary
                     </strong>
 
-                </div>
-
-
-                <div class="order-item">
+                    <span>
+                        Academic Support Cell
+                    </span>
 
                     <span>
-                        APPLICATION NUMBER
-                    </span>
-
-                    <strong id="applicationNumber">
-                        GCE2026XXXX
-                    </strong>
-
-                </div>
-
-
-                <div class="order-item">
-
-                    <span>
-                        ALLOTMENT DATE
-                    </span>
-
-                    <strong id="allotmentDate">
-                        DD/MM/YYYY
-                    </strong>
-
-                </div>
-
-
-                <div class="order-item">
-
-                    <span>
-                        ALLOTMENT TIME
-                    </span>
-
-                    <strong id="allotmentTime">
-                        HH:MM AM
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             STUDENT INFORMATION
-        ================================================== -->
-
-        <section class="details-card">
-
-            <div class="card-heading">
-
-                <div>
-
-                    <span class="section-label">
-                        APPLICANT
-                    </span>
-
-                    <h3>
-                        Student Information
-                    </h3>
-
-                </div>
-
-            </div>
-
-
-            <div class="details-grid">
-
-
-                <div class="detail-item">
-
-                    <span>
-                        FULL NAME
-                    </span>
-
-                    <strong id="studentName">
-                        Student Name
-                    </strong>
-
-                </div>
-
-
-                <div class="detail-item">
-
-                    <span>
-                        DATE OF BIRTH
-                    </span>
-
-                    <strong id="dateOfBirth">
-                        DD/MM/YYYY
-                    </strong>
-
-                </div>
-
-
-                <div class="detail-item">
-
-                    <span>
-                        GENDER
-                    </span>
-
-                    <strong id="gender">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <div class="detail-item">
-
-                    <span>
-                        COMMUNITY
-                    </span>
-
-                    <strong id="community">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <div class="detail-item">
-
-                    <span>
-                        MOBILE NUMBER
-                    </span>
-
-                    <strong id="phone">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <div class="detail-item">
-
-                    <span>
-                        EMAIL ADDRESS
-                    </span>
-
-                    <strong id="email">
-                        -
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             COUNSELLING INFORMATION
-        ================================================== -->
-
-        <section class="details-card">
-
-            <div class="card-heading">
-
-                <div>
-
-                    <span class="section-label">
-                        COUNSELLING
-                    </span>
-
-                    <h3>
-                        Counselling Details
-                    </h3>
-
-                </div>
-
-            </div>
-
-
-            <div class="details-grid">
-
-
-                <div class="detail-item">
-
-                    <span>
-                        COUNSELLING RANK
-                    </span>
-
-                    <strong id="rank">
-                        XXXXX
-                    </strong>
-
-                </div>
-
-
-                <div class="detail-item">
-
-                    <span>
-                        COUNSELLING ROUND
-                    </span>
-
-                    <strong id="round">
-                        Round 01
-                    </strong>
-
-                </div>
-
-
-                <div class="detail-item">
-
-                    <span>
-                        ELIGIBLE RANK RANGE
-                    </span>
-
-                    <strong id="rankRange">
-                        1 - 100
-                    </strong>
-
-                </div>
-
-
-                <div class="detail-item">
-
-                    <span>
-                        ELIGIBILITY STATUS
-                    </span>
-
-                    <strong id="eligibilityStatus"
-                            class="eligible">
-
-                        ELIGIBLE
-
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             ALLOTTED SEAT
-        ================================================== -->
-
-        <section class="allotment-card">
-
-            <div class="card-heading">
-
-                <div>
-
-                    <span class="section-label">
-                        SEAT ALLOTMENT
-                    </span>
-
-                    <h3>
-                        Allotted Course
-                    </h3>
-
-                </div>
-
-            </div>
-
-
-            <div class="allotment-main">
-
-
-                <div class="department-block">
-
-                    <span>
-                        ALLOTTED DEPARTMENT
-                    </span>
-
-                    <h2 id="department">
-                        COMPUTER SCIENCE AND ENGINEERING
-                    </h2>
-
-                    <p id="departmentDescription">
                         Government College of Engineering, Erode
-                    </p>
-
-                </div>
-
-
-                <div class="seat-block">
-
-                    <span>
-                        SEAT NUMBER
                     </span>
-
-                    <strong id="seatNumber">
-                        CSE-001
-                    </strong>
 
                 </div>
 
@@ -496,358 +515,461 @@
 
 
 
-            <div class="allotment-grid">
+            <!-- =================================================
+                 FOOTNOTE
+            ================================================== -->
+
+            <div class="document-footnotes">
+
+                <p>
+                    * Please read the instructions given below
+                    carefully.
+                </p>
+
+                <p>
+                    * Allotment is subject to verification of
+                    originals by the college authority at the time
+                    of admission.
+                </p>
+
+            </div>
 
 
-                <div class="allotment-item">
 
-                    <span>
-                        DEPARTMENT CODE
-                    </span>
+            <!-- =================================================
+                 ACKNOWLEDGEMENT
+            ================================================== -->
 
-                    <strong id="departmentCode">
-                        CSE
-                    </strong>
+            <div class="acknowledgement-box">
+
+
+                <div class="acknowledgement-title">
+
+                    ACKNOWLEDGEMENT
 
                 </div>
 
 
-                <div class="allotment-item">
+                <p>
 
-                    <span>
-                        ALLOTMENT CATEGORY
-                    </span>
+                    I have completed the admission process and have
+                    joined the above allotted institution
 
-                    <strong id="allotmentCategory">
-                        MANAGEMENT
+                    <strong id="ackCollege">
+                        Government College of Engineering, Erode
                     </strong>
 
-                </div>
+                    on __________________.
+
+                </p>
 
 
-                <div class="allotment-item">
+                <p>
 
-                    <span>
-                        SEAT STATUS
-                    </span>
+                    The applicant
 
-                    <strong id="seatStatus"
-                            class="seat-allotted">
-
-                        ALLOTTED
-
+                    <strong id="ackStudentName">
+                        __________________
                     </strong>
+
+                    completed all admission process and enrolled
+                    in the college on __________________.
+
+                </p>
+
+
+                <div class="acknowledgement-signatures">
+
+
+                    <div class="applicant-signature">
+
+                        <div class="signature-line"></div>
+
+                        <span>
+                            Signature of the Applicant
+                        </span>
+
+                    </div>
+
+
+                    <div class="principal-signature">
+
+                        <div class="signature-line"></div>
+
+                        <strong>
+                            PRINCIPAL
+                        </strong>
+
+                        <span>
+                            Signature with Date and Seal
+                        </span>
+
+                    </div>
+
 
                 </div>
 
             </div>
+
 
         </section>
 
 
 
         <!-- =================================================
-             PAYMENT INFORMATION
+             PAGE 2
         ================================================== -->
 
-        <section class="payment-card">
+        <section class="page page-two">
 
-            <div class="card-heading">
 
-                <div>
+            <!-- =============================================
+                 SECOND PAGE HEADER
+            ============================================== -->
 
-                    <span class="section-label">
-                        PAYMENT
-                    </span>
+            <header class="second-header">
 
-                    <h3>
-                        Payment Information
-                    </h3>
 
+                <div class="second-page-number">
+                    Page 2 of 2
                 </div>
 
-            </div>
 
+                <div class="second-header-title">
 
-            <div class="payment-grid">
-
-
-                <div class="payment-item">
-
-                    <span>
-                        FEE AMOUNT
-                    </span>
-
-                    <strong id="feeAmount">
-                        ₹ XX,XXX
+                    <strong>
+                        GOVERNMENT COLLEGE OF
+                        ENGINEERING, ERODE
                     </strong>
 
-                </div>
-
-
-                <div class="payment-item">
-
                     <span>
-                        PAYMENT STATUS
+                        ONLINE MANAGEMENT COUNSELLING - 2026
                     </span>
-
-                    <strong id="paymentStatus"
-                            class="payment-pending">
-
-                        PAYMENT PENDING
-
-                    </strong>
 
                 </div>
 
 
-                <div class="payment-item">
-
-                    <span>
-                        PAYMENT DEADLINE
-                    </span>
-
-                    <strong id="paymentDeadline">
-                        DD/MM/YYYY HH:MM
-                    </strong>
-
-                </div>
-
-
-                <div class="payment-item">
-
-                    <span>
-                        PAYMENT REFERENCE
-                    </span>
-
-                    <strong id="paymentReference">
-                        -
-                    </strong>
-
-                </div>
-
-            </div>
-
-        </section>
+            </header>
 
 
 
-        <!-- =================================================
-             REPORTING INFORMATION
-        ================================================== -->
+            <!-- =================================================
+                 NOTE
+            ================================================== -->
 
-        <section class="reporting-card">
-
-            <div class="card-heading">
-
-                <div>
-
-                    <span class="section-label">
-                        REPORTING
-                    </span>
-
-                    <h3>
-                        College Reporting Details
-                    </h3>
-
-                </div>
-
-            </div>
+            <section class="notes-section">
 
 
-            <div class="reporting-grid">
-
-
-                <div class="reporting-item">
-
-                    <span>
-                        REPORTING DATE
-                    </span>
-
-                    <strong id="reportingDate">
-                        DD/MM/YYYY
-                    </strong>
-
-                </div>
-
-
-                <div class="reporting-item">
-
-                    <span>
-                        REPORTING TIME
-                    </span>
-
-                    <strong id="reportingTime">
-                        HH:MM AM
-                    </strong>
-
-                </div>
-
-
-                <div class="reporting-item">
-
-                    <span>
-                        REPORTING LOCATION
-                    </span>
-
-                    <strong id="reportingLocation">
-                        GCE Erode Campus
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             IMPORTANT INSTRUCTIONS
-        ================================================== -->
-
-        <section class="instruction-card">
-
-            <div class="instruction-icon">
-                i
-            </div>
-
-
-            <div class="instruction-content">
-
-                <h3>
-                    Important Instructions
-                </h3>
+                <h2>
+                    NOTE:
+                </h2>
 
 
                 <ol>
 
-                    <li>
-                        Complete the required payment within
-                        the specified payment deadline.
-                    </li>
 
                     <li>
-                        Keep a printed or digital copy of this
-                        allotment order for future reference.
+
+                        Admission shall not be made without the
+                        original documents.
+
                     </li>
 
-                    <li>
-                        Report to the college on the specified
-                        date and time with the required documents.
-                    </li>
 
                     <li>
-                        The allotment is subject to the rules
-                        and conditions of Management Counselling 2026.
+
+                        The allotment has been given based on the
+                        information furnished by the candidate in
+                        the online application on verification of
+                        uploaded documents. If the candidate is
+                        found not satisfying the eligibility rules
+                        or if there is a difference between the
+                        candidate's data and the original produced,
+                        or if the original certificates are not
+                        produced, the Principal of the college is
+                        empowered to decline the admission to the
+                        candidate and the allotment will stand
+                        cancelled.
+
                     </li>
 
+
                     <li>
-                        Failure to complete the required process
-                        within the specified deadline may result
-                        in cancellation of the allotment.
+
+                        The candidate is advised to have sufficient
+                        number of attested copies of all the
+                        certificates, as the originals will be
+                        retained in college for some time for
+                        verification.
+
                     </li>
+
+
+                    <li>
+
+                        The college should return all the Original
+                        Certificates of all the candidates after
+                        obtaining admission approval from the
+                        competent authority.
+
+                    </li>
+
+
+                    <li>
+
+                        Under any circumstances the college or
+                        branch allotted cannot be changed except
+                        as permitted under the counselling rules.
+
+                    </li>
+
+
+                    <li>
+
+                        First Graduate / Post Matric Scholarship is
+                        subject to verification of relevant
+                        documents by the competent authority.
+
+                    </li>
+
+
+                    <li>
+
+                        In case of difficulties in joining the
+                        college, please reach out to the Academic
+                        Support Cell for help.
+
+                    </li>
+
 
                 </ol>
 
-            </div>
+            </section>
+
+
+
+            <!-- =================================================
+                 DOCUMENTS
+            ================================================== -->
+
+            <section class="documents-box">
+
+
+                <h2>
+
+                    DOCUMENTS TO BE PRODUCED IN ORIGINAL
+
+                    <br>
+
+                    <u>
+                        AT THE COLLEGE
+                    </u>
+
+                </h2>
+
+
+
+                <div class="documents-list">
+
+
+                    <!-- LEFT COLUMN -->
+
+                    <div class="document-column">
+
+
+                        <div class="document-item">
+
+                            <span class="document-number">
+                                1.
+                            </span>
+
+                            <span>
+                                Provisional allotment order
+                            </span>
+
+                        </div>
+
+
+                        <div class="document-item">
+
+                            <span class="document-number">
+                                2.
+                            </span>
+
+                            <span>
+                                10th Mark sheet
+                            </span>
+
+                        </div>
+
+
+                        <div class="document-item">
+
+                            <span class="document-number">
+                                3.
+                            </span>
+
+                            <span>
+                                HSC XI and XII / Equivalent
+                                Mark sheet
+                            </span>
+
+                        </div>
+
+
+                        <div class="document-item">
+
+                            <span class="document-number">
+                                4.
+                            </span>
+
+                            <span>
+                                Transfer Certificate and conduct
+                                certificate obtained from the
+                                institution last studied.
+                            </span>
+
+                        </div>
+
+
+                        <div class="document-item">
+
+                            <span class="document-number">
+                                5.
+                            </span>
+
+                            <span>
+                                Medical fitness certificate.
+                            </span>
+
+                        </div>
+
+
+                        <div class="document-item">
+
+                            <span class="document-number">
+                                6.
+                            </span>
+
+                            <span>
+                                Permanent Community Certificate
+                                for BC / BCM / MBC / DNC /
+                                SC / SCA / ST candidates in
+                                Permanent Card or Electronic form
+                                / digitally signed e-certificate.
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- RIGHT COLUMN -->
+
+                    <div class="document-column">
+
+
+                        <div class="document-item">
+
+                            <span class="document-number">
+                                7.
+                            </span>
+
+                            <span>
+                                Nativity certificate, if applicable.
+                            </span>
+
+                        </div>
+
+
+                        <div class="document-item">
+
+                            <span class="document-number">
+                                8.
+                            </span>
+
+                            <span>
+                                First graduate certificate and
+                                joint declaration, if applicable,
+                                in electronic form / digitally
+                                signed e-certificate.
+                            </span>
+
+                        </div>
+
+
+                        <div class="document-item">
+
+                            <span class="document-number">
+                                9.
+                            </span>
+
+                            <span>
+                                Srilankan Tamil Refugee certificate,
+                                if applicable.
+                            </span>
+
+                        </div>
+
+
+                        <div class="document-item">
+
+                            <span class="document-number">
+                                10.
+                            </span>
+
+                            <span>
+                                Income certificate for applicable
+                                scholarship schemes.
+                            </span>
+
+                        </div>
+
+
+                        <div class="document-item">
+
+                            <span class="document-number">
+                                11.
+                            </span>
+
+                            <span>
+                                Four copies of passport size
+                                photograph.
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <footer class="document-footer">
+
+                <span>
+                    Government College of Engineering, Erode
+                </span>
+
+                <span>
+                    Online Management Counselling - 2026
+                </span>
+
+            </footer>
+
 
         </section>
-
-
-
-        <!-- =================================================
-             DECLARATION
-        ================================================== -->
-
-        <section class="declaration-card">
-
-            <div>
-
-                <span class="section-label">
-                    DECLARATION
-                </span>
-
-                <p>
-                    This allotment order has been generated by
-                    the Government College of Engineering, Erode
-                    Management Counselling System. The information
-                    shown in this document is based on the
-                    counselling records available in the system.
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             DOCUMENT FOOTER
-        ================================================== -->
-
-        <footer class="document-footer">
-
-
-            <div>
-
-                <strong>
-                    GOVERNMENT COLLEGE OF ENGINEERING, ERODE
-                </strong>
-
-                <span>
-                    Academic Support Cell
-                </span>
-
-            </div>
-
-
-            <div class="footer-right">
-
-                <span>
-                    MANAGEMENT COUNSELLING 2026
-                </span>
-
-                <span>
-                    ALLOTMENT ORDER
-                </span>
-
-            </div>
-
-
-        </footer>
-
-
-
-        <!-- =================================================
-             BOTTOM ACTIONS
-        ================================================== -->
-
-        <div class="bottom-actions">
-
-
-            <button
-                type="button"
-                id="backButton"
-                class="back-button">
-
-                ← BACK TO DASHBOARD
-
-            </button>
-
-
-            <button
-                type="button"
-                id="printButtonBottom"
-                class="print-button">
-
-                PRINT / SAVE PDF
-
-            </button>
-
-
-        </div>
 
 
     </div>

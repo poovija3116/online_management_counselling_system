@@ -1,355 +1,253 @@
-
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 
-    <title>Admin Portal - GCE Erode</title>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-          href="admin-main.css">
+<title>Admin Portal - GCE Erode</title>
+
+<link rel="stylesheet"
+      href="admin-main.css">
+
 
 </head>
-
 
 <body>
 
 
-    <!-- HEADER -->
+<!-- HEADER -->
 
-    <header class="admin-header">
+<header class="admin-header">
 
-        <h1>
-            GOVERNMENT COLLEGE OF ENGINEERING, ERODE-638316
-        </h1>
+    <h1>
+        GOVERNMENT COLLEGE OF ENGINEERING, ERODE-638316
+    </h1>
+
+    <h2>
+        ACADEMIC SUPPORT CELL
+    </h2>
+
+    <div class="title-bar">
+        ADMIN PORTAL
+    </div>
+
+</header>
+
+
+
+<!-- MAIN CONTENT -->
+
+<main class="admin-container">
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome-section">
+
+        <span>
+            ADMINISTRATION & CONTROL CENTRE
+        </span>
 
         <h2>
-            ACADEMIC SUPPORT CELL
+            Management Counselling 2026
         </h2>
 
-        <div class="title-bar">
-            ADMIN PORTAL
-        </div>
+        <p>
+            Manage student information, counselling
+            activities and seat availability.
+        </p>
 
-    </header>
-
-
-
-    <!-- MAIN CONTENT -->
-
-    <main class="admin-container">
+    </section>
 
 
-        <!-- WELCOME -->
 
-        <section class="welcome-section">
+    <!-- ADMIN BUTTONS -->
 
-            <span>
-                ADMINISTRATION & CONTROL CENTRE
+    <section class="admin-actions">
+
+
+        <!-- 01 -->
+
+        <button
+            class="admin-button"
+            onclick="window.location.href='admin-rank.html'">
+
+            <span class="button-number">
+                01
             </span>
 
-            <h2>
-                Management Counselling 2026
-            </h2>
+            <div class="button-icon">
+                ↕
+            </div>
 
-            <p>
-                Manage student information, counselling
-                activities and seat availability.
-            </p>
+            <div class="button-content">
 
-        </section>
+                <h3>
+                    ADMIN RANK
+                </h3>
 
+                <p>
+                    Manage student counselling rank
+                </p>
 
+            </div>
 
-        <!-- ADMIN BUTTONS -->
+            <span class="arrow">
+                →
+            </span>
 
-        <section class="admin-actions">
+        </button>
 
 
-            <!-- 01 -->
 
-            <button
-                class="admin-button"
-                onclick="window.location.href='admin-rank.html'">
+        <!-- 02 -->
 
-                <span class="button-number">
-                    01
-                </span>
+        <button
+            class="admin-button"
+            onclick="window.location.href='allotment-overview.html'">
 
-                <div class="button-icon">
-                    ↕
-                </div>
+            <span class="button-number">
+                02
+            </span>
 
-                <div class="button-content">
+            <div class="button-icon">
+                ✎
+            </div>
 
-                    <h3>
-                        ADMIN RANK
-                    </h3>
+            <div class="button-content">
 
-                    <p>
-                        Manage student counselling rank
-                    </p>
+                <h3>
+                    ALLOTMENT OVERVIEW
+                </h3>
 
-                </div>
+                <p>
+                    Update counselling information
+                </p>
 
-                <span class="arrow">
-                    →
-                </span>
+            </div>
 
-            </button>
+            <span class="arrow">
+                →
+            </span>
 
+        </button>
 
 
-            <!-- 02 -->
 
-            <button
-                class="admin-button"
-                onclick="window.location.href='counselling-edit.html'">
+        <!-- 03 -->
 
-                <span class="button-number">
-                    02
-                </span>
+        <button
+            class="admin-button"
+            onclick="window.location.href='index.html'">
 
-                <div class="button-icon">
-                    ✎
-                </div>
+            <span class="button-number">
+                03
+            </span>
 
-                <div class="button-content">
+            <div class="button-icon">
+                ▣
+            </div>
 
-                    <h3>
-                        COUNSELLING DETAILS
-                    </h3>
+            <div class="button-content">
 
-                    <p>
-                        Update counselling information
-                    </p>
+                <h3>
+                    SEAT AVAILABILITY
+                </h3>
 
-                </div>
+                <p>
+                    View branch-wise seat details
+                </p>
 
-                <span class="arrow">
-                    →
-                </span>
+            </div>
 
-            </button>
+            <span class="arrow">
+                →
+            </span>
 
+        </button>
 
 
-            <!-- 03 -->
 
-            <button
-                class="admin-button"
-                onclick="window.location.href='index.html'">
+        <!-- 04 - STUDENT MANAGEMENT -->
 
-                <span class="button-number">
-                    03
-                </span>
+        <button
+            class="admin-button"
+            type="button"
+            onclick="window.location.href='admin-student-monitoring.html'">
 
-                <div class="button-icon">
-                    ▣
-                </div>
+            <span class="button-number">
+                04
+            </span>
 
-                <div class="button-content">
+            <div class="button-icon">
+                👨‍🎓
+            </div>
 
-                    <h3>
-                        SEAT AVAILABILITY
-                    </h3>
+            <div class="button-content">
 
-                    <p>
-                        View branch-wise seat details
-                    </p>
+                <h3>
+                    STUDENT MANAGEMENT
+                </h3>
 
-                </div>
+                <p>
+                    View and manage student records
+                </p>
 
-                <span class="arrow">
-                    →
-                </span>
+            </div>
 
-            </button>
+            <span class="arrow">
+                →
+            </span>
 
+        </button>
 
 
-            <!-- 04 - STUDENT MANAGEMENT -->
 
-            <button
-                class="admin-button"
-                type="button"
-                onclick="window.location.href='admin-student-monitoring.html'">
+        <!-- 05 -->
 
-                <span class="button-number">
-                    04
-                </span>
+        <button
+            class="admin-button"
+            onclick="window.location.href='announcement.html'">
 
-                <div class="button-icon">
-                    👨‍🎓
-                </div>
+            <span class="button-number">
+                05
+            </span>
 
-                <div class="button-content">
+            <div class="button-icon">
+                📄
+            </div>
 
-                    <h3>
-                        STUDENT MANAGEMENT
-                    </h3>
+            <div class="button-content">
 
-                    <p>
-                        View and manage student records
-                    </p>
+                <h3>
+                    ANNOUNCEMENTS
+                </h3>
 
-                </div>
+                <p>
+                    Create and manage announcements
+                </p>
 
-                <span class="arrow">
-                    →
-                </span>
+            </div>
 
-            </button>
+            <span class="arrow">
+                →
+            </span>
 
+        </button>
 
 
-            <!-- 05 -->
+    </section>
 
-            <button
-                class="admin-button"
-                onclick="window.location.href='announcement.html'">
 
-                <span class="button-number">
-                    05
-                </span>
-
-                <div class="button-icon">
-                    📄
-                </div>
-
-                <div class="button-content">
-
-                    <h3>
-                        ANNOUNCEMENTS
-                    </h3>
-
-                    <p>
-                        Create and manage announcements
-                    </p>
-
-                </div>
-
-                <span class="arrow">
-                    →
-                </span>
-
-            </button>
-
-
-
-            <!-- 06 -->
-
-            <button
-                class="admin-button"
-                type="button">
-
-                <span class="button-number">
-                    06
-                </span>
-
-                <div class="button-icon">
-                    ✓
-                </div>
-
-                <div class="button-content">
-
-                    <h3>
-                        DOCUMENT VERIFICATION
-                    </h3>
-
-                    <p>
-                        Review student documents
-                    </p>
-
-                </div>
-
-                <span class="arrow">
-                    →
-                </span>
-
-            </button>
-
-
-
-            <!-- 07 -->
-
-            <button
-                class="admin-button"
-                type="button">
-
-                <span class="button-number">
-                    07
-                </span>
-
-                <div class="button-icon">
-                    📊
-                </div>
-
-                <div class="button-content">
-
-                    <h3>
-                        REPORTS
-                    </h3>
-
-                    <p>
-                        View counselling reports
-                    </p>
-
-                </div>
-
-                <span class="arrow">
-                    →
-                </span>
-
-            </button>
-
-
-
-            <!-- 08 -->
-
-            <button
-                class="admin-button"
-                type="button">
-
-                <span class="button-number">
-                    08
-                </span>
-
-                <div class="button-icon">
-                    ⚙
-                </div>
-
-                <div class="button-content">
-
-                    <h3>
-                        SETTINGS
-                    </h3>
-
-                    <p>
-                        Manage system settings
-                    </p>
-
-                </div>
-
-                <span class="arrow">
-                    →
-                </span>
-
-            </button>
-
-
-        </section>
-
-
-    </main>
+</main>
 
 
 </body>
 
 </html>
-

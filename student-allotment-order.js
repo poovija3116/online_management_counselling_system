@@ -1,58 +1,44 @@
-/* ============================================================
-   GCE ERODE - ALLOTMENT ORDER
-   MANAGEMENT COUNSELLING 2026
-   JAVASCRIPT
-   ============================================================ */
+/* =========================================================
+   GCE ERODE
+   STUDENT PROVISIONAL ALLOTMENT ORDER
+========================================================= */
 
 
-/* ============================================================
-   PAGE ELEMENTS
-============================================================ */
+/* =========================================================
+   API
+========================================================= */
+
+const API_BASE = "http://localhost:5000";
+
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const printOrderButton =
+    document.getElementById("printOrderButton");
 
 const backButton =
     document.getElementById("backButton");
 
-const printButton =
-    document.getElementById("printButton");
 
+/* =========================================================
+   GET TOKEN
+========================================================= */
 
+function getToken() {
 
-/* ============================================================
-   BACK TO DASHBOARD
-============================================================ */
-
-if (backButton) {
-
-    backButton.addEventListener("click", function () {
-
-        window.location.href =
-            "student-dashboard.html";
-
-    });
-
+    return (
+        localStorage.getItem("token") ||
+        sessionStorage.getItem("token") ||
+        ""
+    );
 }
 
 
-
-/* ============================================================
-   PRINT / SAVE AS PDF
-============================================================ */
-
-if (printButton) {
-
-    printButton.addEventListener("click", function () {
-
-        window.print();
-
-    });
-
-}
-
-
-
-/* ============================================================
-   HELPER FUNCTION
-============================================================ */
+/* =========================================================
+   SET TEXT
+========================================================= */
 
 function setText(id, value) {
 
@@ -63,590 +49,750 @@ function setText(id, value) {
         return;
     }
 
-    element.textContent =
-        value !== undefined &&
-        value !== null &&
-        value !== ""
-            ? value
-            : "-";
+    if (
+        value === undefined ||
+        value === null ||
+        value === ""
+    ) {
+
+        element.textContent = "-";
+
+        return;
+    }
+
+    element.textContent = value;
 }
 
 
-
-/* ============================================================
+/* =========================================================
    FORMAT DATE
-============================================================ */
+========================================================= */
 
 function formatDate(dateValue) {
 
     if (!dateValue) {
-        return "-";
+
+        return "--/--/2026";
     }
 
     const date =
         new Date(dateValue);
 
-    if (isNaN(date.getTime())) {
-        return dateValue;
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "--/--/2026";
     }
 
-    return date.toLocaleDateString(
-        "en-IN",
-        {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric"
-        }
-    );
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2, "0");
 
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
+
+    const year =
+        date.getFullYear();
+
+    return `${day}/${month}/${year}`;
 }
 
 
+/* =========================================================
+   AUTH CHECK
+========================================================= */
 
-/* ============================================================
-   FORMAT DATE + TIME
-============================================================ */
+function checkAuthentication() {
 
-function formatDateTime(dateValue) {
+    const token =
+        getToken();
 
-    if (!dateValue) {
-        return "-";
+    if (!token) {
+
+        window.location.href =
+            "student-login.html";
+
+        return false;
     }
 
-    const date =
-        new Date(dateValue);
-
-    if (isNaN(date.getTime())) {
-        return dateValue;
-    }
-
-    return date.toLocaleString(
-        "en-IN",
-        {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-        }
-    );
-
+    return true;
 }
 
 
+/* =========================================================
+   LOAD ALLOTMENT
+========================================================= */
 
-/* ============================================================
-   GET LOGGED-IN STUDENT
-============================================================ */
+async function loadAllotmentOrder() {
 
-function getStudentData() {
-
-    let student = null;
-
-
-    /*
-       Temporary frontend storage.
-
-       Later this will be replaced by:
-
-       GET /api/student/profile
-
-       and
-
-       GET /api/allotment/my-allotment
-    */
-
+    const token =
+        getToken();
 
     try {
 
-        const storedStudent =
-            localStorage.getItem("student");
+        const response =
+            await fetch(
+                `${API_BASE}/api/allotments/my`,
+                {
+                    method: "GET",
 
-        if (storedStudent) {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`,
 
-            student =
-                JSON.parse(storedStudent);
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
+            );
 
+
+        /* ---------------------------------------------
+           LOGIN EXPIRED
+        ---------------------------------------------- */
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.removeItem("token");
+
+            sessionStorage.removeItem("token");
+
+            window.location.href =
+                "student-login.html";
+
+            return;
         }
 
-    } catch (error) {
 
-        console.error(
-            "Unable to read student data:",
-            error
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Allotment API response:",
+            data
         );
 
-    }
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load allotment"
+            );
+        }
 
 
-    return student;
+        /* ---------------------------------------------
+           FIND ALLOTMENT OBJECT
+        ---------------------------------------------- */
 
-}
-
-
-
-/* ============================================================
-   GET ALLOTMENT DATA
-============================================================ */
-
-function getAllotmentData() {
-
-    let allotment = null;
+        let allotment = null;
 
 
-    /*
-       Temporary data source.
-
-       Later this will come from backend:
-
-       GET /api/allotment/my-allotment
-    */
-
-
-    try {
-
-        const storedAllotment =
-            localStorage.getItem("allotment");
-
-        if (storedAllotment) {
+        if (
+            Array.isArray(data)
+        ) {
 
             allotment =
-                JSON.parse(storedAllotment);
+                data.length > 0
+                    ? data[0]
+                    : null;
 
+        } else if (
+            data.allotment
+        ) {
+
+            allotment =
+                data.allotment;
+
+        } else if (
+            Array.isArray(data.data)
+        ) {
+
+            allotment =
+                data.data.length > 0
+                    ? data.data[0]
+                    : null;
+
+        } else if (
+            data.data
+        ) {
+
+            allotment =
+                data.data;
+
+        } else {
+
+            allotment =
+                data;
         }
 
-    } catch (error) {
 
-        console.error(
-            "Unable to read allotment data:",
-            error
+        /* ---------------------------------------------
+           NO ALLOTMENT
+        ---------------------------------------------- */
+
+        if (!allotment) {
+
+            showError(
+                "Allotment Order Not Available",
+                "Your allotment has not been generated yet."
+            );
+
+            return;
+        }
+
+
+        /* ---------------------------------------------
+           DECISION CHECK
+        ---------------------------------------------- */
+
+        const decision =
+            String(
+                allotment.student_decision ||
+                allotment.decision ||
+                ""
+            ).toLowerCase();
+
+
+        /*
+         * ORDER IS AVAILABLE ONLY AFTER
+         * ACCEPT SEAT
+         */
+
+        if (
+            decision !== "accepted"
+        ) {
+
+            showError(
+                "Allotment Order Not Available",
+                "Please accept your allotted seat from the Student Dashboard before viewing the allotment order."
+            );
+
+            return;
+        }
+
+
+        /* ---------------------------------------------
+           POPULATE PAGE
+        ---------------------------------------------- */
+
+        populateOrder(
+            allotment
         );
 
     }
+    catch (error) {
 
+        console.error(
+            "Allotment order error:",
+            error
+        );
 
-    return allotment;
-
+        showError(
+            "Unable to Load Allotment Order",
+            "Please make sure the counselling server is running and try again."
+        );
+    }
 }
 
 
+/* =========================================================
+   POPULATE ORDER
+========================================================= */
 
-/* ============================================================
-   DEFAULT DEMO DATA
-============================================================ */
+function populateOrder(allotment) {
 
-function getDemoData() {
-
-    return {
-
-        student: {
-
-            name: "Student Name",
-
-            applicationNumber:
-                "GCE2026XXXX",
-
-            rank:
-                "125",
-
-            community:
-                "BC",
-
-            gender:
-                "Female",
-
-            dateOfBirth:
-                "15/06/2007"
-
-        },
-
-
-        allotment: {
-
-            status:
-                "ALLOTTED",
-
-            department:
-                "Computer Science and Engineering",
-
-            departmentCode:
-                "CSE",
-
-            seatNumber:
-                "CSE-042",
-
-            round:
-                "Round 02",
-
-            rankRange:
-                "101 – 200",
-
-            allotmentDate:
-                "28/08/2026",
-
-            paymentStatus:
-                "PENDING",
-
-            paymentDeadline:
-                "30/08/2026",
-
-            reportingDate:
-                "02/09/2026",
-
-            reportingTime:
-                "10:00 AM"
-
-        }
-
-    };
-
-}
-
-
-
-/* ============================================================
-   UPDATE STUDENT INFORMATION
-============================================================ */
-
-function displayStudentInformation(student) {
-
-    setText(
-        "studentName",
-        student.name
+    console.log(
+        "Populating order:",
+        allotment
     );
 
 
+    /* =====================================================
+       RELATED OBJECTS
+    ===================================================== */
+
+    const student =
+        allotment.student ||
+        {};
+
+    const application =
+        allotment.application ||
+        {};
+
+    const round =
+        allotment.round ||
+        {};
+
+    const department =
+        allotment.department ||
+        {};
+
+
+    /* =====================================================
+       STUDENT DATA
+    ===================================================== */
+
+    const studentName =
+        allotment.name ||
+        allotment.student_name ||
+        student.name ||
+        "-";
+
+
+    /* -----------------------------------------------------
+       APPLICATION NUMBER
+    ----------------------------------------------------- */
+
+    const applicationNumber =
+        allotment.application_number ||
+        allotment.applicationNo ||
+        allotment.application_no ||
+        application.application_number ||
+        application.application_no ||
+        "-";
+
+
+    /* -----------------------------------------------------
+       COMMUNITY
+    ----------------------------------------------------- */
+
+    const community =
+        allotment.community ||
+        student.community ||
+        "-";
+
+
+    /* -----------------------------------------------------
+       CATEGORY
+    ----------------------------------------------------- */
+
+    const category =
+        allotment.category ||
+        application.category ||
+        "MANAGEMENT";
+
+
+    /* -----------------------------------------------------
+       BRANCH
+    ----------------------------------------------------- */
+
+    const branch =
+        allotment.department_name ||
+        allotment.branch_name ||
+        allotment.branch ||
+        department.name ||
+        "-";
+
+
+    /* -----------------------------------------------------
+       COURSE
+       
+       IT = B.Tech
+       OTHER BRANCHES = B.E.
+    ----------------------------------------------------- */
+
+    let course = "B.E.";
+
+    const branchText =
+        String(branch)
+            .trim()
+            .toUpperCase();
+
+    if (
+        branchText === "IT" ||
+        branchText === "INFORMATION TECHNOLOGY"
+    ) {
+
+        course = "B.Tech";
+    }
+
+
+    /* -----------------------------------------------------
+       CUTOFF MARK
+    ----------------------------------------------------- */
+
+    const cutoff =
+        allotment.cutoff_mark ??
+        allotment.cutoff ??
+        student.cutoff_mark ??
+        "-";
+
+
+    /* -----------------------------------------------------
+       RANK
+    ----------------------------------------------------- */
+
+    const rank =
+        allotment.rank_number ??
+        allotment.rank ??
+        student.rank_number ??
+        "-";
+
+
+    /* =====================================================
+       ALLOTMENT DATA
+    ===================================================== */
+
+    const college =
+        allotment.college_name ||
+        allotment.college ||
+        "GOVERNMENT COLLEGE OF ENGINEERING, ERODE";
+
+
+    const seatCategory =
+        allotment.seat_category ||
+        allotment.allotted_category ||
+        community ||
+        "-";
+
+
+    const seatNumber =
+        allotment.seat_number ||
+        "-";
+
+
+    /* =====================================================
+       ROUND
+    ===================================================== */
+
+    const roundNumber =
+        allotment.round_number ??
+        round.round_number ??
+        "-";
+
+
+    /* =====================================================
+       DATE
+    ===================================================== */
+
+    const allottedAt =
+        allotment.allotted_at ||
+        allotment.created_at ||
+        new Date();
+
+
+    const paymentDeadline =
+        allotment.payment_deadline ||
+        round.payment_deadline ||
+        null;
+
+
+    /*
+     * If a payment deadline exists, use it as the
+     * reporting deadline. Otherwise use allotment date.
+     */
+
+    const reportingDate =
+        paymentDeadline ||
+        allottedAt;
+
+
+    /* =====================================================
+       REFERENCE NUMBER
+    ===================================================== */
+
+    const allotmentId =
+        allotment.id ||
+        allotment.allotment_id ||
+        "______";
+
+
+    const reference =
+        `GCE/2026/CA/${allotmentId}`;
+
+
+    /* =====================================================
+       SET PAGE DATA
+    ===================================================== */
+
     setText(
-        "applicationNumber",
-        student.applicationNumber
-    );
-
-
-    setText(
-        "rank",
-        student.rank
-    );
-
-
-    setText(
-        "community",
-        student.community
-    );
-
-
-    setText(
-        "gender",
-        student.gender
-    );
-
-
-    setText(
-        "dateOfBirth",
-        formatDate(student.dateOfBirth)
-    );
-
-}
-
-
-
-/* ============================================================
-   UPDATE ALLOTMENT INFORMATION
-============================================================ */
-
-function displayAllotmentInformation(allotment) {
-
-    setText(
-        "department",
-        allotment.department
-    );
-
-
-    setText(
-        "departmentCode",
-        allotment.departmentCode
-    );
-
-
-    setText(
-        "seatNumber",
-        allotment.seatNumber
-    );
-
-
-    setText(
-        "round",
-        allotment.round
-    );
-
-
-    setText(
-        "rankRange",
-        allotment.rankRange
+        "referenceNumber",
+        reference
     );
 
 
     setText(
         "allotmentDate",
-        formatDateTime(
-            allotment.allotmentDate
-        )
+        formatDate(allottedAt)
     );
 
 
     setText(
-        "paymentDeadline",
-        formatDateTime(
-            allotment.paymentDeadline
-        )
+        "applicationNumber",
+        applicationNumber
+    );
+
+
+    setText(
+        "studentName",
+        studentName
+    );
+
+
+    setText(
+        "community",
+        community
+    );
+
+
+    setText(
+        "category",
+        category
+    );
+
+
+    setText(
+        "course",
+        course
+    );
+
+
+    setText(
+        "cutoffMark",
+        cutoff
+    );
+
+
+    setText(
+        "collegeAllotted",
+        college
+    );
+
+
+    setText(
+        "branchAllotted",
+        branch
+    );
+
+
+    setText(
+        "seatCategory",
+        seatCategory
+    );
+
+
+    setText(
+        "eligibleFor",
+        "MANAGEMENT COUNSELLING"
     );
 
 
     setText(
         "reportingDate",
-        formatDate(
-            allotment.reportingDate
-        )
+        formatDate(reportingDate)
+    );
+
+
+    /* =====================================================
+       ACKNOWLEDGEMENT
+    ===================================================== */
+
+    setText(
+        "ackCollege",
+        college
     );
 
 
     setText(
-        "reportingTime",
-        allotment.reportingTime
-    );
-
-
-    setText(
-        "paymentStatus",
-        allotment.paymentStatus
-    );
-
-}
-
-
-
-/* ============================================================
-   UPDATE STATUS
-============================================================ */
-
-function updateAllotmentStatus(allotment) {
-
-    const status =
-        String(
-            allotment.status || ""
-        ).toUpperCase();
-
-
-    const statusElement =
-        document.getElementById(
-            "allotmentStatus"
-        );
-
-
-    const statusIcon =
-        document.getElementById(
-            "statusIcon"
-        );
-
-
-    const statusDescription =
-        document.getElementById(
-            "statusDescription"
-        );
-
-
-    const resultSection =
-        document.getElementById(
-            "allotmentResult"
-        );
-
-
-    const notAllottedSection =
-        document.getElementById(
-            "notAllotted"
-        );
-
-
-
-    /* =========================================
-       ALLOTTED
-    ========================================= */
-
-    if (status === "ALLOTTED") {
-
-        if (statusElement) {
-
-            statusElement.textContent =
-                "Seat Allotted";
-
-        }
-
-
-        if (statusIcon) {
-
-            statusIcon.textContent =
-                "✓";
-
-        }
-
-
-        if (statusDescription) {
-
-            statusDescription.textContent =
-                "Congratulations! A seat has been allotted to you.";
-
-        }
-
-
-        if (resultSection) {
-
-            resultSection.style.display =
-                "block";
-
-        }
-
-
-        if (notAllottedSection) {
-
-            notAllottedSection.style.display =
-                "none";
-
-        }
-
-        return;
-
-    }
-
-
-
-    /* =========================================
-       NOT ALLOTTED
-    ========================================= */
-
-    if (statusElement) {
-
-        statusElement.textContent =
-            "Allotment Not Published";
-
-    }
-
-
-    if (statusIcon) {
-
-        statusIcon.textContent =
-            "i";
-
-    }
-
-
-    if (statusDescription) {
-
-        statusDescription.textContent =
-            "Your seat allotment has not yet been published.";
-
-    }
-
-
-    if (resultSection) {
-
-        resultSection.style.display =
-            "none";
-
-    }
-
-
-    if (notAllottedSection) {
-
-        notAllottedSection.style.display =
-            "block";
-
-    }
-
-}
-
-
-
-/* ============================================================
-   LOAD PAGE
-============================================================ */
-
-function loadAllotmentOrder() {
-
-    console.log(
-        "Loading allotment order..."
-    );
-
-
-    let student =
-        getStudentData();
-
-
-    let allotment =
-        getAllotmentData();
-
-
-
-    /*
-       TEMPORARY FALLBACK
-
-       Remove this later when backend
-       integration is completed.
-    */
-
-    if (!student || !allotment) {
-
-        const demo =
-            getDemoData();
-
-
-        if (!student) {
-
-            student =
-                demo.student;
-
-        }
-
-
-        if (!allotment) {
-
-            allotment =
-                demo.allotment;
-
-        }
-
-    }
-
-
-
-    displayStudentInformation(
-        student
-    );
-
-
-    displayAllotmentInformation(
-        allotment
-    );
-
-
-    updateAllotmentStatus(
-        allotment
+        "ackStudentName",
+        studentName
     );
 
 
     console.log(
         "Allotment order loaded successfully."
     );
-
 }
 
 
+/* =========================================================
+   SHOW ERROR
+========================================================= */
 
-/* ============================================================
-   PAGE INITIALIZATION
-============================================================ */
+function showError(title, message) {
+
+    const documentElement =
+        document.querySelector(
+            ".document"
+        );
+
+
+    if (!documentElement) {
+        return;
+    }
+
+
+    documentElement.innerHTML = `
+
+        <div
+            style="
+                width:210mm;
+                height:297mm;
+                background:#fff;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                text-align:center;
+                padding:30px;
+                font-family:Arial,sans-serif;
+            ">
+
+            <div>
+
+                <h2
+                    style="
+                        margin-bottom:12px;
+                        color:#333;
+                    ">
+
+                    ${escapeHtml(title)}
+
+                </h2>
+
+
+                <p
+                    style="
+                        color:#666;
+                        max-width:500px;
+                        line-height:1.6;
+                    ">
+
+                    ${escapeHtml(message)}
+
+                </p>
+
+
+                <br>
+
+
+                <button
+                    onclick="goBackToDashboard()"
+                    style="
+                        padding:10px 18px;
+                        border:none;
+                        background:#1f6b3a;
+                        color:#fff;
+                        border-radius:4px;
+                        cursor:pointer;
+                        font-weight:600;
+                    ">
+
+                    ← BACK TO DASHBOARD
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+function printOrder() {
+
+    window.print();
+}
+
+
+/* =========================================================
+   BACK
+========================================================= */
+
+function goBackToDashboard() {
+
+    window.location.href =
+        "student-dashboard.html";
+}
+
+
+/* =========================================================
+   BUTTON EVENTS
+========================================================= */
+
+if (printOrderButton) {
+
+    printOrderButton.addEventListener(
+        "click",
+        printOrder
+    );
+}
+
+
+if (backButton) {
+
+    backButton.addEventListener(
+        "click",
+        goBackToDashboard
+    );
+}
+
+
+/* =========================================================
+   PAGE LOAD
+========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    function () {
+    () => {
+
+        if (
+            !checkAuthentication()
+        ) {
+
+            return;
+        }
 
         loadAllotmentOrder();
 

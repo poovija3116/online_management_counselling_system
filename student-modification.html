@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Modification</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="student-modification.css">
+
+</head>
+
+
+<body>
+
+<main class="page">
+
+
+    <!-- ================= INTRO ================= -->
+
+    <section class="intro-card">
+
+        <div class="intro-left">
+
+            <div class="intro-icon">
+                <i class="fa-solid fa-user-pen"></i>
+            </div>
+
+            <div class="intro-text">
+
+                <div class="eyebrow">
+                    STUDENT MODIFICATION
+                </div>
+
+                <h1>
+                    Modify Student Details
+                </h1>
+
+                <p>
+                    Select a student to view and correct their stored information.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="intro-quote">
+
+            <span>
+                Accurate Records
+            </span>
+
+            <strong>
+                Brighter Futures
+            </strong>
+
+            <i></i>
+
+        </div>
+
+
+        <!-- Decorative leaves -->
+
+        <div class="leaf-decoration leaf-a"></div>
+        <div class="leaf-decoration leaf-b"></div>
+        <div class="leaf-decoration leaf-c"></div>
+
+    </section>
+
+
+
+    <!-- ================= SELECT STUDENT ================= -->
+
+    <section class="select-card">
+
+        <label for="studentSelect">
+            SELECT STUDENT
+        </label>
+
+
+        <div class="student-select-box">
+
+            <div class="select-icon">
+                <i class="fa-solid fa-users"></i>
+            </div>
+
+
+            <select id="studentSelect">
+
+                <option value="">
+                    Select Student
+                </option>
+
+                <!--
+                    Student options will be loaded
+                    automatically from the database
+                    by student-modification.js
+                -->
+
+            </select>
+
+
+            <i class="fa-solid fa-chevron-down select-arrow"></i>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <section class="main-grid">
+
+
+        <!-- ================= CURRENT DETAILS ================= -->
+
+        <article class="card current-card">
+
+            <div class="card-heading">
+
+                <div class="heading-icon">
+                    <i class="fa-regular fa-file-lines"></i>
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        CURRENT DETAILS
+                    </h2>
+
+                    <p>
+                        Information currently stored in the system.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="details">
+
+
+                <!-- RANK -->
+
+                <div class="detail">
+
+                    <div class="detail-icon">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            RANK
+                        </span>
+
+                        <strong id="currentRank">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- NAME -->
+
+                <div class="detail">
+
+                    <div class="detail-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            STUDENT NAME
+                        </span>
+
+                        <strong id="currentName">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- EMAIL -->
+
+                <div class="detail">
+
+                    <div class="detail-icon">
+                        <i class="fa-regular fa-envelope"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            EMAIL
+                        </span>
+
+                        <strong id="currentEmail">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- APPLICATION -->
+
+                <div class="detail">
+
+                    <div class="detail-icon">
+                        <i class="fa-regular fa-id-card"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            APPLICATION NUMBER
+                        </span>
+
+                        <strong id="currentApplication">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- DOB -->
+
+                <div class="detail">
+
+                    <div class="detail-icon">
+                        <i class="fa-regular fa-calendar"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            DATE OF BIRTH
+                        </span>
+
+                        <strong id="currentDob">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CUTOFF -->
+
+                <div class="detail">
+
+                    <div class="detail-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            CUTOFF
+                        </span>
+
+                        <strong id="currentCutoff">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- COMMUNITY -->
+
+                <div class="detail">
+
+                    <div class="detail-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            COMMUNITY
+                        </span>
+
+                        <strong id="currentCommunity">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- ================= RIGHT COLUMN ================= -->
+
+        <div class="right-column">
+
+
+            <!-- ================= CORRECTION REQUESTS ================= -->
+
+            <article class="card requests-card">
+
+
+                <div class="request-heading">
+
+
+                    <div class="heading-left">
+
+                        <div class="heading-icon">
+
+                            <i class="fa-regular fa-comment"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2>
+                                STUDENT CORRECTION REQUESTS
+                            </h2>
+
+                            <p>
+                                View and manage student requests for data correction.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <button
+                        class="view-btn"
+                        id="viewRequestsBtn"
+                        type="button">
+
+                        <i class="fa-solid fa-eye"></i>
+
+                        View All Requests
+
+                    </button>
+
+                </div>
+
+
+
+                <div class="request-table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    #
+                                </th>
+
+                                <th>
+                                    Student Name
+                                </th>
+
+                                <th>
+                                    Request Type
+                                </th>
+
+                                <th>
+                                    Requested Change
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+
+                        <tbody id="requestTableBody">
+
+                            <tr>
+
+                                <td colspan="6">
+
+                                    <div class="empty-request">
+
+                                        <div class="empty-request-icon">
+
+                                            <i class="fa-solid fa-file-circle-plus"></i>
+
+                                        </div>
+
+                                        <strong>
+                                            No correction requests yet.
+                                        </strong>
+
+                                        <span>
+                                            Student requests will appear here.
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- ================= MODIFY DETAILS ================= -->
+
+            <article class="card modify-card">
+
+
+                <div class="card-heading modify-heading">
+
+                    <div class="heading-icon">
+
+                        <i class="fa-solid fa-pen"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            MODIFY STUDENT DETAILS
+                        </h2>
+
+                        <p>
+                            Update the selected student's information.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <form id="modifyForm">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- STUDENT NAME -->
+
+                        <div class="form-field">
+
+                            <label for="studentName">
+                                Student Name
+                            </label>
+
+
+                            <div class="input-box">
+
+                                <i class="fa-solid fa-user"></i>
+
+                                <input
+                                    type="text"
+                                    id="studentName"
+                                    placeholder="Enter student name">
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- APPLICATION NUMBER -->
+
+                        <div class="form-field">
+
+                            <label for="applicationNumber">
+                                Application Number
+                            </label>
+
+
+                            <div class="input-box">
+
+                                <i class="fa-regular fa-id-card"></i>
+
+                                <input
+                                    type="text"
+                                    id="applicationNumber"
+                                    placeholder="Enter application number">
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- EMAIL -->
+
+                        <div class="form-field">
+
+                            <label for="studentEmail">
+                                Email
+                            </label>
+
+
+                            <div class="input-box">
+
+                                <i class="fa-regular fa-envelope"></i>
+
+                                <input
+                                    type="email"
+                                    id="studentEmail"
+                                    placeholder="Enter email address">
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- CUTOFF -->
+
+                        <div class="form-field">
+
+                            <label for="cutoff">
+                                Cutoff
+                            </label>
+
+
+                            <div class="input-box">
+
+                                <i class="fa-solid fa-chart-simple"></i>
+
+                                <input
+                                    type="number"
+                                    id="cutoff"
+                                    step="0.01"
+                                    placeholder="Enter cutoff">
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- DOB -->
+
+                        <div class="form-field">
+
+                            <label for="dateOfBirth">
+                                Date of Birth
+                            </label>
+
+
+                            <div class="input-box">
+
+                                <i class="fa-regular fa-calendar"></i>
+
+                                <input
+                                    type="date"
+                                    id="dateOfBirth">
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- COMMUNITY -->
+
+                        <div class="form-field">
+
+                            <label for="community">
+                                Community
+                            </label>
+
+
+                            <div class="input-box select-input">
+
+                                <i class="fa-solid fa-users"></i>
+
+
+                                <select id="community">
+
+                                    <option value="">
+                                        Select community
+                                    </option>
+
+                                    <option value="OC">
+                                        OC
+                                    </option>
+
+                                    <option value="BC">
+                                        BC
+                                    </option>
+
+                                    <option value="BCM">
+                                        BCM
+                                    </option>
+
+                                    <option value="MBC">
+                                        MBC
+                                    </option>
+
+                                    <option value="SC">
+                                        SC
+                                    </option>
+
+                                    <option value="SCA">
+                                        SCA
+                                    </option>
+
+                                    <option value="ST">
+                                        ST
+                                    </option>
+
+                                </select>
+
+
+                                <i class="fa-solid fa-chevron-down"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- FORM MESSAGE -->
+
+                    <div
+                        id="formMessage"
+                        class="form-message">
+                    </div>
+
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="actions">
+
+
+                        <button
+                            type="reset"
+                            class="reset-btn">
+
+                            <i class="fa-solid fa-rotate-right"></i>
+
+                            Reset
+
+                        </button>
+
+
+
+                        <button
+                            type="submit"
+                            class="update-btn">
+
+                            <i class="fa-solid fa-check"></i>
+
+                            Update Details
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= BOTTOM ================= -->
+
+    <section class="bottom-decoration">
+
+
+        <div class="campus-placeholder">
+
+
+            <div class="campus-tower">
+
+                <div class="tower-clock">
+                    12
+                </div>
+
+            </div>
+
+
+            <div class="campus-building">
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="bottom-quote">
+
+            <span>
+                Every Student
+            </span>
+
+            <strong>
+                Matters
+            </strong>
+
+            <i></i>
+
+        </div>
+
+
+
+        <div class="bottom-leaf leaf-d"></div>
+        <div class="bottom-leaf leaf-e"></div>
+
+    </section>
+
+</main>
+
+
+<!-- ==================================================
+     EXTERNAL JAVASCRIPT
+     ================================================== -->
+
+<script src="student-modification.js"></script>
+
+
+</body>
+
+</html>

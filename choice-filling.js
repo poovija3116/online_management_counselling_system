@@ -1,4 +1,3 @@
-
 // ============================================================
 // GCE ERODE - CHOICE FILLING
 // ============================================================
@@ -34,6 +33,29 @@ const lockPreferencesButton =
 
 
 // ============================================================
+// CONFIRMATION MODAL
+// ============================================================
+
+const confirmationModal =
+    document.getElementById("confirmationModal");
+
+const confirmationIcon =
+    document.getElementById("confirmationIcon");
+
+const confirmationTitle =
+    document.getElementById("confirmationTitle");
+
+const confirmationMessage =
+    document.getElementById("confirmationMessage");
+
+const confirmationConfirm =
+    document.getElementById("confirmationConfirm");
+
+const confirmationCancel =
+    document.getElementById("confirmationCancel");
+
+
+// ============================================================
 // DATA
 // ============================================================
 
@@ -42,6 +64,249 @@ let departments = [];
 let preferences = [];
 
 let preferencesLocked = false;
+
+let currentRound = null;
+
+let choiceFillingOpen = false;
+
+let timingInterval = null;
+
+let redirecting = false;
+
+let savingPreferences = false;
+
+// Prevent closing popup from appearing every second
+let closingConfirmationShown = false;
+
+
+// ============================================================
+// MODAL HELPERS
+// ============================================================
+
+function showConfirmationModal(
+    title,
+    message,
+    options = {}
+) {
+
+    return new Promise((resolve) => {
+
+        if (!confirmationModal) {
+
+            // Fallback if modal HTML is missing
+            console.warn(
+                "Confirmation modal not found."
+            );
+
+            resolve(
+                options.defaultResult ?? true
+            );
+
+            return;
+        }
+
+
+        const {
+            icon = "✓",
+            showCancel = true,
+            confirmText = "Confirm",
+            cancelText = "Cancel"
+        } = options;
+
+
+        if (confirmationIcon) {
+
+            confirmationIcon.textContent =
+                icon;
+        }
+
+
+        if (confirmationTitle) {
+
+            confirmationTitle.textContent =
+                title;
+        }
+
+
+        if (confirmationMessage) {
+
+            confirmationMessage.textContent =
+                message;
+        }
+
+
+        if (confirmationConfirm) {
+
+            confirmationConfirm.textContent =
+                confirmText;
+
+            confirmationConfirm.disabled =
+                false;
+        }
+
+
+        if (confirmationCancel) {
+
+            confirmationCancel.textContent =
+                cancelText;
+
+            confirmationCancel.style.display =
+                showCancel
+                    ? ""
+                    : "none";
+        }
+
+
+        confirmationModal.classList.add(
+            "show"
+        );
+
+
+        const closeModal = () => {
+
+            confirmationModal.classList.remove(
+                "show"
+            );
+
+        };
+
+
+        const handleConfirm = () => {
+
+            closeModal();
+
+            cleanup();
+
+            resolve(true);
+        };
+
+
+        const handleCancel = () => {
+
+            closeModal();
+
+            cleanup();
+
+            resolve(false);
+        };
+
+
+        const cleanup = () => {
+
+            if (confirmationConfirm) {
+
+                confirmationConfirm.removeEventListener(
+                    "click",
+                    handleConfirm
+                );
+            }
+
+
+            if (confirmationCancel) {
+
+                confirmationCancel.removeEventListener(
+                    "click",
+                    handleCancel
+                );
+            }
+
+        };
+
+
+        if (confirmationConfirm) {
+
+            confirmationConfirm.addEventListener(
+                "click",
+                handleConfirm
+            );
+        }
+
+
+        if (confirmationCancel) {
+
+            confirmationCancel.addEventListener(
+                "click",
+                handleCancel
+            );
+        }
+
+    });
+}
+
+
+// ============================================================
+// SHOW ERROR MODAL
+// ============================================================
+
+async function showErrorModal(
+    title,
+    message
+) {
+
+    await showConfirmationModal(
+        title,
+        message,
+        {
+            icon: "!",
+            showCancel: false,
+            confirmText: "OK"
+        }
+    );
+
+}
+
+
+// ============================================================
+// SHOW SUCCESS MODAL
+// ============================================================
+
+async function showSuccessModal(
+    title,
+    message
+) {
+
+    await showConfirmationModal(
+        title,
+        message,
+        {
+            icon: "✓",
+            showCancel: false,
+            confirmText: "OK"
+        }
+    );
+
+}
+
+
+// ============================================================
+// SHOW CHOICE FILLING CLOSED MODAL
+// ============================================================
+
+async function showChoiceFillingClosedModal(
+    message
+) {
+
+    if (closingConfirmationShown) {
+
+        return;
+    }
+
+
+    closingConfirmationShown =
+        true;
+
+
+    await showConfirmationModal(
+        "Choice Filling Closed",
+        message,
+        {
+            icon: "🔒",
+            showCancel: false,
+            confirmText: "OK"
+        }
+    );
+
+}
 
 
 // ============================================================
@@ -60,27 +325,31 @@ function getToken() {
 
 
 // ============================================================
-// AUTH CHECK
+// AUTHENTICATION
 // ============================================================
 
 function checkAuthentication() {
 
     const token = getToken();
 
+
     if (!token) {
 
-        alert(
+        showErrorModal(
+            "Session Expired",
             "Your login session has expired. Please login again."
-        );
+        ).then(() => {
 
-        window.location.href = "login.html";
+            window.location.href =
+                "student-login.html";
+
+        });
 
         return false;
-
     }
 
-    return true;
 
+    return true;
 }
 
 
@@ -92,6 +361,7 @@ function getHeaders() {
 
     const token = getToken();
 
+
     return {
 
         "Content-Type": "application/json",
@@ -100,6 +370,608 @@ function getHeaders() {
             `Bearer ${token}`
 
     };
+
+}
+
+
+// ============================================================
+// PARSE SERVER DATE
+// ============================================================
+
+function parseServerDate(value) {
+
+    if (!value) {
+
+        return null;
+    }
+
+
+    if (
+        typeof value === "string" &&
+        /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(value)
+    ) {
+
+        return new Date(
+            value.replace(" ", "T")
+        );
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return null;
+    }
+
+
+    return date;
+}
+
+
+// ============================================================
+// FORMAT TIME
+// ============================================================
+
+function formatTime(value) {
+
+    const date =
+        value instanceof Date
+            ? value
+            : parseServerDate(value);
+
+
+    if (!date) {
+
+        return "-";
+    }
+
+
+    return date.toLocaleTimeString(
+        [],
+        {
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+}
+
+
+// ============================================================
+// LOAD CURRENT ROUND
+// ============================================================
+
+async function loadCurrentRound() {
+
+    try {
+
+        console.log(
+            "📡 Checking counselling round..."
+        );
+
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/rounds/current`,
+                {
+                    method: "GET",
+                    headers: getHeaders()
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "📊 CURRENT ROUND RESPONSE:",
+            data
+        );
+
+
+        if (
+            !response.ok ||
+            !data.success ||
+            !data.round
+        ) {
+
+            handleChoiceFillingClosed(
+                "There is currently no active counselling round."
+            );
+
+            return null;
+        }
+
+
+        /*
+         * If a new round is loaded,
+         * allow the closing popup for that round.
+         */
+
+        if (
+            !currentRound ||
+            Number(currentRound.id) !==
+            Number(data.round.id)
+        ) {
+
+            closingConfirmationShown =
+                false;
+        }
+
+
+        currentRound =
+            data.round;
+
+
+        console.log(
+            "🎯 CURRENT ROUND:",
+            currentRound
+        );
+
+
+        return currentRound;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "❌ ROUND TIMING ERROR:",
+            error
+        );
+
+
+        handleChoiceFillingClosed(
+            "Unable to verify the counselling round timing."
+        );
+
+
+        return null;
+    }
+}
+
+
+// ============================================================
+// GET OPEN TIME
+// ============================================================
+
+function getChoiceOpenTime(round) {
+
+    if (!round) {
+
+        return null;
+    }
+
+
+    return (
+        parseServerDate(
+            round.choice_open_at
+        ) ||
+
+        parseServerDate(
+            round.preference_start
+        )
+    );
+}
+
+
+// ============================================================
+// GET CLOSE TIME
+// ============================================================
+
+function getChoiceCloseTime(round) {
+
+    if (!round) {
+
+        return null;
+    }
+
+
+    return (
+        parseServerDate(
+            round.choice_close_at
+        ) ||
+
+        parseServerDate(
+            round.preference_end
+        )
+    );
+}
+
+
+// ============================================================
+// CHECK CHOICE FILLING TIMING
+// ============================================================
+
+function checkChoiceFillingTiming() {
+
+    if (!currentRound) {
+
+        return;
+    }
+
+
+    const openTime =
+        getChoiceOpenTime(
+            currentRound
+        );
+
+
+    const closeTime =
+        getChoiceCloseTime(
+            currentRound
+        );
+
+
+    const now =
+        new Date();
+
+
+    // ========================================================
+    // NO OPEN TIME
+    // ========================================================
+
+    if (!openTime) {
+
+        disableChoiceFilling(
+            "Choice filling opening time has not been configured."
+        );
+
+        return;
+    }
+
+
+    // ========================================================
+    // NO CLOSE TIME
+    // ========================================================
+
+    if (!closeTime) {
+
+        disableChoiceFilling(
+            "Choice filling closing time has not been configured."
+        );
+
+        return;
+    }
+
+
+    // ========================================================
+    // BEFORE OPEN
+    // ========================================================
+
+    if (now < openTime) {
+
+        choiceFillingOpen =
+            false;
+
+
+        disableChoiceFilling(
+            `Choice filling opens at ${formatTime(openTime)}.`
+        );
+
+
+        return;
+    }
+
+
+    // ========================================================
+    // OPEN
+    // ========================================================
+
+    if (
+        now >= openTime &&
+        now < closeTime
+    ) {
+
+        if (!choiceFillingOpen) {
+
+            console.log(
+                "🟢 CHOICE FILLING IS NOW OPEN"
+            );
+        }
+
+
+        choiceFillingOpen =
+            true;
+
+
+        /*
+         * Allow the closing confirmation
+         * for this round.
+         */
+
+        closingConfirmationShown =
+            false;
+
+
+        enableChoiceFilling();
+
+
+        return;
+    }
+
+
+    // ========================================================
+    // CLOSED
+    // ========================================================
+
+    if (now >= closeTime) {
+
+        choiceFillingOpen =
+            false;
+
+
+        preferencesLocked =
+            true;
+
+
+        disableChoiceFilling(
+            `Choice filling closed at ${formatTime(closeTime)}.`
+        );
+
+
+        /*
+         * Show custom confirmation box only once.
+         */
+
+        if (!closingConfirmationShown) {
+
+            showChoiceFillingClosedModal(
+                `The choice filling time has ended at ${formatTime(closeTime)}. Your preferences are now locked.`
+            ).then(() => {
+
+                if (redirecting) {
+
+                    return;
+                }
+
+
+                redirecting =
+                    true;
+
+
+                stopTimingMonitor();
+
+
+                window.location.href =
+                    "student-dashboard.html";
+
+            });
+
+        }
+
+    }
+
+}
+
+
+// ============================================================
+// ENABLE CHOICE FILLING
+// ============================================================
+
+function enableChoiceFilling() {
+
+    if (preferencesLocked) {
+
+        return;
+    }
+
+
+    if (lockPreferencesButton) {
+
+        lockPreferencesButton.disabled =
+            false;
+
+        lockPreferencesButton.textContent =
+            "💾 SAVE PREFERENCES";
+
+        lockPreferencesButton.style.background =
+            "";
+    }
+
+
+    if (departmentList) {
+
+        departmentList.style.pointerEvents =
+            "auto";
+
+        departmentList.style.opacity =
+            "1";
+    }
+
+
+    if (departmentSearch) {
+
+        departmentSearch.disabled =
+            false;
+    }
+
+
+    renderPreferences();
+
+    renderDepartments(
+        getFilteredDepartments()
+    );
+
+}
+
+
+// ============================================================
+// DISABLE CHOICE FILLING
+// ============================================================
+
+function disableChoiceFilling(message) {
+
+    choiceFillingOpen =
+        false;
+
+
+    if (lockPreferencesButton) {
+
+        lockPreferencesButton.disabled =
+            true;
+
+        lockPreferencesButton.textContent =
+            "🔒 CHOICE FILLING CLOSED";
+
+        lockPreferencesButton.style.background =
+            "#9ca3af";
+    }
+
+
+    if (departmentSearch) {
+
+        departmentSearch.disabled =
+            true;
+    }
+
+
+    if (departmentList) {
+
+        departmentList.style.pointerEvents =
+            "none";
+
+        departmentList.style.opacity =
+            "0.55";
+    }
+
+
+    const messageElement =
+        document.getElementById(
+            "roundMessage"
+        );
+
+
+    if (messageElement) {
+
+        messageElement.textContent =
+            message;
+    }
+
+
+    renderPreferences();
+
+    renderDepartments(
+        getFilteredDepartments()
+    );
+
+}
+
+
+// ============================================================
+// HANDLE CLOSED PAGE
+// ============================================================
+
+function handleChoiceFillingClosed(message) {
+
+    if (redirecting) {
+
+        return;
+    }
+
+
+    choiceFillingOpen =
+        false;
+
+
+    preferencesLocked =
+        true;
+
+
+    disableChoiceFilling(
+        message
+    );
+
+
+    stopTimingMonitor();
+
+
+    /*
+     * If this is called because the round doesn't exist,
+     * show the custom modal and redirect.
+     */
+
+    if (!closingConfirmationShown) {
+
+        closingConfirmationShown =
+            true;
+
+
+        showConfirmationModal(
+            "Choice Filling Unavailable",
+            message,
+            {
+                icon: "🔒",
+                showCancel: false,
+                confirmText: "OK"
+            }
+        ).then(() => {
+
+            if (redirecting) {
+
+                return;
+            }
+
+
+            redirecting =
+                true;
+
+
+            window.location.href =
+                "student-dashboard.html";
+
+        });
+
+    }
+
+}
+
+
+// ============================================================
+// START TIMING MONITOR
+// ============================================================
+
+function startTimingMonitor() {
+
+    console.log(
+        "⏱️ Choice filling timing monitor started."
+    );
+
+
+    stopTimingMonitor();
+
+
+    timingInterval =
+        setInterval(
+            checkChoiceFillingTiming,
+            1000
+        );
+
+}
+
+
+// ============================================================
+// STOP TIMING MONITOR
+// ============================================================
+
+function stopTimingMonitor() {
+
+    if (timingInterval) {
+
+        clearInterval(
+            timingInterval
+        );
+
+        timingInterval =
+            null;
+    }
 
 }
 
@@ -127,15 +999,17 @@ async function loadStudentDetails() {
 
 
         console.log(
-            "STUDENT PROFILE:",
+            "👤 STUDENT PROFILE:",
             data
         );
 
 
-        if (!response.ok || !data.success) {
+        if (
+            !response.ok ||
+            !data.success
+        ) {
 
             return;
-
         }
 
 
@@ -148,7 +1022,6 @@ async function loadStudentDetails() {
         if (!student) {
 
             return;
-
         }
 
 
@@ -159,8 +1032,8 @@ async function loadStudentDetails() {
 
 
         const rank =
-            student.rank_number ||
-            student.rank ||
+            student.rank_number ??
+            student.rank ??
             "-";
 
 
@@ -198,7 +1071,6 @@ async function loadStudentDetails() {
 
             studentName.textContent =
                 name;
-
         }
 
 
@@ -206,7 +1078,6 @@ async function loadStudentDetails() {
 
             studentNameCard.textContent =
                 name;
-
         }
 
 
@@ -214,7 +1085,6 @@ async function loadStudentDetails() {
 
             studentRank.textContent =
                 rank;
-
         }
 
 
@@ -222,7 +1092,6 @@ async function loadStudentDetails() {
 
             applicationNumberElement.textContent =
                 applicationNumber;
-
         }
 
     }
@@ -230,7 +1099,7 @@ async function loadStudentDetails() {
     catch (error) {
 
         console.error(
-            "STUDENT DETAILS ERROR:",
+            "❌ STUDENT DETAILS ERROR:",
             error
         );
 
@@ -246,6 +1115,12 @@ async function loadStudentDetails() {
 async function loadDepartments() {
 
     try {
+
+        if (!departmentList) {
+
+            return;
+        }
+
 
         departmentList.innerHTML = `
             <div class="loading">
@@ -269,18 +1144,20 @@ async function loadDepartments() {
 
 
         console.log(
-            "DEPARTMENT RESPONSE:",
+            "🏫 DEPARTMENT RESPONSE:",
             data
         );
 
 
-        if (!response.ok || !data.success) {
+        if (
+            !response.ok ||
+            !data.success
+        ) {
 
             throw new Error(
                 data.message ||
                 "Failed to load departments"
             );
-
         }
 
 
@@ -289,7 +1166,7 @@ async function loadDepartments() {
 
 
         renderDepartments(
-            departments
+            getFilteredDepartments()
         );
 
     }
@@ -297,18 +1174,23 @@ async function loadDepartments() {
     catch (error) {
 
         console.error(
-            "DEPARTMENT ERROR:",
+            "❌ DEPARTMENT ERROR:",
             error
         );
 
 
-        departmentList.innerHTML = `
-            <div class="loading">
-                Failed to load departments.
-                <br><br>
-                ${error.message}
-            </div>
-        `;
+        if (departmentList) {
+
+            departmentList.innerHTML = `
+                <div class="loading">
+                    Failed to load departments.
+                    <br><br>
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </div>
+            `;
+        }
 
     }
 
@@ -319,9 +1201,13 @@ async function loadDepartments() {
 // RENDER DEPARTMENTS
 // ============================================================
 
-function renderDepartments(
-    departmentData
-) {
+function renderDepartments(departmentData) {
+
+    if (!departmentList) {
+
+        return;
+    }
+
 
     if (
         !departmentData ||
@@ -335,7 +1221,6 @@ function renderDepartments(
         `;
 
         return;
-
     }
 
 
@@ -380,33 +1265,35 @@ function renderDepartments(
 
                     <span class="department-code">
                         ${escapeHTML(
-                            department.code
+                            department.code || ""
                         )}
                     </span>
 
                     <span class="department-name">
                         ${escapeHTML(
-                            department.name
+                            department.name || ""
                         )}
                     </span>
 
                     <span class="seat-info">
-
                         Available Seats:
-
                         <span class="seat-number">
                             ${availableSeats}
                         </span>
-
                     </span>
 
                 </div>
 
-
                 <button
                     class="add-btn"
                     type="button"
-                    ${alreadySelected ? "disabled" : ""}>
+                    ${
+                        alreadySelected ||
+                        !choiceFillingOpen ||
+                        preferencesLocked
+                            ? "disabled"
+                            : ""
+                    }>
 
                     ${
                         alreadySelected
@@ -415,7 +1302,6 @@ function renderDepartments(
                     }
 
                 </button>
-
             `;
 
 
@@ -425,16 +1311,20 @@ function renderDepartments(
                 );
 
 
-            addButton.addEventListener(
-                "click",
-                () => {
+            if (addButton) {
 
-                    addPreference(
-                        department
-                    );
+                addButton.addEventListener(
+                    "click",
+                    () => {
 
-                }
-            );
+                        addPreference(
+                            department
+                        );
+
+                    }
+                );
+
+            }
 
 
             departmentList.appendChild(
@@ -451,18 +1341,27 @@ function renderDepartments(
 // ADD PREFERENCE
 // ============================================================
 
-function addPreference(
-    department
-) {
+function addPreference(department) {
+
+    if (!choiceFillingOpen) {
+
+        showErrorModal(
+            "Choice Filling Closed",
+            "Choice filling is currently closed."
+        );
+
+        return;
+    }
+
 
     if (preferencesLocked) {
 
-        alert(
+        showErrorModal(
+            "Preferences Locked",
             "Your preferences are already locked."
         );
 
         return;
-
     }
 
 
@@ -479,12 +1378,12 @@ function addPreference(
 
     if (exists) {
 
-        alert(
+        showErrorModal(
+            "Already Selected",
             "This department is already selected."
         );
 
         return;
-
     }
 
 
@@ -496,10 +1395,10 @@ function addPreference(
             ),
 
         code:
-            department.code,
+            department.code || "",
 
         name:
-            department.name,
+            department.name || "",
 
         priority:
             preferences.length + 1
@@ -522,18 +1421,22 @@ function addPreference(
 // REMOVE PREFERENCE
 // ============================================================
 
-function removePreference(
-    departmentId
-) {
+function removePreference(departmentId) {
 
-    if (preferencesLocked) {
+    if (!choiceFillingOpen) {
 
-        alert(
-            "Your preferences are already locked."
+        showErrorModal(
+            "Choice Filling Closed",
+            "Choice filling is currently closed."
         );
 
         return;
+    }
 
+
+    if (preferencesLocked) {
+
+        return;
     }
 
 
@@ -565,17 +1468,18 @@ function removePreference(
 
 function moveUp(index) {
 
-    if (preferencesLocked) {
+    if (
+        !choiceFillingOpen ||
+        preferencesLocked
+    ) {
 
         return;
-
     }
 
 
     if (index <= 0) {
 
         return;
-
     }
 
 
@@ -604,10 +1508,12 @@ function moveUp(index) {
 
 function moveDown(index) {
 
-    if (preferencesLocked) {
+    if (
+        !choiceFillingOpen ||
+        preferencesLocked
+    ) {
 
         return;
-
     }
 
 
@@ -617,7 +1523,6 @@ function moveDown(index) {
     ) {
 
         return;
-
     }
 
 
@@ -667,6 +1572,12 @@ function updatePriorities() {
 
 function renderPreferences() {
 
+    if (!preferenceList) {
+
+        return;
+    }
+
+
     updateChoiceCount();
 
 
@@ -694,11 +1605,9 @@ function renderPreferences() {
                 </p>
 
             </div>
-
         `;
 
         return;
-
     }
 
 
@@ -725,7 +1634,6 @@ function renderPreferences() {
                     ${index + 1}
                 </div>
 
-
                 <div class="preference-info">
 
                     <strong>
@@ -742,21 +1650,21 @@ function renderPreferences() {
 
                 </div>
 
-
                 <div class="preference-actions">
 
                     <button
                         type="button"
                         class="move-btn"
                         title="Move Up"
-                        ${index === 0
-                            ? "disabled"
-                            : ""}>
-
+                        ${
+                            index === 0 ||
+                            !choiceFillingOpen ||
+                            preferencesLocked
+                                ? "disabled"
+                                : ""
+                        }>
                         ↑
-
                     </button>
-
 
                     <button
                         type="button"
@@ -764,27 +1672,29 @@ function renderPreferences() {
                         title="Move Down"
                         ${
                             index ===
-                            preferences.length - 1
+                            preferences.length - 1 ||
+                            !choiceFillingOpen ||
+                            preferencesLocked
                                 ? "disabled"
                                 : ""
                         }>
-
                         ↓
-
                     </button>
-
 
                     <button
                         type="button"
                         class="remove-btn"
-                        title="Remove">
-
+                        title="Remove"
+                        ${
+                            !choiceFillingOpen ||
+                            preferencesLocked
+                                ? "disabled"
+                                : ""
+                        }>
                         ×
-
                     </button>
 
                 </div>
-
             `;
 
 
@@ -794,36 +1704,48 @@ function renderPreferences() {
                 );
 
 
-            buttons[0].addEventListener(
-                "click",
-                () => {
+            if (buttons[0]) {
 
-                    moveUp(index);
+                buttons[0].addEventListener(
+                    "click",
+                    () => {
 
-                }
-            );
+                        moveUp(index);
 
+                    }
+                );
 
-            buttons[1].addEventListener(
-                "click",
-                () => {
-
-                    moveDown(index);
-
-                }
-            );
+            }
 
 
-            buttons[2].addEventListener(
-                "click",
-                () => {
+            if (buttons[1]) {
 
-                    removePreference(
-                        preference.department_id
-                    );
+                buttons[1].addEventListener(
+                    "click",
+                    () => {
 
-                }
-            );
+                        moveDown(index);
+
+                    }
+                );
+
+            }
+
+
+            if (buttons[2]) {
+
+                buttons[2].addEventListener(
+                    "click",
+                    () => {
+
+                        removePreference(
+                            preference.department_id
+                        );
+
+                    }
+                );
+
+            }
 
 
             preferenceList.appendChild(
@@ -837,25 +1759,27 @@ function renderPreferences() {
 
 
 // ============================================================
-// CHOICE COUNT
+// UPDATE CHOICE COUNT
 // ============================================================
 
 function updateChoiceCount() {
+
+    if (!choiceCount) {
+
+        return;
+    }
+
 
     const count =
         preferences.length;
 
 
-    if (choiceCount) {
-
-        choiceCount.textContent =
-            `${count} ${
-                count === 1
-                    ? "Choice"
-                    : "Choices"
-            }`;
-
-    }
+    choiceCount.textContent =
+        `${count} ${
+            count === 1
+                ? "Choice"
+                : "Choices"
+        }`;
 
 }
 
@@ -863,15 +1787,44 @@ function updateChoiceCount() {
 // ============================================================
 // SAVE PREFERENCES
 // ============================================================
+//
+// Student only saves preferences.
+//
+// Student does NOT manually lock preferences.
+//
+// Backend automatically locks them when
+// choice_close_at is reached.
+// ============================================================
 
 async function savePreferences() {
+
+    if (savingPreferences) {
+
+        return null;
+    }
+
+
+    if (!choiceFillingOpen) {
+
+        throw new Error(
+            "Choice filling time has ended."
+        );
+    }
+
+
+    if (preferencesLocked) {
+
+        throw new Error(
+            "Your preferences are already locked."
+        );
+    }
+
 
     if (preferences.length === 0) {
 
         throw new Error(
             "Please select at least one department."
         );
-
     }
 
 
@@ -885,120 +1838,20 @@ async function savePreferences() {
 
 
     console.log(
-        "SAVING PREFERENCES:",
+        "💾 SAVING PREFERENCES:",
         preferenceIds
     );
 
 
-    const response =
-        await fetch(
-            `${API_BASE_URL}/api/preferences`,
-            {
-                method: "POST",
-
-                headers:
-                    getHeaders(),
-
-                body:
-                    JSON.stringify({
-                        preferences:
-                            preferenceIds
-                    })
-            }
-        );
-
-
-    const data =
-        await response.json();
-
-
-    console.log(
-        "SAVE RESPONSE:",
-        data
-    );
-
-
-    if (
-        !response.ok ||
-        !data.success
-    ) {
-
-        throw new Error(
-            data.message ||
-            "Failed to save preferences"
-        );
-
-    }
-
-
-    return data;
-
-}
-
-
-// ============================================================
-// LOCK PREFERENCES
-// ============================================================
-
-async function lockPreferences() {
-
-    if (preferencesLocked) {
-
-        return;
-
-    }
-
-
-    if (preferences.length === 0) {
-
-        alert(
-            "Please select at least one department before locking."
-        );
-
-        return;
-
-    }
-
-
-    const confirmed =
-        confirm(
-            "Are you sure you want to lock your preferences?\n\n" +
-            "After locking, you cannot change your choices " +
-            "unless the administration reopens the choice-filling window."
-        );
-
-
-    if (!confirmed) {
-
-        return;
-
-    }
+    savingPreferences =
+        true;
 
 
     try {
 
-        lockPreferencesButton.disabled =
-            true;
-
-
-        lockPreferencesButton.textContent =
-            "SAVING...";
-
-
-        // ----------------------------------------
-        // FIRST SAVE
-        // ----------------------------------------
-
-        await savePreferences();
-
-
-        // ----------------------------------------
-        // THEN LOCK
-        // ----------------------------------------
-
         const response =
             await fetch(
-                `${API_BASE_URL}/api/preferences/lock`,
+                `${API_BASE_URL}/api/preferences`,
                 {
                     method: "POST",
 
@@ -1006,7 +1859,10 @@ async function lockPreferences() {
                         getHeaders(),
 
                     body:
-                        JSON.stringify({})
+                        JSON.stringify({
+                            preferences:
+                                preferenceIds
+                        })
                 }
             );
 
@@ -1016,7 +1872,7 @@ async function lockPreferences() {
 
 
         console.log(
-            "LOCK RESPONSE:",
+            "📥 SAVE RESPONSE:",
             data
         );
 
@@ -1028,37 +1884,149 @@ async function lockPreferences() {
 
             throw new Error(
                 data.message ||
-                "Failed to lock preferences"
+                "Failed to save preferences"
             );
-
         }
 
 
-        preferencesLocked =
-            true;
-
-
-        lockPreferencesButton.textContent =
-            "🔒 PREFERENCES LOCKED";
-
-
-        lockPreferencesButton.disabled =
-            true;
-
-
-        lockPreferencesButton.style.background =
-            "#5c756e";
-
-
-        alert(
-            "Your preferences have been locked successfully."
+        console.log(
+            "✅ PREFERENCES SAVED SUCCESSFULLY"
         );
 
 
-        renderPreferences();
+        return data;
 
-        renderDepartments(
-            getFilteredDepartments()
+    }
+
+    finally {
+
+        savingPreferences =
+            false;
+    }
+
+}
+
+
+// ============================================================
+// SAVE BUTTON
+// ============================================================
+
+async function handleSavePreferences() {
+
+    if (savingPreferences) {
+
+        return;
+    }
+
+
+    if (!choiceFillingOpen) {
+
+        await showErrorModal(
+            "Choice Filling Closed",
+            "Choice filling time has ended."
+        );
+
+        return;
+    }
+
+
+    if (preferencesLocked) {
+
+        await showErrorModal(
+            "Preferences Locked",
+            "Your preferences are already locked."
+        );
+
+        return;
+    }
+
+
+    if (preferences.length === 0) {
+
+        await showErrorModal(
+            "No Preferences Selected",
+            "Please select at least one department."
+        );
+
+        return;
+    }
+
+
+    // ========================================================
+    // CUSTOM CONFIRMATION BOX
+    // ========================================================
+
+    const confirmed =
+        await showConfirmationModal(
+            "Save Preferences?",
+            "Are you sure you want to save your selected department preferences?",
+            {
+                icon: "✓",
+                showCancel: true,
+                confirmText: "Confirm",
+                cancelText: "Cancel"
+            }
+        );
+
+
+    if (!confirmed) {
+
+        console.log(
+            "❌ SAVE CANCELLED BY STUDENT"
+        );
+
+        return;
+    }
+
+
+    // ========================================================
+    // SAVE TO DATABASE
+    // ========================================================
+
+    try {
+
+        if (lockPreferencesButton) {
+
+            lockPreferencesButton.disabled =
+                true;
+
+            lockPreferencesButton.textContent =
+                "💾 SAVING...";
+        }
+
+
+        const data =
+            await savePreferences();
+
+
+        if (!data) {
+
+            return;
+        }
+
+
+        if (lockPreferencesButton) {
+
+            lockPreferencesButton.disabled =
+                false;
+
+            lockPreferencesButton.textContent =
+                "💾 SAVE PREFERENCES";
+        }
+
+
+        // ====================================================
+        // SUCCESS CONFIRMATION BOX
+        // ====================================================
+
+        await showSuccessModal(
+            "Preferences Saved",
+            `Preferences saved successfully! ${data.count || preferences.length} choices saved for Round ${data.round_number || currentRound?.round_number || "-"}. Your preferences will be automatically locked when choice filling closes.`
+        );
+
+
+        console.log(
+            "✅ Student preferences saved in database."
         );
 
     }
@@ -1066,21 +2034,23 @@ async function lockPreferences() {
     catch (error) {
 
         console.error(
-            "LOCK ERROR:",
+            "❌ SAVE PREFERENCES ERROR:",
             error
         );
 
 
-        lockPreferencesButton.disabled =
-            false;
+        if (lockPreferencesButton) {
+
+            lockPreferencesButton.disabled =
+                false;
+
+            lockPreferencesButton.textContent =
+                "💾 SAVE PREFERENCES";
+        }
 
 
-        lockPreferencesButton.textContent =
-            "🔒 LOCK PREFERENCES";
-
-
-        alert(
-            "Failed to lock preferences:\n" +
+        await showErrorModal(
+            "Failed to Save Preferences",
             error.message
         );
 
@@ -1112,7 +2082,7 @@ async function loadExistingPreferences() {
 
 
         console.log(
-            "EXISTING PREFERENCES:",
+            "📋 EXISTING PREFERENCES:",
             data
         );
 
@@ -1123,7 +2093,6 @@ async function loadExistingPreferences() {
         ) {
 
             return;
-
         }
 
 
@@ -1174,7 +2143,9 @@ async function loadExistingPreferences() {
         renderPreferences();
 
 
-        // Check whether preferences are locked
+        // ====================================================
+        // CHECK DATABASE LOCK STATUS
+        // ====================================================
 
         const locked =
             existing.some(
@@ -1191,18 +2162,45 @@ async function loadExistingPreferences() {
             preferencesLocked =
                 true;
 
-
-            lockPreferencesButton.textContent =
-                "🔒 PREFERENCES LOCKED";
-
-
-            lockPreferencesButton.disabled =
-                true;
+            choiceFillingOpen =
+                false;
 
 
-            lockPreferencesButton.style.background =
-                "#5c756e";
+            if (lockPreferencesButton) {
 
+                lockPreferencesButton.textContent =
+                    "🔒 PREFERENCES LOCKED";
+
+                lockPreferencesButton.disabled =
+                    true;
+
+                lockPreferencesButton.style.background =
+                    "#5c756e";
+            }
+
+
+            if (departmentSearch) {
+
+                departmentSearch.disabled =
+                    true;
+            }
+
+
+            if (departmentList) {
+
+                departmentList.style.pointerEvents =
+                    "none";
+
+                departmentList.style.opacity =
+                    "0.55";
+            }
+
+
+            renderPreferences();
+
+            renderDepartments(
+                getFilteredDepartments()
+            );
         }
 
     }
@@ -1210,10 +2208,9 @@ async function loadExistingPreferences() {
     catch (error) {
 
         console.error(
-            "LOAD EXISTING PREFERENCES ERROR:",
+            "❌ LOAD EXISTING PREFERENCES ERROR:",
             error
         );
-
     }
 
 }
@@ -1228,7 +2225,6 @@ function getFilteredDepartments() {
     if (!departmentSearch) {
 
         return departments;
-
     }
 
 
@@ -1241,7 +2237,6 @@ function getFilteredDepartments() {
     if (!search) {
 
         return departments;
-
     }
 
 
@@ -1271,6 +2266,10 @@ function getFilteredDepartments() {
 
 }
 
+
+// ============================================================
+// SEARCH EVENT
+// ============================================================
 
 if (departmentSearch) {
 
@@ -1337,6 +2336,9 @@ if (logoutButton) {
         "click",
         () => {
 
+            stopTimingMonitor();
+
+
             localStorage.removeItem(
                 "token"
             );
@@ -1355,7 +2357,7 @@ if (logoutButton) {
 
 
             window.location.href =
-                "login.html";
+                "student-login.html";
 
         }
     );
@@ -1364,22 +2366,90 @@ if (logoutButton) {
 
 
 // ============================================================
-// START CHOICE FILLING
+// INITIALIZE CHOICE FILLING
 // ============================================================
 
 async function initializeChoiceFilling() {
 
     console.log(
-        "Initializing choice filling..."
+        "🚀 INITIALIZING CHOICE FILLING..."
     );
 
 
     if (!checkAuthentication()) {
 
         return;
-
     }
 
+
+    // ========================================================
+    // GET CURRENT ROUND
+    // ========================================================
+
+    const round =
+        await loadCurrentRound();
+
+
+    if (!round) {
+
+        return;
+    }
+
+
+    // ========================================================
+    // CHECK TIMING
+    // ========================================================
+
+    checkChoiceFillingTiming();
+
+
+    // ========================================================
+    // BEFORE OPENING
+    // ========================================================
+
+    if (!choiceFillingOpen) {
+
+        const openTime =
+            getChoiceOpenTime(
+                currentRound
+            );
+
+
+        const now =
+            new Date();
+
+
+        if (
+            openTime &&
+            now < openTime
+        ) {
+
+            await showConfirmationModal(
+                "Choice Filling Not Open",
+                `Choice filling has not opened yet. Opening time: ${formatTime(openTime)}.`,
+                {
+                    icon: "⏰",
+                    showCancel: false,
+                    confirmText: "OK"
+                }
+            );
+
+
+            window.location.href =
+                "student-dashboard.html";
+
+
+            return;
+        }
+
+
+        return;
+    }
+
+
+    // ========================================================
+    // LOAD DATA
+    // ========================================================
 
     await loadStudentDetails();
 
@@ -1387,27 +2457,41 @@ async function initializeChoiceFilling() {
 
     await loadExistingPreferences();
 
+
+    // ========================================================
+    // FINAL RENDER
+    // ========================================================
+
+    renderPreferences();
+
     renderDepartments(
         getFilteredDepartments()
     );
 
 
+    // ========================================================
+    // START TIMER
+    // ========================================================
+
+    startTimingMonitor();
+
+
     console.log(
-        "Choice filling ready."
+        "✅ CHOICE FILLING READY"
     );
 
 }
 
 
 // ============================================================
-// LOCK BUTTON
+// SAVE BUTTON EVENT
 // ============================================================
 
 if (lockPreferencesButton) {
 
     lockPreferencesButton.addEventListener(
         "click",
-        lockPreferences
+        handleSavePreferences
     );
 
 }
@@ -1417,8 +2501,19 @@ if (lockPreferencesButton) {
 // PAGE LOAD
 // ============================================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    initializeChoiceFilling
-);
+if (
+    document.readyState ===
+    "loading"
+) {
 
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeChoiceFilling
+    );
+
+}
+else {
+
+    initializeChoiceFilling();
+
+}

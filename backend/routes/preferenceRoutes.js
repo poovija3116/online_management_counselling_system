@@ -11,8 +11,35 @@ const router = express.Router();
 
 // ============================================================
 // GCE ERODE - STUDENT PREFERENCES
-// COUNSELLOR CONTROLS THE CHOICE-FILLING WINDOW
+// COUNSELLOR CONTROLS CHOICE-FILLING WINDOW
 // ============================================================
+
+
+// ============================================================
+// HELPER - GET STUDENT ID FROM LOGGED-IN USER ID
+// ============================================================
+
+async function getStudentIdFromUserId(userId) {
+
+    const [students] = await db.execute(
+        `
+        SELECT
+            id,
+            rank_number,
+            community
+        FROM students
+        WHERE user_id = ?
+        LIMIT 1
+        `,
+        [userId]
+    );
+
+    if (students.length === 0) {
+        return null;
+    }
+
+    return students[0];
+}
 
 
 // ============================================================
@@ -21,7 +48,8 @@ const router = express.Router();
 
 async function getActiveRound() {
 
-    const [rounds] = await db.execute(`
+    const [rounds] = await db.execute(
+        `
         SELECT
             id,
             round_number,
@@ -29,10 +57,15 @@ async function getActiveRound() {
             max_rank,
             preference_start,
             preference_end,
+            choice_open_at,
+            choice_close_at,
             allotment_at,
             payment_deadline,
+            allotment_published_at,
             status
+
         FROM counselling_rounds
+
         WHERE status IN (
             'not_started',
             'preference_open',
@@ -40,9 +73,12 @@ async function getActiveRound() {
             'allotment_completed',
             'payment_period'
         )
+
         ORDER BY round_number ASC
+
         LIMIT 1
-    `);
+        `
+    );
 
     return rounds.length > 0
         ? rounds[0]
@@ -51,82 +87,386 @@ async function getActiveRound() {
 
 
 // ============================================================
-// CHECK WHETHER CHOICE FILLING IS OPEN
+// HELPER - GET CHOICE OPEN TIME
+// ============================================================
+
+function getChoiceOpenTime(round) {
+
+    return (
+        round.choice_open_at ||
+        round.preference_start ||
+        null
+    );
+}
+
+
+// ============================================================
+// HELPER - GET CHOICE CLOSE TIME
+// ============================================================
+
+function getChoiceCloseTime(round) {
+
+    return (
+        round.choice_close_at ||
+        round.preference_end ||
+        null
+    );
+}
+
+
+// ============================================================
+// HELPER - AUTOMATICALLY LOCK ROUND PREFERENCES
+// ============================================================
+
+async function lockRoundPreferences(roundId) {
+
+    const [result] = await db.execute(
+        `
+        UPDATE preferences
+
+        SET
+            is_locked = 1,
+            locked_at = COALESCE(
+                locked_at,
+                NOW()
+            )
+
+        WHERE round_id = ?
+
+        AND is_locked = 0
+        `,
+        [roundId]
+    );
+
+    return result.affectedRows;
+}
+
+
+// ============================================================
+// HELPER - CHANGE ROUND STATUS TO LOCKED
+// ============================================================
+
+async function markRoundPreferencesLocked(roundId) {
+
+    await db.execute(
+        `
+        UPDATE counselling_rounds
+
+        SET
+            status = 'preferences_locked'
+
+        WHERE id = ?
+
+        AND status IN (
+            'not_started',
+            'preference_open'
+        )
+        `,
+        [roundId]
+    );
+}
+
+
+// ============================================================
+// HELPER - CHECK CHOICE FILLING WINDOW
+// USING MYSQL SERVER TIME
 // ============================================================
 
 async function checkChoiceFillingOpen() {
 
     const round = await getActiveRound();
 
+
+    // ========================================================
+    // NO ACTIVE ROUND
+    // ========================================================
+
     if (!round) {
 
         return {
-            allowed: false,
-            message: "No counselling round is currently available"
-        };
 
+            allowed: false,
+
+            message:
+                "No counselling round is currently available",
+
+            round: null
+
+        };
     }
 
-    if (round.status !== "preference_open") {
 
-        if (round.status === "not_started") {
+    // ========================================================
+    // GET CURRENT MYSQL SERVER TIME
+    // ========================================================
+    //
+    // IMPORTANT:
+    //
+    // Do NOT use:
+    //
+    // SELECT NOW() AS current_time
+    //
+    // because current_time can be interpreted as a
+    // MySQL keyword/function.
+    //
+    // Use db_now instead.
+    //
+    // ========================================================
 
-            return {
-                allowed: false,
-                message: "Choice filling has not started yet",
-                round
-            };
+    const [timeRows] = await db.execute(
+        `
+        SELECT NOW() AS db_now
+        `
+    );
 
-        }
 
-        if (round.status === "preferences_locked") {
+    const currentTime =
+        new Date(timeRows[0].db_now);
 
-            return {
-                allowed: false,
-                message: "Choice filling has been closed by the counsellor",
-                round
-            };
 
-        }
+    // ========================================================
+    // GET OPEN AND CLOSE TIMES
+    // ========================================================
 
-        if (round.status === "allotment_completed") {
+    const openTimeValue =
+        getChoiceOpenTime(round);
 
-            return {
-                allowed: false,
-                message: "Choice filling is closed. Allotment has been completed",
-                round
-            };
+    const closeTimeValue =
+        getChoiceCloseTime(round);
 
-        }
 
-        if (round.status === "payment_period") {
+    // ========================================================
+    // SCHEDULE NOT CONFIGURED
+    // ========================================================
 
-            return {
-                allowed: false,
-                message: "Choice filling is closed. Payment period is active",
-                round
-            };
-
-        }
+    if (
+        !openTimeValue ||
+        !closeTimeValue
+    ) {
 
         return {
-            allowed: false,
-            message: "Choice filling is currently unavailable",
-            round
-        };
 
+            allowed: false,
+
+            message:
+                "Choice-filling schedule has not been configured",
+
+            round,
+
+            currentTime
+
+        };
     }
 
+
+    const openTime =
+        new Date(openTimeValue);
+
+    const closeTime =
+        new Date(closeTimeValue);
+
+
+    // ========================================================
+    // BEFORE CHOICE FILLING OPENS
+    // ========================================================
+
+    if (currentTime < openTime) {
+
+        return {
+
+            allowed: false,
+
+            message:
+                "Choice filling has not started yet",
+
+            round,
+
+            currentTime,
+
+            openTime,
+
+            closeTime
+
+        };
+    }
+
+
+    // ========================================================
+    // CHOICE FILLING CLOSED
+    // ========================================================
+
+    if (currentTime >= closeTime) {
+
+
+        // ----------------------------------------------------
+        // AUTOMATICALLY LOCK ALL PREFERENCES
+        // ----------------------------------------------------
+
+        const lockedCount =
+            await lockRoundPreferences(
+                round.id
+            );
+
+
+        // ----------------------------------------------------
+        // AUTOMATICALLY CHANGE ROUND STATUS
+        // ----------------------------------------------------
+
+        await markRoundPreferencesLocked(
+            round.id
+        );
+
+
+        round.status =
+            "preferences_locked";
+
+
+        console.log(
+            `🔒 Round ${round.round_number} ` +
+            `preferences locked automatically. ` +
+            `Locked preferences: ${lockedCount}`
+        );
+
+
+        return {
+
+            allowed: false,
+
+            message:
+                "Choice filling has been closed",
+
+            round,
+
+            currentTime,
+
+            openTime,
+
+            closeTime,
+
+            lockedCount
+
+        };
+    }
+
+
+    // ========================================================
+    // WITHIN CHOICE-FILLING WINDOW
+    // ========================================================
+
+    if (
+        currentTime >= openTime &&
+        currentTime < closeTime
+    ) {
+
+
+        // ----------------------------------------------------
+        // AUTOMATICALLY OPEN ROUND
+        // ----------------------------------------------------
+
+        if (
+            round.status ===
+            "not_started"
+        ) {
+
+            await db.execute(
+                `
+                UPDATE counselling_rounds
+
+                SET
+                    status = 'preference_open'
+
+                WHERE id = ?
+
+                AND status = 'not_started'
+                `,
+                [round.id]
+            );
+
+
+            round.status =
+                "preference_open";
+
+
+            console.log(
+                `🟢 Round ${round.round_number} ` +
+                `choice filling opened automatically.`
+            );
+        }
+
+
+        // ----------------------------------------------------
+        // CHECK ROUND STATUS
+        // ----------------------------------------------------
+
+        if (
+            round.status !==
+            "preference_open"
+        ) {
+
+            return {
+
+                allowed: false,
+
+                message:
+                    "Choice filling is currently unavailable",
+
+                round,
+
+                currentTime,
+
+                openTime,
+
+                closeTime
+
+            };
+        }
+
+
+        return {
+
+            allowed: true,
+
+            message:
+                "Choice filling is open",
+
+            round,
+
+            currentTime,
+
+            openTime,
+
+            closeTime
+
+        };
+    }
+
+
+    // ========================================================
+    // FALLBACK
+    // ========================================================
+
     return {
-        allowed: true,
-        round
+
+        allowed: false,
+
+        message:
+            "Choice filling is currently unavailable",
+
+        round,
+
+        currentTime,
+
+        openTime,
+
+        closeTime
+
     };
 }
 
 
 // ============================================================
-// SAVE STUDENT PREFERENCES
 // POST /api/preferences
+// SAVE STUDENT PREFERENCES
 // ============================================================
 
 router.post(
@@ -136,33 +476,65 @@ router.post(
 
         try {
 
-            // ------------------------------------------------
-            // ONLY STUDENTS
-            // ------------------------------------------------
 
-            if (req.user.role !== "student") {
+            // ==================================================
+            // ONLY STUDENTS
+            // ==================================================
+
+            if (
+                req.user.role !==
+                "student"
+            ) {
 
                 return res.status(403).json({
-                    success: false,
-                    message: "Only students can submit preferences"
-                });
 
+                    success: false,
+
+                    message:
+                        "Only students can submit preferences"
+
+                });
+            }
+
+
+            // ==================================================
+            // GET STUDENT RECORD
+            // ==================================================
+
+            const student =
+                await getStudentIdFromUserId(
+                    req.user.id
+                );
+
+
+            if (!student) {
+
+                return res.status(404).json({
+
+                    success: false,
+
+                    message:
+                        "Student profile not found"
+
+                });
             }
 
 
             const studentId =
-                req.user.id;
+                student.id;
 
 
-            // ------------------------------------------------
-            // CHECK COUNSELLING ROUND
-            // ------------------------------------------------
+            // ==================================================
+            // CHECK CHOICE FILLING WINDOW
+            // ==================================================
 
             const choiceStatus =
                 await checkChoiceFillingOpen();
 
 
-            if (!choiceStatus.allowed) {
+            if (
+                !choiceStatus.allowed
+            ) {
 
                 return res.status(403).json({
 
@@ -172,10 +544,10 @@ router.post(
                         choiceStatus.message,
 
                     round:
-                        choiceStatus.round || null
+                        choiceStatus.round ||
+                        null
 
                 });
-
             }
 
 
@@ -183,21 +555,79 @@ router.post(
                 choiceStatus.round;
 
 
-            // ------------------------------------------------
+            // ==================================================
+            // CHECK STUDENT RANK
+            // ==================================================
+
+            if (
+                student.rank_number ===
+                    null ||
+
+                student.rank_number ===
+                    undefined
+            ) {
+
+                return res.status(403).json({
+
+                    success: false,
+
+                    message:
+                        "Your counselling rank has not been assigned"
+
+                });
+            }
+
+
+            // ==================================================
+            // CHECK ROUND ELIGIBILITY
+            // ==================================================
+
+            if (
+                student.rank_number <
+                    round.min_rank ||
+
+                student.rank_number >
+                    round.max_rank
+            ) {
+
+                return res.status(403).json({
+
+                    success: false,
+
+                    message:
+                        `You are not eligible for Round ${round.round_number}`,
+
+                    rank:
+                        student.rank_number,
+
+                    min_rank:
+                        round.min_rank,
+
+                    max_rank:
+                        round.max_rank
+
+                });
+            }
+
+
+            // ==================================================
             // GET REQUEST DATA
-            // ------------------------------------------------
+            // ==================================================
 
             const {
                 preferences
             } = req.body;
 
 
-            // ------------------------------------------------
-            // VALIDATE PREFERENCES
-            // ------------------------------------------------
+            // ==================================================
+            // VALIDATE PREFERENCES ARRAY
+            // ==================================================
 
             if (
-                !Array.isArray(preferences) ||
+                !Array.isArray(
+                    preferences
+                ) ||
+
                 preferences.length === 0
             ) {
 
@@ -209,13 +639,12 @@ router.post(
                         "Preferences must be a non-empty array"
 
                 });
-
             }
 
 
-            // ------------------------------------------------
-            // CONVERT IDs TO NUMBERS
-            // ------------------------------------------------
+            // ==================================================
+            // CONVERT DEPARTMENT IDS TO NUMBERS
+            // ==================================================
 
             const departmentIds =
                 preferences.map(
@@ -223,9 +652,9 @@ router.post(
                 );
 
 
-            // ------------------------------------------------
-            // CHECK INVALID IDs
-            // ------------------------------------------------
+            // ==================================================
+            // CHECK INVALID IDS
+            // ==================================================
 
             if (
                 departmentIds.some(
@@ -243,16 +672,17 @@ router.post(
                         "Invalid department ID found"
 
                 });
-
             }
 
 
-            // ------------------------------------------------
+            // ==================================================
             // CHECK DUPLICATES
-            // ------------------------------------------------
+            // ==================================================
 
             const uniquePreferences =
-                new Set(departmentIds);
+                new Set(
+                    departmentIds
+                );
 
 
             if (
@@ -268,13 +698,12 @@ router.post(
                         "A department cannot be selected more than once"
 
                 });
-
             }
 
 
-            // ------------------------------------------------
+            // ==================================================
             // CHECK DEPARTMENTS EXIST
-            // ------------------------------------------------
+            // ==================================================
 
             const placeholders =
                 departmentIds
@@ -285,9 +714,14 @@ router.post(
             const [departments] =
                 await db.execute(
                     `
-                    SELECT id
+                    SELECT
+                        id
+
                     FROM departments
-                    WHERE id IN (${placeholders})
+
+                    WHERE id IN (
+                        ${placeholders}
+                    )
                     `,
                     departmentIds
                 );
@@ -306,27 +740,27 @@ router.post(
                         "One or more department IDs are invalid"
 
                 });
-
             }
 
 
-            // ------------------------------------------------
-            // CHECK STUDENT'S EXISTING LOCK
-            // ------------------------------------------------
-            // This is an additional safety check.
-            // Normally the round status controls locking.
+            // ==================================================
+            // CHECK LOCKED PREFERENCES
+            // ==================================================
 
             const [lockedPreferences] =
                 await db.execute(
                     `
-                    SELECT id
+                    SELECT
+                        id
+
                     FROM preferences
+
                     WHERE student_id = ?
+
+                    AND round_id = ?
+
                     AND is_locked = 1
-                    AND (
-                        round_id = ?
-                        OR round_id IS NULL
-                    )
+
                     LIMIT 1
                     `,
                     [
@@ -337,7 +771,8 @@ router.post(
 
 
             if (
-                lockedPreferences.length > 0
+                lockedPreferences.length >
+                0
             ) {
 
                 return res.status(403).json({
@@ -348,20 +783,21 @@ router.post(
                         "Your preferences are already locked"
 
                 });
-
             }
 
 
-            // ------------------------------------------------
-            // DELETE OLD PREFERENCES
-            // FOR THIS ROUND
-            // ------------------------------------------------
+            // ==================================================
+            // DELETE PREVIOUS UNLOCKED PREFERENCES
+            // ==================================================
 
             await db.execute(
                 `
                 DELETE FROM preferences
+
                 WHERE student_id = ?
+
                 AND round_id = ?
+
                 AND is_locked = 0
                 `,
                 [
@@ -371,9 +807,9 @@ router.post(
             );
 
 
-            // ------------------------------------------------
+            // ==================================================
             // INSERT NEW PREFERENCES
-            // ------------------------------------------------
+            // ==================================================
 
             for (
                 let i = 0;
@@ -398,6 +834,7 @@ router.post(
                         round_id,
                         is_locked
                     )
+
                     VALUES (?, ?, ?, ?, 0)
                     `,
                     [
@@ -407,15 +844,53 @@ router.post(
                         round.id
                     ]
                 );
-
             }
 
 
-            // ------------------------------------------------
-            // SUCCESS
-            // ------------------------------------------------
+            // ==================================================
+            // VERIFY SAVED PREFERENCES
+            // ==================================================
 
-            res.status(201).json({
+            const [savedPreferences] =
+                await db.execute(
+                    `
+                    SELECT
+                        id,
+                        student_id,
+                        department_id,
+                        priority,
+                        round_id,
+                        is_locked,
+                        locked_at
+
+                    FROM preferences
+
+                    WHERE student_id = ?
+
+                    AND round_id = ?
+
+                    ORDER BY priority ASC
+                    `,
+                    [
+                        studentId,
+                        round.id
+                    ]
+                );
+
+
+            console.log(
+                `✅ Preferences saved - ` +
+                `Student ${studentId}, ` +
+                `Round ${round.round_number}, ` +
+                `Count ${savedPreferences.length}`
+            );
+
+
+            // ==================================================
+            // SUCCESS
+            // ==================================================
+
+            return res.status(201).json({
 
                 success: true,
 
@@ -431,21 +906,11 @@ router.post(
                 round_number:
                     round.round_number,
 
+                count:
+                    savedPreferences.length,
+
                 preferences:
-                    departmentIds.map(
-                        (
-                            departmentId,
-                            index
-                        ) => ({
-
-                            department_id:
-                                departmentId,
-
-                            priority:
-                                index + 1
-
-                        })
-                    )
+                    savedPreferences
 
             });
 
@@ -459,7 +924,7 @@ router.post(
             );
 
 
-            res.status(500).json({
+            return res.status(500).json({
 
                 success: false,
 
@@ -470,9 +935,7 @@ router.post(
                     error.message
 
             });
-
         }
-
     }
 );
 
@@ -480,11 +943,12 @@ router.post(
 // ============================================================
 // STUDENT LOCK ENDPOINT
 // ============================================================
-// IMPORTANT:
-// The student should NOT control the counselling lock.
-// Counsellor controls the round.
 //
-// This endpoint is intentionally disabled.
+// Students CANNOT manually lock preferences.
+//
+// Backend automatically locks preferences when
+// choice_close_at is reached.
+//
 // ============================================================
 
 router.post(
@@ -497,17 +961,17 @@ router.post(
             success: false,
 
             message:
-                "Students cannot lock preferences. The counsellor controls the choice-filling window."
+                "Students cannot manually lock preferences. " +
+                "The counselling schedule automatically locks them."
 
         });
-
     }
 );
 
 
 // ============================================================
-// GET STUDENT PREFERENCES
 // GET /api/preferences
+// GET STUDENT PREFERENCES
 // ============================================================
 
 router.get(
@@ -517,11 +981,15 @@ router.get(
 
         try {
 
-            // ------------------------------------------------
-            // ONLY STUDENTS
-            // ------------------------------------------------
 
-            if (req.user.role !== "student") {
+            // ==================================================
+            // ONLY STUDENTS
+            // ==================================================
+
+            if (
+                req.user.role !==
+                "student"
+            ) {
 
                 return res.status(403).json({
 
@@ -531,25 +999,47 @@ router.get(
                         "Only students can view preferences"
 
                 });
+            }
 
+
+            // ==================================================
+            // GET STUDENT
+            // ==================================================
+
+            const student =
+                await getStudentIdFromUserId(
+                    req.user.id
+                );
+
+
+            if (!student) {
+
+                return res.status(404).json({
+
+                    success: false,
+
+                    message:
+                        "Student profile not found"
+
+                });
             }
 
 
             const studentId =
-                req.user.id;
+                student.id;
 
 
-            // ------------------------------------------------
+            // ==================================================
             // GET ACTIVE ROUND
-            // ------------------------------------------------
+            // ==================================================
 
             const round =
                 await getActiveRound();
 
 
-            // ------------------------------------------------
+            // ==================================================
             // NO ROUND
-            // ------------------------------------------------
+            // ==================================================
 
             if (!round) {
 
@@ -564,33 +1054,25 @@ router.get(
                     round: null
 
                 });
-
             }
 
 
-            // ------------------------------------------------
-            // GET PREFERENCES FOR ACTIVE ROUND
-            // ------------------------------------------------
+            // ==================================================
+            // GET PREFERENCES
+            // ==================================================
 
             const [preferences] =
                 await db.execute(
                     `
                     SELECT
-
                         p.id,
-
+                        p.student_id,
                         p.department_id,
-
                         d.code,
-
                         d.name,
-
                         p.priority,
-
                         p.round_id,
-
                         p.is_locked,
-
                         p.locked_at
 
                     FROM preferences p
@@ -599,6 +1081,7 @@ router.get(
                         ON p.department_id = d.id
 
                     WHERE p.student_id = ?
+
                     AND p.round_id = ?
 
                     ORDER BY p.priority ASC
@@ -610,11 +1093,11 @@ router.get(
                 );
 
 
-            // ------------------------------------------------
+            // ==================================================
             // SUCCESS
-            // ------------------------------------------------
+            // ==================================================
 
-            res.json({
+            return res.json({
 
                 success: true,
 
@@ -643,6 +1126,21 @@ router.get(
                     preference_end:
                         round.preference_end,
 
+                    choice_open_at:
+                        round.choice_open_at,
+
+                    choice_close_at:
+                        round.choice_close_at,
+
+                    allotment_at:
+                        round.allotment_at,
+
+                    payment_deadline:
+                        round.payment_deadline,
+
+                    allotment_published_at:
+                        round.allotment_published_at,
+
                     status:
                         round.status
 
@@ -660,7 +1158,7 @@ router.get(
             );
 
 
-            res.status(500).json({
+            return res.status(500).json({
 
                 success: false,
 
@@ -671,16 +1169,14 @@ router.get(
                     error.message
 
             });
-
         }
-
     }
 );
 
 
 // ============================================================
-// GET CURRENT CHOICE-FILLING STATUS
 // GET /api/preferences/status
+// CURRENT CHOICE-FILLING STATUS
 // ============================================================
 
 router.get(
@@ -690,11 +1186,15 @@ router.get(
 
         try {
 
-            // ------------------------------------------------
-            // ONLY STUDENTS
-            // ------------------------------------------------
 
-            if (req.user.role !== "student") {
+            // ==================================================
+            // ONLY STUDENTS
+            // ==================================================
+
+            if (
+                req.user.role !==
+                "student"
+            ) {
 
                 return res.status(403).json({
 
@@ -704,17 +1204,47 @@ router.get(
                         "Only students can view choice-filling status"
 
                 });
-
             }
 
 
-            // ------------------------------------------------
-            // GET ROUND
-            // ------------------------------------------------
+            // ==================================================
+            // GET STUDENT
+            // ==================================================
+
+            const student =
+                await getStudentIdFromUserId(
+                    req.user.id
+                );
+
+
+            if (!student) {
+
+                return res.status(404).json({
+
+                    success: false,
+
+                    message:
+                        "Student profile not found"
+
+                });
+            }
+
+
+            // ==================================================
+            // CHECK CHOICE STATUS
+            // ==================================================
+
+            const choiceStatus =
+                await checkChoiceFillingOpen();
+
 
             const round =
-                await getActiveRound();
+                choiceStatus.round;
 
+
+            // ==================================================
+            // NO ROUND
+            // ==================================================
 
             if (!round) {
 
@@ -725,30 +1255,103 @@ router.get(
                     choice_filling_open:
                         false,
 
+                    eligible:
+                        false,
+
                     message:
-                        "No counselling round is currently available",
+                        choiceStatus.message,
+
+                    status:
+                        "not_started",
+
+                    current_time:
+                        choiceStatus.currentTime ||
+                        null,
 
                     round:
                         null
 
                 });
-
             }
 
 
-            // ------------------------------------------------
-            // RETURN STATUS
-            // ------------------------------------------------
+            // ==================================================
+            // CHECK RANK ELIGIBILITY
+            // ==================================================
 
-            res.json({
+            const eligible =
+                student.rank_number !==
+                    null &&
+
+                student.rank_number !==
+                    undefined &&
+
+                student.rank_number >=
+                    round.min_rank &&
+
+                student.rank_number <=
+                    round.max_rank;
+
+
+            // ==================================================
+            // GET STUDENT PREFERENCE COUNT
+            // ==================================================
+
+            const [preferenceRows] =
+                await db.execute(
+                    `
+                    SELECT
+                        COUNT(*) AS preference_count
+
+                    FROM preferences
+
+                    WHERE student_id = ?
+
+                    AND round_id = ?
+                    `,
+                    [
+                        student.id,
+                        round.id
+                    ]
+                );
+
+
+            const preferenceCount =
+                Number(
+                    preferenceRows[0]
+                        .preference_count
+                );
+
+
+            // ==================================================
+            // SUCCESS
+            // ==================================================
+
+            return res.json({
 
                 success: true,
 
                 choice_filling_open:
-                    round.status === "preference_open",
+                    choiceStatus.allowed &&
+                    eligible,
+
+                eligible:
+                    eligible,
+
+                message:
+                    eligible
+                        ? choiceStatus.message
+                        : `You are not eligible for Round ${round.round_number}`,
 
                 status:
                     round.status,
+
+                current_time:
+                    choiceStatus.currentTime ||
+                    null,
+
+                preference_count:
+                    preferenceCount,
 
                 round: {
 
@@ -770,11 +1373,20 @@ router.get(
                     preference_end:
                         round.preference_end,
 
+                    choice_open_at:
+                        round.choice_open_at,
+
+                    choice_close_at:
+                        round.choice_close_at,
+
                     allotment_at:
                         round.allotment_at,
 
                     payment_deadline:
                         round.payment_deadline,
+
+                    allotment_published_at:
+                        round.allotment_published_at,
 
                     status:
                         round.status
@@ -793,7 +1405,7 @@ router.get(
             );
 
 
-            res.status(500).json({
+            return res.status(500).json({
 
                 success: false,
 
@@ -804,9 +1416,7 @@ router.get(
                     error.message
 
             });
-
         }
-
     }
 );
 

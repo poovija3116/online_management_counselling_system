@@ -4,7 +4,7 @@
 
 <head>
 
-```
+
 <meta charset="UTF-8">
 
 <meta
@@ -18,7 +18,7 @@
 <link
     rel="stylesheet"
     href="admin-rank.css">
-```
+
 
 </head>
 
@@ -26,7 +26,7 @@
 
 <header class="admin-header">
 
-```
+
 <div class="college-info">
 
     <h1>
@@ -43,13 +43,13 @@
 <div class="admin-label">
     ADMIN CONTROL
 </div>
-```
+
 
 </header>
 
 <main class="admin-container">
 
-```
+
 <section class="page-heading">
 
     <span class="page-label">
@@ -382,163 +382,124 @@
     </p>
 
 </section>
+<!-- EMAIL CREDENTIAL DELIVERY -->
+
+<section class="email-credential-panel" id="emailCredentialPanel">
 
 
+<div class="email-credential-header">
 
-<!-- GENERATED CREDENTIALS -->
+    <div>
 
-<section
-    class="credentials-panel"
-    id="credentialsPanel">
-
-    <div class="credentials-header">
-
-        <div>
-
-            <span class="section-label">
-                ACCOUNT CREATED
-            </span>
-
-            <h3>
-                Student Login Credentials
-            </h3>
-
-            <p>
-                The student's username and initial password
-                have been generated automatically.
-            </p>
-
-        </div>
-
-
-        <div class="credentials-badge">
-            ✓ CREATED
-        </div>
-
-    </div>
-
-
-
-    <div class="credentials-grid">
-
-
-        <div class="credential-item">
-
-            <span>
-                USERNAME
-            </span>
-
-            <strong id="generatedUsername">
-                -
-            </strong>
-
-        </div>
-
-
-
-        <div class="credential-item">
-
-            <span>
-                PASSWORD
-            </span>
-
-            <strong id="generatedPassword">
-                -
-            </strong>
-
-        </div>
-
-
-    </div>
-
-
-
-    <div class="credentials-actions">
-
-        <button
-            type="button"
-            id="copyCredentialsButton"
-            class="copy-credentials-btn">
-
-            COPY CREDENTIALS
-
-        </button>
-
-
-        <span id="copyMessage">
+        <span class="section-label">
+            EMAIL CREDENTIAL DELIVERY
         </span>
 
+        <h3>
+            Student Login Credentials
+        </h3>
+
+        <p>
+            Login credentials will be sent automatically
+            to the student's email when the account is created.
+        </p>
+
     </div>
 
+    <div class="email-status-badge" id="emailStatusBadge">
+        WAITING
+    </div>
+
+</div>
+
+
+<div class="email-credential-content">
+
+    <div class="email-field">
+
+        <label for="credentialStudentEmail">
+            STUDENT EMAIL
+        </label>
+
+        <input
+            type="email"
+            id="credentialStudentEmail"
+            placeholder="student@gmail.com"
+            readonly>
+
+    </div>
+
+
+    <div class="email-status-box">
+
+        <span class="status-label">
+            EMAIL STATUS
+        </span>
+
+        <strong id="credentialEmailStatus">
+            ● Waiting for student account creation
+        </strong>
+
+    </div>
+
+</div>
+
+
 </section>
+<!-- END EMAIL CREDENTIAL DELIVERY -->
 
 
+<!-- STUDENT MODIFICATION -->
 
-<!-- COUNSELLING CONTROL -->
+<section class="modification-action-panel">
 
-<section class="rank-control-panel">
+    <div class="modification-action-content">
 
-
-    <div class="panel-heading">
+        <div class="modification-icon">
+            ✎
+        </div>
 
         <div>
-
             <span class="section-label">
-                COUNSELLING CONTROL
+                STUDENT RECORD UPDATE
             </span>
 
             <h3>
-                Rank Control
+                Modify Student Details
             </h3>
 
             <p>
-                Manage the current counselling rank.
+                View student information and handle correction requests
+                from the Student Modification page.
             </p>
-
-        </div>
-
-
-        <div class="current-rank-box">
-
-            <span>
-                CURRENT RANK
-            </span>
-
-            <strong id="controlCurrentRank">
-                -
-            </strong>
-
         </div>
 
     </div>
 
 
+    <a
+        href="student-modification.html"
+        class="student-modification-button">
 
-    <div class="control-buttons">
+        <span class="button-icon">
+            ✎
+        </span>
 
-        <button
-            type="button"
-            id="startCounsellingButton"
-            class="start-button">
+        <span>
+            STUDENT MODIFICATION
+        </span>
 
-            START / RESET COUNSELLING
+        <span class="button-arrow">
+            →
+        </span>
 
-        </button>
-
-
-        <button
-            type="button"
-            id="nextRankButton"
-            class="next-button">
-
-            MOVE TO NEXT RANK
-
-        </button>
-
-    </div>
-
+    </a>
 
 </section>
+
+<!-- END STUDENT MODIFICATION -->
+
+
 
 
 
@@ -653,13 +614,13 @@
     </div>
 
 </section>
-```
+
 
 </main>
 
 <footer class="admin-footer">
 
-```
+
 <div>
     GOVERNMENT COLLEGE OF ENGINEERING, ERODE
 </div>
@@ -667,7 +628,7 @@
 <span>
     Academic Support Cell • Admin Control
 </span>
-```
+
 
 </footer>
 

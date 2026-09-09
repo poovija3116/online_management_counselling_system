@@ -4,7 +4,6 @@
 
 console.log("COUNSELLOR DASHBOARD RUNNING");
 
-
 const API_BASE_URL = "http://localhost:5000";
 
 
@@ -56,10 +55,193 @@ function getHeaders() {
 
         "Content-Type": "application/json",
 
-        "Authorization":
-            `Bearer ${getToken()}`
+        "Authorization": `Bearer ${getToken()}`
 
     };
+
+}
+
+
+// ============================================================
+// CHECK WHETHER ALL COUNSELLING ROUNDS ARE COMPLETED
+// ============================================================
+
+async function checkAllRoundsCompleted() {
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/rounds`,
+            {
+                method: "GET",
+                headers: getHeaders(),
+                cache: "no-store"
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        console.log(
+            "ALL COUNSELLING ROUNDS:",
+            data
+        );
+
+
+        // --------------------------------------------------------
+        // If API fails, do not show completed screen
+        // --------------------------------------------------------
+
+        if (!response.ok || !data.success) {
+
+            return false;
+
+        }
+
+
+        // --------------------------------------------------------
+        // Get rounds
+        // --------------------------------------------------------
+
+        const rounds = Array.isArray(data.rounds)
+            ? data.rounds
+            : [];
+
+
+        // --------------------------------------------------------
+        // No rounds configured
+        // --------------------------------------------------------
+        //
+        // IMPORTANT:
+        // No rounds does NOT mean counselling completed.
+        //
+
+        if (rounds.length === 0) {
+
+            return false;
+
+        }
+
+
+        // --------------------------------------------------------
+        // Check every configured round
+        // --------------------------------------------------------
+
+        const allCompleted =
+            rounds.every(round => {
+
+                return (
+                    String(
+                        round.status || ""
+                    ).toLowerCase() === "completed"
+                );
+
+            });
+
+
+        return allCompleted;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "CHECK ALL ROUNDS ERROR:",
+            error
+        );
+
+        return false;
+
+    }
+
+}
+
+
+// ============================================================
+// SHOW FINAL COUNSELLING COMPLETED SCREEN
+// ============================================================
+
+function showCompletedScreen() {
+
+    const normalDashboard =
+        document.getElementById(
+            "normalDashboard"
+        );
+
+
+    const completedScreen =
+        document.getElementById(
+            "completedScreen"
+        );
+
+
+    // --------------------------------------------------------
+    // Hide normal dashboard
+    // --------------------------------------------------------
+
+    if (normalDashboard) {
+
+        normalDashboard.style.display =
+            "none";
+
+    }
+
+
+    // --------------------------------------------------------
+    // Show completed screen
+    // --------------------------------------------------------
+
+    if (completedScreen) {
+
+        completedScreen.style.display =
+            "block";
+
+    }
+
+}
+
+
+// ============================================================
+// SHOW NORMAL COUNSELLOR DASHBOARD
+// ============================================================
+
+function showNormalDashboard() {
+
+    const normalDashboard =
+        document.getElementById(
+            "normalDashboard"
+        );
+
+
+    const completedScreen =
+        document.getElementById(
+            "completedScreen"
+        );
+
+
+    // --------------------------------------------------------
+    // Show normal dashboard
+    // --------------------------------------------------------
+
+    if (normalDashboard) {
+
+        normalDashboard.style.display =
+            "";
+
+    }
+
+
+    // --------------------------------------------------------
+    // Hide completed screen
+    // --------------------------------------------------------
+
+    if (completedScreen) {
+
+        completedScreen.style.display =
+            "none";
+
+    }
 
 }
 
@@ -72,18 +254,46 @@ async function loadCurrentRound() {
 
     try {
 
-        const response =
-            await fetch(
-                `${API_BASE_URL}/api/rounds/current`,
-                {
-                    method: "GET",
-                    headers: getHeaders()
-                }
-            );
+        // --------------------------------------------------------
+        // Check whether ALL configured rounds are completed
+        // --------------------------------------------------------
+
+        const allRoundsCompleted =
+            await checkAllRoundsCompleted();
 
 
-        const data =
-            await response.json();
+        // --------------------------------------------------------
+        // ALL ROUNDS COMPLETED
+        // --------------------------------------------------------
+
+        if (allRoundsCompleted) {
+
+            showCompletedScreen();
+
+            return;
+
+        }
+
+
+        // --------------------------------------------------------
+        // Counselling is not completely finished
+        // Keep normal dashboard visible
+        // --------------------------------------------------------
+
+        showNormalDashboard();
+
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/rounds/current`,
+            {
+                method: "GET",
+                headers: getHeaders(),
+                cache: "no-store"
+            }
+        );
+
+
+        const data = await response.json();
 
 
         console.log(
@@ -92,7 +302,11 @@ async function loadCurrentRound() {
         );
 
 
-        if (!response.ok || !data.success) {
+        if (
+            !response.ok ||
+            !data.success ||
+            !data.round
+        ) {
 
             showNoCounselling();
 
@@ -101,12 +315,10 @@ async function loadCurrentRound() {
         }
 
 
-        const round =
-            data.round;
+        const round = data.round;
 
 
         displayRound(round);
-
 
     }
 
@@ -130,36 +342,59 @@ async function loadCurrentRound() {
 
 function displayRound(round) {
 
-    const status =
-        String(
-            round.status || ""
-        ).toLowerCase();
+    const status = String(
+        round.status || ""
+    ).toLowerCase();
 
 
-    document.getElementById(
-        "currentRound"
-    ).textContent =
-        `ROUND ${String(
-            round.round_number
-        ).padStart(2, "0")}`;
+    // ========================================================
+    // CURRENT ROUND
+    // ========================================================
+
+    const currentRoundElement =
+        document.getElementById(
+            "currentRound"
+        );
 
 
-    document.getElementById(
-        "eligibleRank"
-    ).textContent =
-        `${round.min_rank} – ${round.max_rank}`;
+    if (currentRoundElement) {
+
+        currentRoundElement.textContent =
+            `ROUND ${String(
+                round.round_number
+            ).padStart(2, "0")}`;
+
+    }
 
 
-    // ----------------------------------------
-    // STATUS
-    // ----------------------------------------
+    // ========================================================
+    // ELIGIBLE RANK
+    // ========================================================
+
+    const eligibleRankElement =
+        document.getElementById(
+            "eligibleRank"
+        );
+
+
+    if (eligibleRankElement) {
+
+        eligibleRankElement.textContent =
+            `${round.min_rank} – ${round.max_rank}`;
+
+    }
+
+
+    // ========================================================
+    // COUNSELLING STATUS
+    // ========================================================
 
     let statusText =
-        "Counselling is active";
+        "COUNSELLING STATUS";
 
 
     let description =
-        "The current counselling round is being processed.";
+        "Current counselling status loaded.";
 
 
     let choiceStatus =
@@ -168,165 +403,299 @@ function displayRound(round) {
 
     switch (status) {
 
+
+        // ----------------------------------------------------
+        // NOT STARTED
+        // ----------------------------------------------------
+
         case "not_started":
 
             statusText =
                 "COUNSELLING NOT STARTED";
 
+
             description =
                 "The current round has not started yet.";
+
 
             choiceStatus =
                 "NOT STARTED";
 
+
             break;
 
+
+        // ----------------------------------------------------
+        // CHOICE FILLING OPEN
+        // ----------------------------------------------------
 
         case "preference_open":
 
             statusText =
                 "COUNSELLING IS RUNNING";
 
+
             description =
                 "Choice filling is currently open for eligible students.";
+
 
             choiceStatus =
                 "OPEN";
 
+
             break;
 
+
+        // ----------------------------------------------------
+        // PREFERENCES LOCKED
+        // ----------------------------------------------------
 
         case "preferences_locked":
 
             statusText =
                 "COUNSELLING IS RUNNING";
 
+
             description =
                 "Choice filling has been closed. Preferences are locked.";
+
 
             choiceStatus =
                 "LOCKED";
 
+
             break;
 
+
+        // ----------------------------------------------------
+        // ALLOTMENT COMPLETED
+        // ----------------------------------------------------
 
         case "allotment_completed":
 
             statusText =
                 "COUNSELLING IS RUNNING";
 
+
             description =
                 "Allotment for this round has been completed.";
+
 
             choiceStatus =
                 "LOCKED";
 
+
             break;
 
+
+        // ----------------------------------------------------
+        // PAYMENT PERIOD
+        // ----------------------------------------------------
 
         case "payment_period":
 
             statusText =
                 "COUNSELLING IS RUNNING";
 
+
             description =
                 "Payment period is currently active for allotted students.";
+
 
             choiceStatus =
                 "COMPLETED";
 
+
             break;
 
+
+        // ----------------------------------------------------
+        // COMPLETED
+        // ----------------------------------------------------
 
         case "completed":
 
             statusText =
                 "ROUND COMPLETED";
 
+
             description =
                 "This counselling round has been completed.";
+
 
             choiceStatus =
                 "COMPLETED";
 
+
             break;
 
+
+        // ----------------------------------------------------
+        // OTHER STATUS
+        // ----------------------------------------------------
 
         default:
 
             statusText =
                 "COUNSELLING STATUS";
 
+
             description =
                 "Current counselling status loaded.";
 
+
             choiceStatus =
-                status;
+                status || "NOT STARTED";
+
+
+            break;
 
     }
 
 
-    document.getElementById(
-        "counsellingStatus"
-    ).textContent =
-        statusText;
+    // ========================================================
+    // UPDATE STATUS
+    // ========================================================
 
-
-    document.getElementById(
-        "statusDescription"
-    ).textContent =
-        description;
-
-
-    document.getElementById(
-        "choiceFillingStatus"
-    ).textContent =
-        choiceStatus;
-
-
-    // ----------------------------------------
-    // DATES
-    // ----------------------------------------
-
-    document.getElementById(
-        "preferenceStart"
-    ).textContent =
-        formatDate(
-            round.preference_start
+    const counsellingStatusElement =
+        document.getElementById(
+            "counsellingStatus"
         );
 
 
-    document.getElementById(
-        "preferenceEnd"
-    ).textContent =
-        formatDate(
-            round.preference_end
+    if (counsellingStatusElement) {
+
+        counsellingStatusElement.textContent =
+            statusText;
+
+    }
+
+
+    // ========================================================
+    // UPDATE DESCRIPTION
+    // ========================================================
+
+    const statusDescriptionElement =
+        document.getElementById(
+            "statusDescription"
         );
 
 
-    document.getElementById(
-        "allotmentAt"
-    ).textContent =
-        formatDate(
-            round.allotment_at
+    if (statusDescriptionElement) {
+
+        statusDescriptionElement.textContent =
+            description;
+
+    }
+
+
+    // ========================================================
+    // UPDATE CHOICE FILLING STATUS
+    // ========================================================
+
+    const choiceFillingStatusElement =
+        document.getElementById(
+            "choiceFillingStatus"
         );
 
 
-    document.getElementById(
-        "paymentDeadline"
-    ).textContent =
-        formatDate(
-            round.payment_deadline
+    if (choiceFillingStatusElement) {
+
+        choiceFillingStatusElement.textContent =
+            choiceStatus;
+
+    }
+
+
+    // ========================================================
+    // UPDATE SCHEDULE
+    // ========================================================
+
+    const preferenceStartElement =
+        document.getElementById(
+            "preferenceStart"
         );
 
 
-    document.getElementById(
-        "choiceFillingTime"
-    ).textContent =
-        getChoiceTime(
-            round
+    if (preferenceStartElement) {
+
+        preferenceStartElement.textContent =
+            formatDate(
+                round.preference_start
+            );
+
+    }
+
+
+    const preferenceEndElement =
+        document.getElementById(
+            "preferenceEnd"
         );
 
+
+    if (preferenceEndElement) {
+
+        preferenceEndElement.textContent =
+            formatDate(
+                round.preference_end
+            );
+
+    }
+
+
+    const allotmentAtElement =
+        document.getElementById(
+            "allotmentAt"
+        );
+
+
+    if (allotmentAtElement) {
+
+        allotmentAtElement.textContent =
+            formatDate(
+                round.allotment_at
+            );
+
+    }
+
+
+    const paymentDeadlineElement =
+        document.getElementById(
+            "paymentDeadline"
+        );
+
+
+    if (paymentDeadlineElement) {
+
+        paymentDeadlineElement.textContent =
+            formatDate(
+                round.payment_deadline
+            );
+
+    }
+
+
+    // ========================================================
+    // CHOICE FILLING TIME
+    // ========================================================
+
+    const choiceFillingTimeElement =
+        document.getElementById(
+            "choiceFillingTime"
+        );
+
+
+    if (choiceFillingTimeElement) {
+
+        choiceFillingTimeElement.textContent =
+            getChoiceTime(round);
+
+    }
+
+
+    // ========================================================
+    // UPDATE TIMELINE
+    // ========================================================
 
     updateTimeline(status);
 
@@ -339,10 +708,17 @@ function displayRound(round) {
 
 function getChoiceTime(round) {
 
-    if (
-        round.status ===
-        "preference_open"
-    ) {
+    const status =
+        String(
+            round.status || ""
+        ).toLowerCase();
+
+
+    // --------------------------------------------------------
+    // CHOICE FILLING OPEN
+    // --------------------------------------------------------
+
+    if (status === "preference_open") {
 
         return (
             "Closes: " +
@@ -354,20 +730,22 @@ function getChoiceTime(round) {
     }
 
 
-    if (
-        round.status ===
-        "preferences_locked"
-    ) {
+    // --------------------------------------------------------
+    // CHOICE FILLING LOCKED
+    // --------------------------------------------------------
+
+    if (status === "preferences_locked") {
 
         return "Choice filling closed";
 
     }
 
 
-    if (
-        round.status ===
-        "not_started"
-    ) {
+    // --------------------------------------------------------
+    // NOT STARTED
+    // --------------------------------------------------------
+
+    if (status === "not_started") {
 
         return (
             "Opens: " +
@@ -375,6 +753,39 @@ function getChoiceTime(round) {
                 round.preference_start
             )
         );
+
+    }
+
+
+    // --------------------------------------------------------
+    // ALLOTMENT COMPLETED
+    // --------------------------------------------------------
+
+    if (status === "allotment_completed") {
+
+        return "Choice filling completed";
+
+    }
+
+
+    // --------------------------------------------------------
+    // PAYMENT
+    // --------------------------------------------------------
+
+    if (status === "payment_period") {
+
+        return "Payment period active";
+
+    }
+
+
+    // --------------------------------------------------------
+    // ROUND COMPLETED
+    // --------------------------------------------------------
+
+    if (status === "completed") {
+
+        return "Round completed";
 
     }
 
@@ -394,46 +805,60 @@ function updateTimeline(status) {
 
         {
             id: "stepPreference",
-            active:
-                [
-                    "preference_open"
-                ].includes(status)
+
+            active: [
+                "preference_open",
+                "preferences_locked",
+                "allotment_completed",
+                "payment_period",
+                "completed"
+            ].includes(status)
+
         },
+
 
         {
             id: "stepLocked",
-            active:
-                [
-                    "preferences_locked",
-                    "allotment_completed",
-                    "payment_period",
-                    "completed"
-                ].includes(status)
+
+            active: [
+                "preferences_locked",
+                "allotment_completed",
+                "payment_period",
+                "completed"
+            ].includes(status)
+
         },
+
 
         {
             id: "stepAllotment",
-            active:
-                [
-                    "allotment_completed",
-                    "payment_period",
-                    "completed"
-                ].includes(status)
+
+            active: [
+                "allotment_completed",
+                "payment_period",
+                "completed"
+            ].includes(status)
+
         },
+
 
         {
             id: "stepPayment",
-            active:
-                [
-                    "payment_period",
-                    "completed"
-                ].includes(status)
+
+            active: [
+                "payment_period",
+                "completed"
+            ].includes(status)
+
         },
+
 
         {
             id: "stepCompleted",
+
             active:
                 status === "completed"
+
         }
 
     ];
@@ -461,6 +886,7 @@ function updateTimeline(status) {
             );
 
         }
+
         else {
 
             element.classList.remove(
@@ -480,40 +906,150 @@ function updateTimeline(status) {
 
 function showNoCounselling() {
 
-    document.getElementById(
-        "counsellingStatus"
-    ).textContent =
-        "COUNSELLING NOT RUNNING";
+    const counsellingStatus =
+        document.getElementById(
+            "counsellingStatus"
+        );
 
 
-    document.getElementById(
-        "statusDescription"
-    ).textContent =
-        "There is currently no active counselling round.";
+    if (counsellingStatus) {
+
+        counsellingStatus.textContent =
+            "COUNSELLING NOT RUNNING";
+
+    }
 
 
-    document.getElementById(
-        "currentRound"
-    ).textContent =
-        "-";
+    const statusDescription =
+        document.getElementById(
+            "statusDescription"
+        );
 
 
-    document.getElementById(
-        "eligibleRank"
-    ).textContent =
-        "-";
+    if (statusDescription) {
+
+        statusDescription.textContent =
+            "There is currently no active counselling round.";
+
+    }
 
 
-    document.getElementById(
-        "choiceFillingStatus"
-    ).textContent =
-        "NOT ACTIVE";
+    const currentRound =
+        document.getElementById(
+            "currentRound"
+        );
 
 
-    document.getElementById(
-        "choiceFillingTime"
-    ).textContent =
-        "-";
+    if (currentRound) {
+
+        currentRound.textContent =
+            "-";
+
+    }
+
+
+    const eligibleRank =
+        document.getElementById(
+            "eligibleRank"
+        );
+
+
+    if (eligibleRank) {
+
+        eligibleRank.textContent =
+            "-";
+
+    }
+
+
+    const choiceFillingStatus =
+        document.getElementById(
+            "choiceFillingStatus"
+        );
+
+
+    if (choiceFillingStatus) {
+
+        choiceFillingStatus.textContent =
+            "NOT ACTIVE";
+
+    }
+
+
+    const choiceFillingTime =
+        document.getElementById(
+            "choiceFillingTime"
+        );
+
+
+    if (choiceFillingTime) {
+
+        choiceFillingTime.textContent =
+            "-";
+
+    }
+
+
+    // --------------------------------------------------------
+    // CLEAR SCHEDULE
+    // --------------------------------------------------------
+
+    const scheduleFields = [
+
+        "preferenceStart",
+        "preferenceEnd",
+        "allotmentAt",
+        "paymentDeadline"
+
+    ];
+
+
+    scheduleFields.forEach(id => {
+
+        const element =
+            document.getElementById(id);
+
+
+        if (element) {
+
+            element.textContent =
+                "-";
+
+        }
+
+    });
+
+
+    // --------------------------------------------------------
+    // RESET TIMELINE
+    // --------------------------------------------------------
+
+    const timelineSteps = [
+
+        "stepPreference",
+        "stepLocked",
+        "stepAllotment",
+        "stepPayment",
+        "stepCompleted"
+
+    ];
+
+
+    timelineSteps.forEach(id => {
+
+        const element =
+            document.getElementById(id);
+
+
+        if (element) {
+
+            element.classList.remove(
+                "active"
+            );
+
+        }
+
+    });
 
 }
 
@@ -561,6 +1097,70 @@ function formatDate(value) {
 
 
 // ============================================================
+// AUTO REFRESH
+// ============================================================
+//
+// The Counsellor Dashboard checks the backend every 5 seconds.
+// Therefore, changes made in Round Management will appear
+// automatically without manually refreshing the page.
+//
+
+let dashboardRefreshTimer = null;
+
+
+function startDashboardAutoRefresh() {
+
+    // Prevent duplicate timers
+
+    if (dashboardRefreshTimer) {
+
+        clearInterval(
+            dashboardRefreshTimer
+        );
+
+    }
+
+
+    dashboardRefreshTimer =
+        setInterval(
+            async () => {
+
+                console.log(
+                    "Refreshing counsellor dashboard..."
+                );
+
+
+                await loadCurrentRound();
+
+            },
+            5000
+        );
+
+}
+
+
+// ============================================================
+// STOP AUTO REFRESH
+// ============================================================
+
+function stopDashboardAutoRefresh() {
+
+    if (dashboardRefreshTimer) {
+
+        clearInterval(
+            dashboardRefreshTimer
+        );
+
+
+        dashboardRefreshTimer =
+            null;
+
+    }
+
+}
+
+
+// ============================================================
 // LOGOUT
 // ============================================================
 
@@ -576,11 +1176,23 @@ if (logoutButton) {
         "click",
         () => {
 
-            localStorage.removeItem("token");
+            stopDashboardAutoRefresh();
 
-            localStorage.removeItem("authToken");
 
-            localStorage.removeItem("counsellorToken");
+            localStorage.removeItem(
+                "token"
+            );
+
+
+            localStorage.removeItem(
+                "authToken"
+            );
+
+
+            localStorage.removeItem(
+                "counsellorToken"
+            );
+
 
             window.location.href =
                 "login.html";
@@ -592,7 +1204,37 @@ if (logoutButton) {
 
 
 // ============================================================
-// INITIALIZE
+// STOP REFRESH WHEN PAGE IS HIDDEN
+// ============================================================
+
+document.addEventListener(
+    "visibilitychange",
+    () => {
+
+        if (document.hidden) {
+
+            stopDashboardAutoRefresh();
+
+        }
+
+        else {
+
+            // Refresh immediately when
+            // counsellor comes back to the page
+
+            loadCurrentRound();
+
+
+            startDashboardAutoRefresh();
+
+        }
+
+    }
+);
+
+
+// ============================================================
+// INITIALIZE DASHBOARD
 // ============================================================
 
 async function initializeDashboard() {
@@ -609,7 +1251,14 @@ async function initializeDashboard() {
     }
 
 
+    // First load
+
     await loadCurrentRound();
+
+
+    // Then keep checking backend
+
+    startDashboardAutoRefresh();
 
 
     console.log(
@@ -618,6 +1267,10 @@ async function initializeDashboard() {
 
 }
 
+
+// ============================================================
+// DOM READY
+// ============================================================
 
 document.addEventListener(
     "DOMContentLoaded",

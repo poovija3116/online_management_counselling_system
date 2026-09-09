@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,578 +19,1125 @@
 <body>
 
     <!-- =========================================
-         SIDEBAR
-    ========================================== -->
-
-    <aside class="sidebar">
-
-        <div class="sidebar-header">
-
-            <div class="college-mark">
-                GCE
-            </div>
-
-            <div>
-                <h2>GCE ERODE</h2>
-                <span>ACADEMIC SUPPORT CELL</span>
-            </div>
-
-        </div>
-
-
-        <nav class="sidebar-nav">
-
-            <!-- COUNSELLING -->
-
-            <div class="nav-section">
-
-                <div class="section-title">
-                    COUNSELLING
-                </div>
-
-                <a href="round-management.html"
-                   class="nav-link">
-
-                    <span class="nav-icon">▦</span>
-
-                    <span>
-                        Round Management
-                    </span>
-
-                </a>
-
-            </div>
-
-
-            <!-- DASHBOARD -->
-
-            <div class="nav-section">
-
-                <div class="section-title">
-                    GENERAL
-                </div>
-
-                <a href="counsellor-dashboard.html"
-                   class="nav-link active">
-
-                    <span class="nav-icon">⌂</span>
-
-                    <span>
-                        Dashboard
-                    </span>
-
-                </a>
-
-            </div>
-
-
-            <!-- CONTROL -->
-
-            <div class="nav-section">
-
-                <div class="section-title">
-                    CONTROL
-                </div>
-
-                <a href="student-monitoring.html"
-                   class="nav-link">
-
-                    <span class="nav-icon">◉</span>
-
-                    <span>
-                        Student Monitoring
-                    </span>
-
-                </a>
-
-
-                <a href="allotment.html"
-                   class="nav-link">
-
-                    <span class="nav-icon">▣</span>
-
-                    <span>
-                        Allotment
-                    </span>
-
-                </a>
-
-            </div>
-
-        </nav>
-
-
-        <!-- SIDEBAR FOOTER -->
-
-        <div class="sidebar-footer">
-
-            <button
-                type="button"
-                id="logoutButton"
-                class="logout-button">
-
-                ⇥ Logout
-
-            </button>
-
-        </div>
-
-    </aside>
-
-
-
-    <!-- =========================================
          MAIN CONTENT
     ========================================== -->
 
     <main class="main-content">
 
 
-        <!-- HEADER -->
+        <!-- =====================================================
+             EXISTING COUNSELLOR DASHBOARD
+             DO NOT CHANGE
+        ====================================================== -->
 
-        <header class="top-header">
-
-            <div>
-
-                <span class="page-label">
-                    COUNSELLOR PANEL
-                </span>
-
-                <h1>
-                    Counsellor Dashboard
-                </h1>
-
-                <p>
-                    Monitor the current counselling process
-                    and round status.
-                </p>
-
-            </div>
+        <div id="normalDashboard">
 
 
-            <div class="counsellor-badge">
+            <!-- =========================================
+                 HEADER
+            ========================================== -->
 
-                <span class="status-dot"></span>
+            <header class="top-header">
 
-                <span>
-                    COUNSELLOR
-                </span>
+                <div>
 
-            </div>
-
-        </header>
-
-
-
-        <!-- =========================================
-             COUNSELLING STATUS
-        ========================================== -->
-
-        <section class="status-banner">
-
-            <div class="status-icon"
-                 id="statusIcon">
-
-                ●
-
-            </div>
-
-
-            <div class="status-content">
-
-                <span class="small-label">
-                    COUNSELLING STATUS
-                </span>
-
-                <h2 id="counsellingStatus">
-                    Checking...
-                </h2>
-
-                <p id="statusDescription">
-                    Loading counselling information...
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             CURRENT ROUND
-        ========================================== -->
-
-        <section class="dashboard-grid">
-
-
-            <div class="dashboard-card">
-
-                <div class="card-header">
-
-                    <span class="card-label">
-                        CURRENT ROUND
+                    <span class="page-label">
+                        COUNSELLOR PANEL
                     </span>
 
-                    <span class="card-icon">
-                        #
-                    </span>
+                    <h1>
+                        Counsellor Dashboard
+                    </h1>
+
+                    <p>
+                        Monitor the current counselling process
+                        and round status.
+                    </p>
 
                 </div>
 
 
-                <div class="card-value"
-                     id="currentRound">
+                <div class="counsellor-badge">
 
-                    -
+                    <span class="status-dot"></span>
 
-                </div>
-
-
-                <p>
-                    Active counselling round
-                </p>
-
-            </div>
-
-
-
-            <!-- RANK -->
-
-            <div class="dashboard-card">
-
-                <div class="card-header">
-
-                    <span class="card-label">
-                        ELIGIBLE RANK
-                    </span>
-
-                    <span class="card-icon">
-                        ↕
+                    <span>
+                        COUNSELLOR
                     </span>
 
                 </div>
 
+            </header>
 
-                <div class="card-value rank-value"
-                     id="eligibleRank">
 
-                    -
+
+            <!-- =========================================
+                 COUNSELLING STATUS
+            ========================================== -->
+
+            <section class="status-banner">
+
+                <div class="status-icon"
+                     id="statusIcon">
+
+                    ●
 
                 </div>
 
 
-                <p>
-                    Students eligible for this round
-                </p>
+                <div class="status-content">
 
-            </div>
-
-
-
-            <!-- CHOICE FILLING -->
-
-            <div class="dashboard-card">
-
-                <div class="card-header">
-
-                    <span class="card-label">
-                        CHOICE FILLING
+                    <span class="small-label">
+                        COUNSELLING STATUS
                     </span>
 
-                    <span class="card-icon">
+                    <h2 id="counsellingStatus">
+                        Checking...
+                    </h2>
+
+                    <p id="statusDescription">
+                        Loading counselling information...
+                    </p>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================================
+                 CURRENT ROUND
+            ========================================== -->
+
+            <section class="dashboard-grid">
+
+
+                <!-- CURRENT ROUND -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <span class="card-label">
+                            CURRENT ROUND
+                        </span>
+
+                        <span class="card-icon">
+                            #
+                        </span>
+
+                    </div>
+
+
+                    <div class="card-value"
+                         id="currentRound">
+
+                        -
+
+                    </div>
+
+
+                    <p>
+                        Active counselling round
+                    </p>
+
+                </div>
+
+
+
+                <!-- ELIGIBLE RANK -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <span class="card-label">
+                            ELIGIBLE RANK
+                        </span>
+
+                        <span class="card-icon">
+                            ↕
+                        </span>
+
+                    </div>
+
+
+                    <div class="card-value rank-value"
+                         id="eligibleRank">
+
+                        -
+
+                    </div>
+
+
+                    <p>
+                        Students eligible for this round
+                    </p>
+
+                </div>
+
+
+
+                <!-- CHOICE FILLING -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <span class="card-label">
+                            CHOICE FILLING
+                        </span>
+
+                        <span class="card-icon">
+                            ✓
+                        </span>
+
+                    </div>
+
+
+                    <div class="card-value small-value"
+                         id="choiceFillingStatus">
+
+                        -
+
+                    </div>
+
+
+                    <p id="choiceFillingTime">
+                        -
+                    </p>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================================
+                 CURRENT ACTIVITY
+            ========================================== -->
+
+            <section class="activity-card">
+
+                <div class="activity-header">
+
+                    <div>
+
+                        <span class="small-label">
+                            CURRENT ACTIVITY
+                        </span>
+
+                        <h2>
+                            Counselling Progress
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="timeline">
+
+
+                    <!-- STEP 1 -->
+
+                    <div class="timeline-item"
+                         id="stepPreference">
+
+                        <div class="timeline-circle">
+                            1
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <strong>
+                                Choice Filling
+                            </strong>
+
+                            <span>
+                                Students submit their department preferences.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STEP 2 -->
+
+                    <div class="timeline-item"
+                         id="stepLocked">
+
+                        <div class="timeline-circle">
+                            2
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <strong>
+                                Preferences Locked
+                            </strong>
+
+                            <span>
+                                Choice filling has been closed.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STEP 3 -->
+
+                    <div class="timeline-item"
+                         id="stepAllotment">
+
+                        <div class="timeline-circle">
+                            3
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <strong>
+                                Allotment
+                            </strong>
+
+                            <span>
+                                Seats are allotted according to rank
+                                and preferences.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STEP 4 -->
+
+                    <div class="timeline-item"
+                         id="stepPayment">
+
+                        <div class="timeline-circle">
+                            4
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <strong>
+                                Payment Period
+                            </strong>
+
+                            <span>
+                                Allotted students complete their payment.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STEP 5 -->
+
+                    <div class="timeline-item"
+                         id="stepCompleted">
+
+                        <div class="timeline-circle">
+                            5
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <strong>
+                                Round Completed
+                            </strong>
+
+                            <span>
+                                Counselling round has been completed.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================================
+                 SCHEDULE
+            ========================================== -->
+
+            <section class="schedule-card">
+
+                <div class="schedule-title">
+
+                    <span class="small-label">
+                        ROUND SCHEDULE
+                    </span>
+
+                    <h2>
+                        Important Dates
+                    </h2>
+
+                </div>
+
+
+                <div class="schedule-grid">
+
+
+                    <!-- CHOICE FILLING OPENS -->
+
+                    <div class="schedule-item">
+
+                        <span>
+                            CHOICE FILLING OPENS
+                        </span>
+
+                        <strong id="preferenceStart">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <!-- CHOICE FILLING CLOSES -->
+
+                    <div class="schedule-item">
+
+                        <span>
+                            CHOICE FILLING CLOSES
+                        </span>
+
+                        <strong id="preferenceEnd">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <!-- ALLOTMENT -->
+
+                    <div class="schedule-item">
+
+                        <span>
+                            ALLOTMENT
+                        </span>
+
+                        <strong id="allotmentAt">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <!-- PAYMENT DEADLINE -->
+
+                    <div class="schedule-item">
+
+                        <span>
+                            PAYMENT DEADLINE
+                        </span>
+
+                        <strong id="paymentDeadline">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================================
+                 INFORMATION
+            ========================================== -->
+
+            <section class="info-box">
+
+                <div class="info-icon">
+                    i
+                </div>
+
+                <div>
+
+                    <h3>
+                        Counsellor Control
+                    </h3>
+
+                    <p>
+                        Round configuration, choice-filling schedules,
+                        preference locking, allotment progression and
+                        payment periods are controlled from the
+                        Round Management page.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <button type="button"
+                    class="back-button"
+                    onclick="history.back()">
+
+                ← Back
+
+            </button>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             COUNSELLING COMPLETED SCREEN
+
+             This screen is hidden by default.
+             JavaScript displays it ONLY when every configured
+             counselling round has status = completed.
+        ====================================================== -->
+
+        <section id="completedScreen"
+                 class="completed-screen">
+
+
+            <!-- =========================================
+                 COMPLETED HEADER
+            ========================================== -->
+
+            <header class="completed-header">
+
+                <div class="portal-brand">
+
+                    <div class="brand-icon">
+                        🎓
+                    </div>
+
+                    <div>
+
+                        <h1>
+                            Counselling Portal
+                        </h1>
+
+                        <p>
+                            Guiding Futures Together
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="completed-header-right">
+
+                    <button type="button"
+                            class="notification-button"
+                            aria-label="Notifications">
+
+                        🔔
+
+                        <span></span>
+
+                    </button>
+
+
+                    <div class="counsellor-profile">
+
+                        <div class="profile-avatar">
+                            C
+                        </div>
+
+                        <div class="profile-info">
+
+                            <strong>
+                                Counsellor
+                            </strong>
+
+                            <small>
+                                Counselling Office
+                            </small>
+
+                        </div>
+
+                        <span class="profile-arrow">
+                            ▾
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- =========================================
+                 COMPLETION HERO
+            ========================================== -->
+
+            <section class="completion-hero">
+
+
+                <div class="hero-decoration hero-leaf-left">
+                    ❧
+                </div>
+
+                <div class="hero-decoration hero-leaf-right">
+                    ❧
+                </div>
+
+
+                <div class="completion-check">
+
+                    <span>
                         ✓
                     </span>
 
                 </div>
 
 
-                <div class="card-value small-value"
-                     id="choiceFillingStatus">
-
-                    -
-
-                </div>
-
-
-                <p id="choiceFillingTime">
-                    -
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             CURRENT ACTIVITY
-        ========================================== -->
-
-        <section class="activity-card">
-
-            <div class="activity-header">
-
-                <div>
-
-                    <span class="small-label">
-                        CURRENT ACTIVITY
-                    </span>
-
-                    <h2>
-                        Counselling Progress
-                    </h2>
-
-                </div>
-
-            </div>
-
-
-            <div class="timeline">
-
-
-                <!-- STEP 1 -->
-
-                <div class="timeline-item"
-                     id="stepPreference">
-
-                    <div class="timeline-circle">
-                        1
-                    </div>
-
-                    <div class="timeline-content">
-
-                        <strong>
-                            Choice Filling
-                        </strong>
-
-                        <span>
-                            Students submit their department preferences.
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- STEP 2 -->
-
-                <div class="timeline-item"
-                     id="stepLocked">
-
-                    <div class="timeline-circle">
-                        2
-                    </div>
-
-                    <div class="timeline-content">
-
-                        <strong>
-                            Preferences Locked
-                        </strong>
-
-                        <span>
-                            Choice filling has been closed.
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- STEP 3 -->
-
-                <div class="timeline-item"
-                     id="stepAllotment">
-
-                    <div class="timeline-circle">
-                        3
-                    </div>
-
-                    <div class="timeline-content">
-
-                        <strong>
-                            Allotment
-                        </strong>
-
-                        <span>
-                            Seats are allotted according to rank
-                            and preferences.
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- STEP 4 -->
-
-                <div class="timeline-item"
-                     id="stepPayment">
-
-                    <div class="timeline-circle">
-                        4
-                    </div>
-
-                    <div class="timeline-content">
-
-                        <strong>
-                            Payment Period
-                        </strong>
-
-                        <span>
-                            Allotted students complete their payment.
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- STEP 5 -->
-
-                <div class="timeline-item"
-                     id="stepCompleted">
-
-                    <div class="timeline-circle">
-                        5
-                    </div>
-
-                    <div class="timeline-content">
-
-                        <strong>
-                            Round Completed
-                        </strong>
-
-                        <span>
-                            Counselling round has been completed.
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             SCHEDULE
-        ========================================== -->
-
-        <section class="schedule-card">
-
-            <div class="schedule-title">
-
-                <span class="small-label">
-                    ROUND SCHEDULE
+                <span class="completion-label">
+                    COUNSELLING CYCLE COMPLETED
                 </span>
 
+
                 <h2>
-                    Important Dates
+                    Counselling Completed!
                 </h2>
 
-            </div>
-
-
-            <div class="schedule-grid">
-
-
-                <div class="schedule-item">
-
-                    <span>
-                        CHOICE FILLING OPENS
-                    </span>
-
-                    <strong id="preferenceStart">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <div class="schedule-item">
-
-                    <span>
-                        CHOICE FILLING CLOSES
-                    </span>
-
-                    <strong id="preferenceEnd">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <div class="schedule-item">
-
-                    <span>
-                        ALLOTMENT
-                    </span>
-
-                    <strong id="allotmentAt">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <div class="schedule-item">
-
-                    <span>
-                        PAYMENT DEADLINE
-                    </span>
-
-                    <strong id="paymentDeadline">
-                        -
-                    </strong>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             INFORMATION
-        ========================================== -->
-
-        <section class="info-box">
-
-            <div class="info-icon">
-                i
-            </div>
-
-            <div>
-
-                <h3>
-                    Counsellor Control
-                </h3>
 
                 <p>
-                    Round configuration, choice-filling schedules,
-                    preference locking, allotment progression and
-                    payment periods are controlled from the
-                    Round Management page.
+                    All scheduled rounds for Academic Year
+                    <strong>2025 - 2026</strong>
+                    have been successfully completed.
                 </p>
 
-            </div>
+
+                <div class="completion-message">
+
+                    <span class="quote-icon">
+                        “
+                    </span>
+
+                    <span>
+                        Thank you for your efforts in making
+                        this counselling process a success.
+                    </span>
+
+                </div>
+
+
+                <div class="tomorrow-message">
+
+                    <span>
+                        Together We Completed
+                    </span>
+
+                    <strong>
+                        A Brighter Tomorrow
+                    </strong>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================================
+                 COMPLETED CONTENT
+            ========================================== -->
+
+            <section class="completed-content-grid">
+
+
+                <!-- =========================================
+                     COUNSELLING TIMELINE
+                ========================================== -->
+
+                <div class="completed-card timeline-card">
+
+                    <div class="completed-card-header">
+
+                        <div class="completed-card-title">
+
+                            <div class="card-title-icon">
+                                ◷
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    COUNSELLING JOURNEY
+                                </span>
+
+                                <h3>
+                                    Counselling Timeline
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <span class="completed-badge">
+                            COMPLETED
+                        </span>
+
+                    </div>
+
+
+                    <p class="card-description">
+                        All scheduled counselling activities
+                        have been successfully completed.
+                    </p>
+
+
+                    <div class="completed-timeline">
+
+
+                        <!-- ROUND 1 -->
+
+                        <div class="completed-timeline-item">
+
+                            <div class="timeline-marker">
+                                ✓
+                            </div>
+
+                            <div class="completed-timeline-content">
+
+                                <div class="timeline-title-row">
+
+                                    <strong>
+                                        Round 1
+                                    </strong>
+
+                                    <span>
+                                        COMPLETED
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    01 Sep 2025 – 05 Sep 2025
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- ROUND 2 -->
+
+                        <div class="completed-timeline-item">
+
+                            <div class="timeline-marker">
+                                ✓
+                            </div>
+
+                            <div class="completed-timeline-content">
+
+                                <div class="timeline-title-row">
+
+                                    <strong>
+                                        Round 2
+                                    </strong>
+
+                                    <span>
+                                        COMPLETED
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    15 Sep 2025 – 18 Sep 2025
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- MOP-UP -->
+
+                        <div class="completed-timeline-item">
+
+                            <div class="timeline-marker">
+                                ✓
+                            </div>
+
+                            <div class="completed-timeline-content">
+
+                                <div class="timeline-title-row">
+
+                                    <strong>
+                                        Mop-up Round
+                                    </strong>
+
+                                    <span>
+                                        COMPLETED
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    01 Oct 2025 – 03 Oct 2025
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- ALLOTMENT -->
+
+                        <div class="completed-timeline-item">
+
+                            <div class="timeline-marker">
+                                ✓
+                            </div>
+
+                            <div class="completed-timeline-content">
+
+                                <div class="timeline-title-row">
+
+                                    <strong>
+                                        Allotment Process
+                                    </strong>
+
+                                    <span>
+                                        COMPLETED
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    04 Oct 2025 – 05 Oct 2025
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- PAYMENT -->
+
+                        <div class="completed-timeline-item">
+
+                            <div class="timeline-marker">
+                                ✓
+                            </div>
+
+                            <div class="completed-timeline-content">
+
+                                <div class="timeline-title-row">
+
+                                    <strong>
+                                        Payment Window
+                                    </strong>
+
+                                    <span>
+                                        COMPLETED
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    04 Oct 2025 – 12 Oct 2025
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- REPORTING -->
+
+                        <div class="completed-timeline-item last-item">
+
+                            <div class="timeline-marker">
+                                ✓
+                            </div>
+
+                            <div class="completed-timeline-content">
+
+                                <div class="timeline-title-row">
+
+                                    <strong>
+                                        Reporting to Institution
+                                    </strong>
+
+                                    <span>
+                                        COMPLETED
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    13 Oct 2025 – 20 Oct 2025
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     IMPORTANT NOTIFICATIONS
+                ========================================== -->
+
+                <div class="completed-card notification-card">
+
+                    <div class="completed-card-header">
+
+                        <div class="completed-card-title">
+
+                            <div class="card-title-icon">
+                                🔔
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    IMPORTANT UPDATES
+                                </span>
+
+                                <h3>
+                                    Important Notifications
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <p class="card-description">
+                        Important updates regarding the completed
+                        counselling process.
+                    </p>
+
+
+                    <div class="notification-list">
+
+
+                        <!-- NOTIFICATION 1 -->
+
+                        <div class="completed-notification">
+
+                            <div class="notification-icon">
+                                ✓
+                            </div>
+
+                            <div class="notification-content">
+
+                                <div class="notification-title-row">
+
+                                    <strong>
+                                        Counselling Process Completed
+                                    </strong>
+
+                                    <time>
+                                        03 Oct 2025
+                                    </time>
+
+                                </div>
+
+                                <p>
+                                    All scheduled rounds for AY 2025 - 2026
+                                    have been successfully completed.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- NOTIFICATION 2 -->
+
+                        <div class="completed-notification">
+
+                            <div class="notification-icon">
+                                ✓
+                            </div>
+
+                            <div class="notification-content">
+
+                                <div class="notification-title-row">
+
+                                    <strong>
+                                        Final Allotment List Published
+                                    </strong>
+
+                                    <time>
+                                        05 Oct 2025
+                                    </time>
+
+                                </div>
+
+                                <p>
+                                    The final allotment list has been published.
+                                    You can download the report from the records section.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- NOTIFICATION 3 -->
+
+                        <div class="completed-notification">
+
+                            <div class="notification-icon">
+                                ✓
+                            </div>
+
+                            <div class="notification-content">
+
+                                <div class="notification-title-row">
+
+                                    <strong>
+                                        Payment Window Closed
+                                    </strong>
+
+                                    <time>
+                                        12 Oct 2025
+                                    </time>
+
+                                </div>
+
+                                <p>
+                                    The payment window for allotted students
+                                    has been closed.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- NOTIFICATION 4 -->
+
+                        <div class="completed-notification">
+
+                            <div class="notification-icon">
+                                ✓
+                            </div>
+
+                            <div class="notification-content">
+
+                                <div class="notification-title-row">
+
+                                    <strong>
+                                        Reporting Period Completed
+                                    </strong>
+
+                                    <time>
+                                        20 Oct 2025
+                                    </time>
+
+                                </div>
+
+                                <p>
+                                    The reporting period at allotted institutions
+                                    has ended.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- NOTIFICATION 5 -->
+
+                        <div class="completed-notification">
+
+                            <div class="notification-icon">
+                                ✓
+                            </div>
+
+                            <div class="notification-content">
+
+                                <div class="notification-title-row">
+
+                                    <strong>
+                                        Counselling Data Archived
+                                    </strong>
+
+                                    <time>
+                                        20 Oct 2025
+                                    </time>
+
+                                </div>
+
+                                <p>
+                                    All counselling data for AY 2025 - 2026
+                                    has been securely archived for future reference.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================================
+                 FOOTER
+            ========================================== -->
+
+            <footer class="completed-footer">
+
+                <span>
+                    © 2025 GCE Erode Counselling Portal
+                </span>
+
+                <span>
+                    Guiding Futures Together
+                </span>
+
+            </footer>
 
         </section>
-
 
     </main>
 
 
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
 
     <script src="counsellor-dashboard.js"></script>
 
 </body>
 
 </html>
+

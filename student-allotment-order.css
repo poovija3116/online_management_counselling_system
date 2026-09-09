@@ -1,8 +1,13 @@
-/* ============================================================
+/* =========================================================
    GCE ERODE
-   STUDENT ALLOTMENT ORDER
-   Elegant • Official • Printable
-   ============================================================ */
+   STUDENT PROVISIONAL ALLOTMENT ORDER
+   OFFICIAL A4 DOCUMENT
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
     margin: 0;
@@ -10,1099 +15,965 @@
     box-sizing: border-box;
 }
 
-:root {
-    --green-dark: #173f35;
-    --green: #286653;
-    --green-mid: #3f806c;
-    --green-light: #edf5f1;
 
-    --page: #f4f7f6;
-    --white: #ffffff;
-
-    --text: #263632;
-    --muted: #7b8884;
-
-    --border: #dfe7e3;
-    --border-dark: #cbd8d3;
-
-    --success: #3d765f;
-    --warning: #9a7041;
-    --danger: #a34d46;
-
-    --shadow: 0 8px 25px rgba(23, 63, 53, 0.07);
+html {
+    background: #eeeeee;
 }
 
-/* ============================================================
-   BODY
-   ============================================================ */
 
 body {
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-    background: var(--page);
-    color: var(--text);
-    min-height: 100vh;
-    line-height: 1.5;
+    margin: 0;
+
+    background: #eeeeee;
+
+    color: #111;
+
+    font-family:
+        "Times New Roman",
+        Times,
+        serif;
+
+    font-size: 13px;
+
+    line-height: 1.45;
 }
 
-button,
-input,
-select,
-textarea {
-    font-family: inherit;
+
+/* =========================================================
+   SCREEN TOOLBAR
+========================================================= */
+
+.screen-toolbar {
+
+    width: 210mm;
+
+    margin: 18px auto 12px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    font-family:
+        Arial,
+        sans-serif;
 }
 
-button {
+
+.screen-toolbar button {
+
+    border: 0;
+
+    border-radius: 4px;
+
+    padding: 10px 17px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
     cursor: pointer;
+
+    transition: 0.2s;
 }
 
-/* ============================================================
-   PAGE
-   ============================================================ */
 
-.page {
-    width: 100%;
-    max-width: 1250px;
-    margin: 0 auto;
-    padding-bottom: 50px;
+.back-button {
+
+    background: #555;
+
+    color: #fff;
 }
 
-/* ============================================================
-   HEADER
-   ============================================================ */
 
-.header {
-    min-height: 92px;
-    background: var(--white);
+.back-button:hover {
 
-    border-bottom: 1px solid var(--border);
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 18px 35px;
-
-    box-shadow: 0 2px 10px rgba(23, 63, 53, 0.03);
+    background: #333;
 }
 
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.college-mark {
-    width: 50px;
-    height: 50px;
-
-    background: var(--green-dark);
-    color: white;
-
-    border-radius: 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: 1px;
-
-    box-shadow: 0 4px 12px rgba(23, 63, 53, 0.15);
-}
-
-.college-info h1 {
-    font-size: 16px;
-    color: var(--green-dark);
-    font-weight: 800;
-    letter-spacing: .3px;
-}
-
-.college-info p {
-    margin-top: 2px;
-    color: var(--muted);
-    font-size: 10px;
-}
-
-.college-info span {
-    display: block;
-    margin-top: 4px;
-
-    color: var(--green-mid);
-
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 1.2px;
-}
-
-.header-right {
-    padding: 8px 13px;
-
-    border: 1px solid var(--border);
-    border-radius: 7px;
-
-    color: var(--green);
-    background: #f8faf9;
-
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-/* ============================================================
-   MAIN HEADING
-   ============================================================ */
-
-.page-heading {
-    margin: 30px 25px 20px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-
-    gap: 25px;
-}
-
-.eyebrow {
-    display: block;
-
-    color: var(--green-mid);
-
-    font-size: 9px;
-    font-weight: 900;
-    letter-spacing: 1.7px;
-}
-
-.page-heading h2 {
-    margin-top: 6px;
-
-    color: var(--green-dark);
-
-    font-size: 29px;
-    font-weight: 650;
-}
-
-.page-heading p {
-    margin-top: 7px;
-
-    max-width: 650px;
-
-    color: var(--muted);
-
-    font-size: 12px;
-}
-
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-
-.heading-actions {
-    display: flex;
-    align-items: center;
-}
 
 .print-button {
-    border: 1px solid var(--green);
 
-    background: var(--green);
-    color: white;
+    background: #1f6b3a;
 
-    padding: 11px 17px;
-
-    border-radius: 7px;
-
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: .5px;
-
-    transition: .2s ease;
+    color: #fff;
 }
+
 
 .print-button:hover {
-    background: var(--green-dark);
-    border-color: var(--green-dark);
 
-    transform: translateY(-1px);
+    background: #15512c;
 }
 
-/* ============================================================
-   COMMON CARD
-   ============================================================ */
 
-.status-card,
-.order-card,
-.details-card,
-.allotment-card,
-.payment-card,
-.reporting-card,
-.instruction-card,
-.declaration-card {
-    background: var(--white);
+/* =========================================================
+   DOCUMENT
+========================================================= */
 
-    border: 1px solid var(--border);
+.document {
 
-    border-radius: 11px;
+    width: 210mm;
 
-    margin: 0 25px 18px;
+    margin: 0 auto 30px;
 
-    box-shadow: var(--shadow);
+    background: #fff;
 }
 
-/* ============================================================
-   STATUS CARD
-   ============================================================ */
 
-.status-card {
-    min-height: 105px;
+/* =========================================================
+   A4 PAGE
+========================================================= */
 
-    padding: 20px 22px;
+.page {
+
+    width: 210mm;
+
+    height: 297mm;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #fff;
+
+    padding:
+
+        13mm
+        14mm
+        12mm;
+}
+
+
+/* =========================================================
+   PAGE 1 HEADER
+========================================================= */
+
+.college-header {
+
+    position: relative;
+
+    min-height: 39mm;
 
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
 
-    border-left: 4px solid var(--success);
+    padding: 0 3mm;
 }
 
-.status-left {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
 
-.status-icon {
-    width: 43px;
-    height: 43px;
+/* =========================================================
+   LOGO
+========================================================= */
 
-    flex-shrink: 0;
+.logo-area {
 
-    border-radius: 50%;
+    width: 32mm;
 
-    background: var(--green-light);
-    color: var(--success);
+    min-width: 32mm;
 
     display: flex;
-    align-items: center;
+
     justify-content: center;
 
-    font-size: 18px;
-    font-weight: 900;
-
-    border: 1px solid #d7e8e0;
+    align-items: center;
 }
 
-.section-label {
+
+.college-logo {
+
+    width: 27mm;
+
+    height: 27mm;
+
+    object-fit: contain;
+
     display: block;
-
-    color: #899691;
-
-    font-size: 8px;
-    font-weight: 900;
-
-    letter-spacing: 1.3px;
 }
 
-.status-content h3 {
-    margin-top: 5px;
 
-    color: var(--green-dark);
+/* =========================================================
+   COLLEGE HEADING
+========================================================= */
 
-    font-size: 18px;
+.college-heading {
+
+    flex: 1;
+
+    text-align: center;
+
+    padding-right: 25mm;
+}
+
+
+.college-heading h1 {
+
+    font-size: 17px;
+
+    line-height: 1.15;
+
+    font-weight: 700;
+
+    letter-spacing: 0.2px;
+}
+
+
+.college-heading h2 {
+
+    margin-top: 3px;
+
+    font-size: 12px;
+
     font-weight: 700;
 }
 
-.status-content p {
-    margin-top: 4px;
 
-    color: var(--muted);
+.college-heading p {
+
+    margin-top: 2px;
+
+    font-size: 10px;
+
+    line-height: 1.25;
+}
+
+
+/* =========================================================
+   PAGE NUMBER
+========================================================= */
+
+.page-number {
+
+    position: absolute;
+
+    top: 0;
+
+    right: 0;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   HEADER LINE
+========================================================= */
+
+.header-line {
+
+    width: 100%;
+
+    height: 1px;
+
+    background: #111;
+
+    margin-top: 1mm;
+}
+
+
+/* =========================================================
+   ORDER HEADING
+========================================================= */
+
+.order-heading {
+
+    text-align: center;
+
+    margin-top: 5mm;
+}
+
+
+.order-heading h2 {
+
+    font-size: 17px;
+
+    line-height: 1.2;
+
+    font-weight: 700;
+}
+
+
+.order-heading h3 {
+
+    margin-top: 2px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   REFERENCE
+========================================================= */
+
+.reference-row {
+
+    margin-top: 6mm;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 0 5mm;
 
     font-size: 11px;
 }
 
-.status-badge {
-    padding: 7px 13px;
 
-    border-radius: 20px;
+.reference-row strong {
 
-    background: var(--green-light);
-    color: var(--success);
-
-    border: 1px solid #d8e8e1;
-
-    font-size: 9px;
-    font-weight: 900;
-    letter-spacing: .7px;
-}
-
-/* ============================================================
-   CARD HEADINGS
-   ============================================================ */
-
-.card-heading {
-    padding-bottom: 17px;
-
-    margin-bottom: 17px;
-
-    border-bottom: 1px solid #edf1ef;
-}
-
-.card-heading h3 {
-    margin-top: 5px;
-
-    color: var(--green-dark);
-
-    font-size: 17px;
-    font-weight: 650;
-}
-
-/* ============================================================
-   ORDER CARD
-   ============================================================ */
-
-.order-card,
-.details-card,
-.allotment-card,
-.payment-card,
-.reporting-card {
-    padding: 22px;
-}
-
-.order-grid {
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
-    border: 1px solid var(--border);
-
-    border-radius: 8px;
-
-    overflow: hidden;
-}
-
-.order-item {
-    padding: 16px;
-
-    background: #fbfcfc;
-
-    border-right: 1px solid var(--border);
-}
-
-.order-item:last-child {
-    border-right: none;
-}
-
-.order-item span,
-.detail-item span,
-.allotment-item span,
-.payment-item span,
-.reporting-item span,
-.academic-item span {
-    display: block;
-
-    color: #8a9692;
-
-    font-size: 8px;
-    font-weight: 900;
-
-    letter-spacing: .9px;
-}
-
-.order-item strong,
-.detail-item strong,
-.allotment-item strong,
-.payment-item strong,
-.reporting-item strong,
-.academic-item strong {
-    display: block;
-
-    margin-top: 7px;
-
-    color: var(--green-dark);
-
-    font-size: 12px;
     font-weight: 700;
 }
 
-/* ============================================================
-   DETAILS GRID
-   ============================================================ */
 
-.details-grid {
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro-text {
+
+    margin: 5mm 5mm 4mm;
+
+    text-align: justify;
+
+    font-size: 11.5px;
+
+    line-height: 1.45;
+}
+
+
+.intro-text strong {
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   INFORMATION BOX
+========================================================= */
+
+.student-information-box {
+
+    width: 100%;
+
+    border: 1.2px solid #222;
+
+    border-radius: 3px;
+
+    padding: 3.5mm 4mm;
+
+    background: #fff;
+}
+
+
+/* =========================================================
+   INFORMATION ROW
+========================================================= */
+
+.info-row {
+
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 43mm 7mm 1fr;
 
-    gap: 10px;
-}
+    min-height: 6.4mm;
 
-.detail-item {
-    min-height: 70px;
+    align-items: start;
 
-    padding: 14px;
+    font-size: 11.5px;
 
-    background: #fafcfa;
-
-    border: 1px solid var(--border);
-
-    border-radius: 8px;
-
-    transition: .2s ease;
-}
-
-.detail-item:hover {
-    border-color: #c5d6cf;
-    background: #f8fbf9;
-}
-
-/* ============================================================
-   ELIGIBLE
-   ============================================================ */
-
-.eligible {
-    color: var(--success) !important;
-}
-
-/* ============================================================
-   ALLOTMENT CARD
-   ============================================================ */
-
-.allotment-card {
-    border-top: 3px solid var(--green);
-}
-
-.allotment-main {
-    display: grid;
-
-    grid-template-columns: 1fr 230px;
-
-    gap: 12px;
-
-    margin-bottom: 13px;
-}
-
-.department-block,
-.seat-block {
-    background: #f8faf9;
-
-    border: 1px solid var(--border);
-
-    border-radius: 9px;
-
-    padding: 18px;
-}
-
-.department-block > span,
-.seat-block > span {
-    display: block;
-
-    color: #87938f;
-
-    font-size: 8px;
-    font-weight: 900;
-
-    letter-spacing: 1px;
-}
-
-.department-block h2 {
-    margin-top: 8px;
-
-    color: var(--green-dark);
-
-    font-size: 18px;
     line-height: 1.35;
 }
 
-.department-block p {
-    margin-top: 6px;
 
-    color: var(--muted);
+.info-label {
 
-    font-size: 10px;
+    font-weight: 700;
+
+    padding-right: 2mm;
 }
 
-.seat-block {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 
-    background: var(--green-dark);
+.colon {
+
+    font-weight: 700;
+
+    text-align: center;
 }
 
-.seat-block > span {
-    color: #a9c3ba;
+
+.info-value {
+
+    padding-left: 1mm;
+
+    word-break: normal;
+
+    overflow-wrap: anywhere;
 }
 
-.seat-block strong {
-    margin-top: 7px;
 
-    color: white;
-
-    font-size: 22px;
-    letter-spacing: 1px;
-}
-
-/* ============================================================
-   ALLOTMENT GRID
-   ============================================================ */
-
-.allotment-grid {
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 10px;
-}
-
-.allotment-item {
-    padding: 14px;
-
-    border: 1px solid var(--border);
-
-    border-radius: 8px;
-
-    background: white;
-}
-
-.seat-allotted {
-    color: var(--success) !important;
-}
-
-/* ============================================================
-   PAYMENT
-   ============================================================ */
-
-.payment-grid {
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
-    gap: 10px;
-}
-
-.payment-item {
-    min-height: 75px;
-
-    padding: 14px;
-
-    background: #fafcfa;
-
-    border: 1px solid var(--border);
-
-    border-radius: 8px;
-}
-
-.payment-pending {
-    color: var(--warning) !important;
-}
-
-/* ============================================================
+/* =========================================================
    REPORTING
-   ============================================================ */
+========================================================= */
 
-.reporting-grid {
-    display: grid;
+.reporting-information {
 
-    grid-template-columns: repeat(3, 1fr);
+    margin-top: 4mm;
 
-    gap: 10px;
+    padding: 0 1mm;
+
+    font-size: 11.5px;
+
+    line-height: 1.4;
 }
 
-.reporting-item {
-    padding: 15px;
 
-    border: 1px solid var(--border);
+.reporting-information p {
 
-    background: #fafcfa;
+    margin-bottom: 2.2mm;
 
-    border-radius: 8px;
+    text-align: justify;
 }
 
-/* ============================================================
-   INSTRUCTIONS
-   ============================================================ */
 
-.instruction-card {
-    padding: 20px;
+.important-reporting {
+
+    color: #e00000;
+
+    font-weight: 700;
+}
+
+
+.important-reporting strong {
+
+    color: #e00000;
+}
+
+
+/* =========================================================
+   SECRETARY
+========================================================= */
+
+.secretary-section {
+
+    height: 20mm;
 
     display: flex;
 
-    gap: 15px;
+    justify-content: flex-end;
 
-    background: #f3f7f5;
-
-    border-color: #dce8e2;
+    align-items: flex-end;
 }
 
-.instruction-icon {
-    width: 30px;
-    height: 30px;
 
-    flex: 0 0 30px;
+.secretary-content {
 
-    border-radius: 50%;
+    width: 60mm;
 
-    border: 1px solid #bfd1c9;
-
-    background: white;
-
-    color: var(--green);
+    text-align: center;
 
     display: flex;
-    align-items: center;
-    justify-content: center;
 
-    font-size: 13px;
-    font-weight: 900;
-}
-
-.instruction-content h3 {
-    color: var(--green-dark);
-
-    font-size: 13px;
-}
-
-.instruction-content ol {
-    margin-top: 9px;
-
-    padding-left: 18px;
-}
-
-.instruction-content li {
-    margin-bottom: 5px;
-
-    color: #667570;
+    flex-direction: column;
 
     font-size: 10px;
 
-    line-height: 1.55;
+    line-height: 1.3;
 }
 
-/* ============================================================
-   DECLARATION
-   ============================================================ */
 
-.declaration-card {
-    padding: 18px 20px;
+.secretary-content strong {
 
-    background: white;
+    font-size: 11px;
+
+    margin-bottom: 1mm;
 }
 
-.declaration-card p {
-    margin-top: 7px;
 
-    color: #727f7b;
+.signature-space {
 
-    font-size: 10px;
-
-    line-height: 1.65;
+    height: 7mm;
 }
 
-/* ============================================================
-   DOCUMENT FOOTER
-   ============================================================ */
 
-.document-footer {
-    margin: 20px 25px 0;
+/* =========================================================
+   FOOTNOTES
+========================================================= */
 
-    padding: 18px 5px;
+.document-footnotes {
 
-    border-top: 1px solid var(--border);
+    margin-top: 1mm;
+
+    padding-top: 2mm;
+
+    border-top: 1px solid #777;
+
+    font-size: 9.5px;
+
+    line-height: 1.35;
+}
+
+
+.document-footnotes p {
+
+    margin-bottom: 1mm;
+}
+
+
+/* =========================================================
+   ACKNOWLEDGEMENT BOX
+========================================================= */
+
+.acknowledgement-box {
+
+    position: absolute;
+
+    left: 14mm;
+
+    right: 14mm;
+
+    bottom: 11mm;
+
+    min-height: 52mm;
+
+    border: 1.2px solid #222;
+
+    border-radius: 3px;
+
+    padding: 4mm 4.5mm 3.5mm;
+}
+
+
+/* =========================================================
+   ACKNOWLEDGEMENT TITLE
+========================================================= */
+
+.acknowledgement-title {
+
+    text-align: center;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    text-decoration: underline;
+
+    margin-bottom: 4mm;
+}
+
+
+/* =========================================================
+   ACKNOWLEDGEMENT TEXT
+========================================================= */
+
+.acknowledgement-box p {
+
+    font-size: 10.5px;
+
+    line-height: 1.4;
+
+    text-align: justify;
+
+    margin-bottom: 3mm;
+}
+
+
+/* =========================================================
+   SIGNATURES
+========================================================= */
+
+.acknowledgement-signatures {
 
     display: flex;
 
     justify-content: space-between;
 
-    align-items: center;
+    align-items: flex-end;
+
+    margin-top: 5mm;
 }
 
-.document-footer strong {
-    display: block;
 
-    color: var(--green-dark);
+.applicant-signature {
 
-    font-size: 10px;
+    width: 53mm;
 
-    letter-spacing: .4px;
-}
-
-.document-footer span {
-    display: block;
-
-    margin-top: 4px;
-
-    color: var(--muted);
-
-    font-size: 8px;
-}
-
-.footer-right {
-    text-align: right;
-}
-
-.footer-right span {
-    color: #87938f;
-
-    font-size: 8px;
-
-    font-weight: 800;
-
-    letter-spacing: .8px;
-}
-
-/* ============================================================
-   BOTTOM ACTIONS
-   ============================================================ */
-
-.bottom-actions {
-    margin: 15px 25px 0;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    gap: 12px;
-}
-
-.back-button {
-    padding: 10px 15px;
-
-    border: 1px solid var(--border-dark);
-
-    border-radius: 7px;
-
-    background: white;
-
-    color: #64726d;
+    text-align: center;
 
     font-size: 9px;
-    font-weight: 800;
-
-    transition: .2s ease;
 }
 
-.back-button:hover {
-    background: #f1f5f3;
 
-    border-color: #b9cbc4;
+.principal-signature {
 
-    color: var(--green-dark);
+    width: 58mm;
+
+    text-align: center;
+
+    font-size: 9px;
 }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
 
-@media (max-width: 1000px) {
+.signature-line {
+
+    width: 100%;
+
+    height: 1px;
+
+    background: #111;
+
+    margin-bottom: 2px;
+}
+
+
+.principal-signature strong {
+
+    display: block;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   PAGE 2 HEADER
+========================================================= */
+
+.second-header {
+
+    position: relative;
+
+    min-height: 18mm;
+
+    border-bottom: 1px solid #222;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+.second-page-number {
+
+    position: absolute;
+
+    top: 0;
+
+    right: 0;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.second-header-title {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+
+.second-header-title strong {
+
+    font-size: 14px;
+}
+
+
+.second-header-title span {
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   NOTES
+========================================================= */
+
+.notes-section {
+
+    margin-top: 5mm;
+}
+
+
+.notes-section h2 {
+
+    font-size: 14px;
+
+    margin-bottom: 3mm;
+}
+
+
+.notes-section ol {
+
+    margin: 0;
+
+    padding-left: 8mm;
+}
+
+
+.notes-section li {
+
+    padding-left: 1mm;
+
+    margin-bottom: 2.8mm;
+
+    font-size: 10.5px;
+
+    line-height: 1.38;
+
+    text-align: justify;
+}
+
+
+/* =========================================================
+   DOCUMENTS BOX
+========================================================= */
+
+.documents-box {
+
+    margin-top: 6mm;
+
+    border: 1.2px solid #222;
+
+    border-radius: 3px;
+
+    padding: 5mm 5mm 4mm;
+}
+
+
+.documents-box h2 {
+
+    text-align: center;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+
+    margin-bottom: 5mm;
+}
+
+
+.documents-list {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8mm;
+}
+
+
+.document-column {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3mm;
+}
+
+
+.document-item {
+
+    display: grid;
+
+    grid-template-columns: 7mm 1fr;
+
+    align-items: start;
+
+    font-size: 10px;
+
+    line-height: 1.38;
+
+    text-align: justify;
+}
+
+
+.document-number {
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PAGE 2 FOOTER
+========================================================= */
+
+.document-footer {
+
+    position: absolute;
+
+    bottom: 7mm;
+
+    left: 14mm;
+
+    right: 14mm;
+
+    border-top: 1px solid #555;
+
+    padding-top: 2mm;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   SCREEN SHADOW
+========================================================= */
+
+@media screen {
 
     .page {
-        max-width: 100%;
-    }
 
-    .order-grid,
-    .payment-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+        box-shadow:
+            0 2px 15px rgba(0, 0, 0, 0.15);
 
-    .order-item:nth-child(2) {
-        border-right: none;
-    }
-
-    .details-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .allotment-main {
-        grid-template-columns: 1fr 190px;
+        margin-bottom: 20px;
     }
 }
 
-@media (max-width: 700px) {
 
-    .header {
-        padding: 16px 20px;
-
-        align-items: flex-start;
-
-        gap: 15px;
-    }
-
-    .header-right {
-        display: none;
-    }
-
-    .college-info h1 {
-        font-size: 13px;
-    }
-
-    .page-heading {
-        margin: 25px 15px 18px;
-
-        flex-direction: column;
-
-        align-items: flex-start;
-    }
-
-    .page-heading h2 {
-        font-size: 25px;
-    }
-
-    .status-card,
-    .order-card,
-    .details-card,
-    .allotment-card,
-    .payment-card,
-    .reporting-card,
-    .instruction-card,
-    .declaration-card {
-        margin-left: 15px;
-        margin-right: 15px;
-    }
-
-    .status-card {
-        align-items: flex-start;
-
-        flex-direction: column;
-
-        gap: 15px;
-    }
-
-    .order-grid,
-    .details-grid,
-    .allotment-grid,
-    .payment-grid,
-    .reporting-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .order-item {
-        border-right: none;
-
-        border-bottom: 1px solid var(--border);
-    }
-
-    .order-item:last-child {
-        border-bottom: none;
-    }
-
-    .allotment-main {
-        grid-template-columns: 1fr;
-    }
-
-    .seat-block {
-        min-height: 100px;
-    }
-
-    .document-footer {
-        margin-left: 15px;
-        margin-right: 15px;
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 12px;
-    }
-
-    .footer-right {
-        text-align: left;
-    }
-
-    .bottom-actions {
-        margin-left: 15px;
-        margin-right: 15px;
-
-        flex-direction: column-reverse;
-
-        align-items: stretch;
-    }
-
-    .bottom-actions button {
-        width: 100%;
-    }
-}
-
-/* ============================================================
-   PRINT / SAVE PDF
-   ============================================================ */
+/* =========================================================
+   PRINT
+========================================================= */
 
 @media print {
 
     @page {
-        size: A4;
-        margin: 12mm;
-    }
 
-    * {
-        box-shadow: none !important;
-    }
-
-    body {
-        background: white;
-        color: black;
-        font-size: 10px;
-    }
-
-    .page {
-        width: 100%;
-        max-width: none;
-
-        padding: 0;
+        size: A4 portrait;
 
         margin: 0;
     }
 
-    .header {
-        border-bottom: 2px solid var(--green-dark);
 
-        padding: 8px 0 12px;
+    html {
+
+        background: #fff;
+    }
+
+
+    body {
+
+        background: #fff;
+
+        margin: 0;
+    }
+
+
+    .screen-toolbar {
+
+        display: none !important;
+    }
+
+
+    .document {
+
+        width: 210mm;
+
+        margin: 0;
 
         box-shadow: none;
     }
 
-    .header-right,
-    .heading-actions,
-    .bottom-actions {
-        display: none !important;
+
+    .page {
+
+        width: 210mm;
+
+        height: 297mm;
+
+        margin: 0;
+
+        padding:
+
+            13mm
+            14mm
+            12mm;
+
+        box-shadow: none;
+
+        overflow: hidden;
+
+        page-break-after: always;
+
+        break-after: page;
     }
 
-    .page-heading {
-        margin: 15px 0;
 
-        padding-bottom: 10px;
+    .page:last-child {
 
-        border-bottom: 1px solid #ddd;
+        page-break-after: auto;
+
+        break-after: auto;
     }
 
-    .page-heading h2 {
-        font-size: 22px;
+
+    .page-one {
+
+        page-break-after: always;
+
+        break-after: page;
     }
 
-    .page-heading p {
-        font-size: 9px;
+
+    .page-two {
+
+        page-break-before: always;
+
+        break-before: page;
     }
 
-    .status-card,
-    .order-card,
-    .details-card,
-    .allotment-card,
-    .payment-card,
-    .reporting-card,
-    .instruction-card,
-    .declaration-card {
-        margin-left: 0;
-        margin-right: 0;
 
-        margin-bottom: 10px;
+    * {
 
-        border-radius: 4px;
+        -webkit-print-color-adjust: exact !important;
 
-        break-inside: avoid;
-    }
-
-    .status-card {
-        padding: 12px 15px;
-    }
-
-    .order-card,
-    .details-card,
-    .allotment-card,
-    .payment-card,
-    .reporting-card {
-        padding: 14px;
-    }
-
-    .card-heading {
-        padding-bottom: 9px;
-        margin-bottom: 10px;
-    }
-
-    .card-heading h3 {
-        font-size: 13px;
-    }
-
-    .order-item,
-    .detail-item,
-    .allotment-item,
-    .payment-item,
-    .reporting-item {
-        padding: 9px;
-    }
-
-    .order-item strong,
-    .detail-item strong,
-    .allotment-item strong,
-    .payment-item strong,
-    .reporting-item strong {
-        font-size: 9px;
-    }
-
-    .department-block,
-    .seat-block {
-        padding: 12px;
-    }
-
-    .department-block h2 {
-        font-size: 14px;
-    }
-
-    .seat-block strong {
-        font-size: 16px;
-    }
-
-    .instruction-card {
-        padding: 12px;
-    }
-
-    .instruction-content li {
-        font-size: 8px;
-    }
-
-    .declaration-card {
-        padding: 12px;
-    }
-
-    .document-footer {
-        margin: 10px 0 0;
-
-        padding: 12px 0;
-    }
-
-    .status-icon {
-        width: 34px;
-        height: 34px;
-
-        font-size: 14px;
-    }
-
-    .status-content h3 {
-        font-size: 14px;
-    }
-
-    .status-content p {
-        font-size: 9px;
+        print-color-adjust: exact !important;
     }
 }
 
-/* ============================================================
-   PRINT PAGE CONTROL
-   ============================================================ */
 
-@media print {
+/* =========================================================
+   MOBILE SCREEN
+========================================================= */
 
-    .status-card,
-    .order-card,
-    .details-card,
-    .allotment-card,
-    .payment-card,
-    .reporting-card,
-    .instruction-card,
-    .declaration-card {
-        page-break-inside: avoid;
+@media screen and (max-width: 850px) {
+
+    body {
+
+        overflow-x: auto;
     }
 
-    .document-footer {
-        page-break-inside: avoid;
+
+    .screen-toolbar {
+
+        width: 95%;
+
+        flex-wrap: wrap;
+    }
+
+
+    .document {
+
+        margin-left: 10px;
+
+        margin-right: 10px;
     }
 }

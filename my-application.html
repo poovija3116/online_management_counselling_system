@@ -1,181 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>My Application - GCE Erode</title>
 
-    <link rel="stylesheet"
-          href="my-application.css">
-
+    <link rel="stylesheet" href="my-application.css">
 </head>
-
 
 <body>
 
+    <!-- ================= HEADER ================= -->
+    <header class="top-header">
 
-    <!-- =========================================
-         HEADER
-    ========================================== -->
+        <div class="college-brand">
 
-    <header class="header">
+            <!-- YOUR COLLEGE LOGO -->
+            <img
+                src="logo.jpeg"
+                alt="GCE Erode Logo"
+                class="college-logo"
+            >
 
-        <div class="header-left">
-
-            <div class="college-mark">
-                GCE
-            </div>
-
-            <div>
-
-                <h1>
-                    GCE ERODE
-                </h1>
-
-                <span>
-                    MANAGEMENT COUNSELLING 2026
-                </span>
-
+            <div class="college-title">
+                <h1>GCE ERODE</h1>
+                <p>MANAGEMENT COUNSELLING 2026</p>
             </div>
 
         </div>
 
+        <div class="student-header">
 
-        <div class="header-right">
+            <div class="notification">
+                <span class="bell">♧</span>
+                <span class="notification-count">3</span>
+            </div>
 
-            <span class="header-label">
-                STUDENT PORTAL
-            </span>
+            <div class="student-profile">
+
+                <div class="profile-circle" id="profileInitial">
+                    AM
+                </div>
+
+                <div class="profile-details">
+                    <strong id="headerStudentName">
+                        Student Name
+                    </strong>
+
+                    <span>
+                        Reg No:
+                        <span id="headerRegisterNumber">
+                            202600123
+                        </span>
+                    </span>
+                </div>
+
+                <span class="profile-arrow">⌄</span>
+
+            </div>
 
         </div>
 
     </header>
 
 
+    <!-- ================= HERO ================= -->
 
-    <!-- =========================================
-         MAIN
-    ========================================== -->
+    <section class="hero-section">
 
-    <main class="container">
+        <div class="hero-content">
+
+            <span class="portal-label">
+                STUDENT PORTAL
+            </span>
+
+            <h2>
+                My Application
+            </h2>
+
+            <p>
+                View the application details entered by the Academic Support Cell.
+            </p>
+
+            <p class="future-text">
+                “Your future is our priority.”
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            class="print-button"
+            onclick="window.print()"
+        >
+            🖨
+            <span>Print / Save</span>
+        </button>
+
+    </section>
 
 
-        <!-- PAGE TITLE -->
+    <!-- ================= MAIN ================= -->
 
-        <section class="page-heading">
+    <main class="application-container">
 
-            <div>
 
-                <span class="eyebrow">
-                    APPLICATION
+        <!-- APPLICATION STATUS -->
+
+        <section class="status-card">
+
+            <div class="status-check">
+                ✓
+            </div>
+
+            <div class="status-main">
+
+                <span class="status-label">
+                    Application Status
                 </span>
 
-                <h2>
-                    My Application
-                </h2>
+                <h3>
+                    Application Submitted
+                </h3>
 
                 <p>
-                    View your submitted counselling application,
-                    eligibility and current application status.
+                    Your application has been successfully submitted
+                    for management counselling.
                 </p>
 
             </div>
 
+            <div class="status-divider"></div>
 
-            <button id="printButton"
-                    class="print-button">
+            <div class="status-detail">
 
-                PRINT / SAVE
+                <span>
+                    Application Number
+                </span>
 
-            </button>
-
-        </section>
-
-
-
-        <!-- =========================================
-             APPLICATION STATUS
-        ========================================== -->
-
-        <section class="status-card">
-
-            <div class="status-main">
-
-                <div class="status-icon">
-                    ✓
-                </div>
-
-                <div>
-
-                    <span class="section-label">
-                        APPLICATION STATUS
-                    </span>
-
-                    <h3>
-                        Application Submitted
-                    </h3>
-
-                    <p>
-                        Your application has been successfully
-                        submitted for management counselling.
-                    </p>
-
-                </div>
+                <strong id="applicationNumber">
+                    GCE20260045
+                </strong>
 
             </div>
 
+            <div class="status-divider"></div>
 
-            <div class="status-meta">
+            <div class="status-detail">
 
-                <div>
+                <span>
+                    Submitted On
+                </span>
 
-                    <span>
-                        APPLICATION NUMBER
-                    </span>
-
-                    <strong id="applicationNumber">
-                        GCE2026XXXX
-                    </strong>
-
-                </div>
-
-
-                <div>
-
-                    <span>
-                        SUBMITTED ON
-                    </span>
-
-                    <strong id="submittedDate">
-                        DD/MM/YYYY
-                    </strong>
-
-                </div>
+                <strong id="submittedDate">
+                    15-05-2025
+                </strong>
 
             </div>
 
         </section>
 
 
+        <!-- ================= STUDENT INFORMATION ================= -->
 
-        <!-- =========================================
-             STUDENT INFORMATION
-        ========================================== -->
+        <section class="information-card">
 
-        <section class="content-card">
+            <div class="card-header">
 
-            <div class="card-heading">
+                <div class="card-title">
 
-                <div>
-
-                    <span class="section-label">
-                        APPLICANT
-                    </span>
+                    <div class="title-icon">
+                        👤
+                    </div>
 
                     <h3>
                         Student Information
@@ -183,17 +180,18 @@
 
                 </div>
 
+                <span class="admin-badge">
+                    🔒 Admin Entered
+                </span>
+
             </div>
 
 
-            <div class="information-grid">
+            <div class="details-grid">
 
+                <div class="detail-item">
 
-                <div class="information-item">
-
-                    <span>
-                        FULL NAME
-                    </span>
+                    <span>Full Name</span>
 
                     <strong id="studentName">
                         Student Name
@@ -202,90 +200,54 @@
                 </div>
 
 
-                <div class="information-item">
+                <div class="detail-item">
 
-                    <span>
-                        DATE OF BIRTH
-                    </span>
+                    <span>Date of Birth</span>
 
                     <strong id="dateOfBirth">
-                        DD/MM/YYYY
+                        12-08-2007
                     </strong>
 
                 </div>
 
 
-                <div class="information-item">
+                <div class="detail-item">
 
-                    <span>
-                        GENDER
-                    </span>
-
-                    <strong id="gender">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <div class="information-item">
-
-                    <span>
-                        COMMUNITY
-                    </span>
+                    <span>Community</span>
 
                     <strong id="community">
-                        -
+                        BC
                     </strong>
 
                 </div>
 
 
-                <div class="information-item">
+                <div class="detail-item">
 
-                    <span>
-                        MOBILE NUMBER
-                    </span>
-
-                    <strong id="phone">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <div class="information-item">
-
-                    <span>
-                        EMAIL
-                    </span>
+                    <span>Email</span>
 
                     <strong id="email">
-                        -
+                        student@gmail.com
                     </strong>
 
                 </div>
-
 
             </div>
 
         </section>
 
 
+        <!-- ================= ACADEMIC INFORMATION ================= -->
 
-        <!-- =========================================
-             ACADEMIC INFORMATION
-        ========================================== -->
+        <section class="information-card">
 
-        <section class="content-card">
+            <div class="card-header">
 
-            <div class="card-heading">
+                <div class="card-title">
 
-                <div>
-
-                    <span class="section-label">
-                        ELIGIBILITY
-                    </span>
+                    <div class="title-icon">
+                        🎓
+                    </div>
 
                     <h3>
                         Academic Information
@@ -293,20 +255,21 @@
 
                 </div>
 
+                <span class="admin-badge">
+                    🔒 Admin Entered
+                </span>
+
             </div>
 
 
-            <div class="academic-box">
-
+            <div class="academic-grid">
 
                 <div class="academic-item">
 
-                    <span>
-                        COUNSELLING RANK
-                    </span>
+                    <span>Counselling Rank</span>
 
                     <strong id="rank">
-                        XXXXX
+                        428
                     </strong>
 
                 </div>
@@ -314,11 +277,20 @@
 
                 <div class="academic-item">
 
-                    <span>
-                        ELIGIBILITY STATUS
-                    </span>
+                    <span>Cutoff Mark</span>
 
-                    <strong class="eligible">
+                    <strong id="cutoffMark">
+                        186.50
+                    </strong>
+
+                </div>
+
+
+                <div class="academic-item">
+
+                    <span>Eligibility Status</span>
+
+                    <strong class="eligible" id="eligibilityStatus">
                         Eligible
                     </strong>
 
@@ -327,9 +299,7 @@
 
                 <div class="academic-item">
 
-                    <span>
-                        CURRENT ROUND
-                    </span>
+                    <span>Current Round</span>
 
                     <strong id="currentRound">
                         Round 01
@@ -340,336 +310,258 @@
 
                 <div class="academic-item">
 
-                    <span>
-                        ELIGIBLE RANK RANGE
-                    </span>
+                    <span>Eligible Rank Range</span>
 
                     <strong id="rankRange">
-                        1 – 100
+                        1 – 1000
                     </strong>
 
                 </div>
 
-
             </div>
 
         </section>
 
 
+        <!-- ================= HELP / ERROR ================= -->
 
-        <!-- =========================================
-             COUNSELLING STATUS
-        ========================================== -->
+        <section class="help-card">
 
-        <section class="content-card">
-
-            <div class="card-heading">
-
-                <div>
-
-                    <span class="section-label">
-                        COUNSELLING
-                    </span>
-
-                    <h3>
-                        Current Progress
-                    </h3>
-
-                </div>
-
-            </div>
-
-
-            <div class="progress-list">
-
-
-                <div class="progress-item completed">
-
-                    <div class="progress-number">
-                        1
-                    </div>
-
-                    <div class="progress-text">
-
-                        <strong>
-                            Application Submitted
-                        </strong>
-
-                        <span>
-                            Your application has been submitted successfully.
-                        </span>
-
-                    </div>
-
-                    <div class="progress-status">
-                        COMPLETED
-                    </div>
-
-                </div>
-
-
-
-                <div class="progress-item active">
-
-                    <div class="progress-number">
-                        2
-                    </div>
-
-                    <div class="progress-text">
-
-                        <strong>
-                            Choice Filling
-                        </strong>
-
-                        <span id="choiceStatus">
-                            Check your dashboard for the current choice-filling status.
-                        </span>
-
-                    </div>
-
-                    <div class="progress-status">
-                        CURRENT
-                    </div>
-
-                </div>
-
-
-
-                <div class="progress-item">
-
-                    <div class="progress-number">
-                        3
-                    </div>
-
-                    <div class="progress-text">
-
-                        <strong>
-                            Seat Allotment
-                        </strong>
-
-                        <span>
-                            Allotment will be processed according to rank,
-                            preferences and available seats.
-                        </span>
-
-                    </div>
-
-                    <div class="progress-status">
-                        PENDING
-                    </div>
-
-                </div>
-
-
-
-                <div class="progress-item">
-
-                    <div class="progress-number">
-                        4
-                    </div>
-
-                    <div class="progress-text">
-
-                        <strong>
-                            Payment
-                        </strong>
-
-                        <span>
-                            Payment instructions will appear after allotment.
-                        </span>
-
-                    </div>
-
-                    <div class="progress-status">
-                        PENDING
-                    </div>
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             IMPORTANT NOTE
-        ========================================== -->
-
-        <section class="notice">
-
-            <div class="notice-icon">
+            <div class="help-icon">
                 i
             </div>
 
-            <div>
-
-                <strong>
-                    Keep your application details safe
-                </strong>
-
-                <p>
-                    Your application number is required for
-                    future counselling-related communication.
-                    Do not share your login credentials with others.
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             ERROR REPORT
-        ========================================== -->
-
-        <section class="error-card">
-
-            <div>
-
-                <span class="section-label">
-                    NEED HELP?
-                </span>
+            <div class="help-content">
 
                 <h3>
-                    Found an error in your application?
+                    Need Help?
                 </h3>
 
                 <p>
-                    If any personal, academic or application information
-                    is incorrect, report it to the Academic Support Cell.
+                    If you find any error in your application details,
+                    please use the <b>Report Error</b> option below.
+                </p>
+
+                <p>
+                    The Academic Support Cell will review and correct
+                    the details if required.
                 </p>
 
             </div>
 
-
-            <button id="reportErrorButton"
-                    class="error-button">
-
-                REPORT AN ERROR
-
+            <button
+                type="button"
+                class="report-button"
+                id="reportErrorButton"
+            >
+                ⚠
+                Report Error
             </button>
 
         </section>
 
 
+        <!-- ================= BACK BUTTON ================= -->
 
-        <!-- =========================================
-             BOTTOM ACTIONS
-        ========================================== -->
-
-        <div class="bottom-actions">
-
-            <button id="backButton"
-                    class="back-button">
-
-                ← BACK TO DASHBOARD
-
-            </button>
-
-        </div>
+        <button
+            type="button"
+            class="back-button"
+            onclick="window.location.href='student-dashboard.html'"
+        >
+            ←
+            <span>Back to Dashboard</span>
+        </button>
 
 
     </main>
 
 
+    <!-- ================= ERROR MODAL ================= -->
 
-    <!-- =========================================
-         ERROR MODAL
-    ========================================== -->
+    <div
+        class="error-modal"
+        id="errorModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="errorModalTitle"
+    >
 
-    <div id="errorModal"
-         class="modal-overlay">
+        <div class="error-modal-box">
 
-        <div class="modal">
-
-            <button id="closeModal"
-                    class="close-button">
-
+            <button
+                type="button"
+                class="modal-close"
+                id="closeErrorModal"
+            >
                 ×
-
             </button>
 
 
-            <span class="section-label">
-                APPLICATION SUPPORT
-            </span>
+            <div class="modal-heading">
 
-            <h3>
-                Report an Application Error
-            </h3>
+                <div class="modal-warning-icon">
+                    ⚠
+                </div>
 
-            <p>
-                Select the information that needs correction
-                and describe the problem clearly.
-            </p>
+                <div>
+                    <h3 id="errorModalTitle">
+                        Report an Application Error
+                    </h3>
 
+                    <p>
+                        Select the information that needs correction
+                        and describe the error clearly.
+                    </p>
+                </div>
 
-            <label for="errorType">
-                INFORMATION TYPE
-            </label>
-
-            <select id="errorType">
-
-                <option value="">
-                    Select
-                </option>
-
-                <option>
-                    Personal Information
-                </option>
-
-                <option>
-                    Academic Information
-                </option>
-
-                <option>
-                    Community Information
-                </option>
-
-                <option>
-                    Rank / Eligibility
-                </option>
-
-                <option>
-                    Application Information
-                </option>
-
-                <option>
-                    Other
-                </option>
-
-            </select>
+            </div>
 
 
-            <label for="errorDescription">
-                DESCRIPTION
-            </label>
+            <!-- ================= INFORMATION TYPE ================= -->
 
-            <textarea id="errorDescription"
-                      rows="5"
-                      placeholder="Describe the error..."></textarea>
+            <div class="form-group">
+
+                <label for="errorType">
+                    Information Type <span>*</span>
+                </label>
+
+                <select id="errorType">
+
+                    <option value="">
+                        Select information
+                    </option>
+
+                    <option value="name">
+                        Full Name
+                    </option>
+
+                    <option value="date_of_birth">
+                        Date of Birth
+                    </option>
+
+                    <option value="gender">
+                        Gender
+                    </option>
+
+                    <option value="community">
+                        Community
+                    </option>
+
+                    <option value="email">
+                        Email
+                    </option>
+
+                    <option value="cutoff">
+                        Cutoff Mark
+                    </option>
+
+                    <option value="rank">
+                        Counselling Rank
+                    </option>
+
+                    <option value="application_number">
+                        Application Number
+                    </option>
+
+                    <option value="other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
 
 
-            <button id="submitError"
-                    class="submit-error">
+            <!-- ================= INCORRECT DATA ================= -->
+            <!-- ADDED ONLY -->
 
-                SUBMIT ERROR REPORT
+            <div class="form-group">
 
-            </button>
+                <label for="incorrectData">
+                    Incorrect Data <span>*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="incorrectData"
+                    placeholder="Enter the information currently shown"
+                >
+
+            </div>
 
 
-            <p id="errorMessage"
-               class="error-message"></p>
+            <!-- ================= CORRECT DATA ================= -->
+            <!-- ADDED ONLY -->
+
+            <div class="form-group">
+
+                <label for="correctData">
+                    Correct Data <span>*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="correctData"
+                    placeholder="Enter the correct information"
+                >
+
+            </div>
+
+
+            <!-- ================= EXISTING DESCRIPTION ================= -->
+
+            <div class="form-group">
+
+                <label for="errorDescription">
+                    Description <span>*</span>
+                </label>
+
+                <textarea
+                    id="errorDescription"
+                    maxlength="500"
+                    placeholder="Describe the incorrect information and the required correction..."
+                ></textarea>
+
+                <div class="character-count">
+                    <span id="errorCharacterCount">0</span>/500
+                </div>
+
+            </div>
+
+
+            <p
+                class="error-message"
+                id="errorMessage"
+            ></p>
+
+
+            <div class="modal-buttons">
+
+                <button
+                    type="button"
+                    class="cancel-button"
+                    id="cancelError"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="submit-error-button"
+                    id="submitError"
+                >
+                    ✈
+                    Submit Error Report
+                </button>
+
+            </div>
 
         </div>
 
     </div>
 
 
+    <script src="my-application.js"></script>
 
 </body>
-
 </html>

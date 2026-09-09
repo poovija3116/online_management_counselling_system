@@ -1,330 +1,1174 @@
-* {
-    box-sizing: border-box;
+/* =========================================================
+GCE ERODE - ADMIN PORTAL
+Premium Academic Counselling Dashboard
+========================================================= */
+
+/* ---------- GOOGLE FONTS ---------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ---------- COLOR VARIABLES ---------- */
+
+:root {
+--deep-forest: #0B4D35;
+--primary-green: #176B45;
+--dark-green: #123F30;
+
+
+--sage: #DDEBDD;
+--light-green: #EEF5EC;
+--background: #F4F7F2;
+
+--white: #FFFFFF;
+
+--muted-text: #66736D;
+--border: #D4E1D7;
+
+--shadow-soft:
+    0 10px 30px rgba(11, 77, 53, 0.07);
+
+--shadow-hover:
+    0 16px 38px rgba(11, 77, 53, 0.13);
+
+--radius-large: 18px;
+--radius-medium: 16px;
+
+
 }
 
+/* ---------- RESET ---------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+html {
+scroll-behavior: smooth;
+}
 
 body {
-    margin: 0;
+min-height: 100vh;
 
-    font-family: Arial, sans-serif;
 
-    background: #f3f8f4;
+font-family: "Poppins", "Inter", Arial, sans-serif;
 
-    color: #315c3b;
+color: var(--dark-green);
+
+background:
+    radial-gradient(
+        circle at 8% 10%,
+        rgba(221, 235, 221, 0.45),
+        transparent 28%
+    ),
+    radial-gradient(
+        circle at 92% 35%,
+        rgba(238, 245, 236, 0.8),
+        transparent 30%
+    ),
+    var(--background);
+
+overflow-x: hidden;
+
+
 }
 
-
-/* HEADER */
+/* =========================================================
+HEADER
+========================================================= */
 
 .admin-header {
-    text-align: center;
+position: relative;
 
-    background: #ffffff;
 
-    border-bottom: 1px solid #c9ddcc;
+background: var(--white);
 
-    padding-top: 20px;
+border-bottom: 1px solid var(--border);
+
+text-align: center;
+
+padding-top: 22px;
+
+overflow: hidden;
+
+
 }
 
+/* College name */
 
 .admin-header h1 {
-    margin: 0;
+font-family: "Poppins", Arial, sans-serif;
 
-    font-size: 20px;
 
-    color: #285c37;
+font-size: 17px;
+
+font-weight: 600;
+
+letter-spacing: 1.5px;
+
+color: var(--deep-forest);
+
+line-height: 1.5;
+
+padding: 0 20px;
+
+
 }
 
+/* Academic Support Cell */
 
 .admin-header h2 {
-    margin: 6px 0 15px;
+margin-top: 5px;
 
-    font-size: 13px;
 
-    color: #6b806f;
+font-family: "Playfair Display", Georgia, serif;
 
-    letter-spacing: 1px;
+font-size: 18px;
+
+font-weight: 600;
+
+letter-spacing: 3px;
+
+color: var(--primary-green);
+
+text-transform: uppercase;
+
+
 }
 
+/* =========================================================
+ADMIN NAVBAR / TITLE BAR
+========================================================= */
 
 .title-bar {
-    background: #326d40;
+position: relative;
 
-    color: white;
 
-    padding: 13px;
+width: 100%;
 
-    font-size: 13px;
+min-height: 48px;
 
-    font-weight: bold;
+margin-top: 18px;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+background: var(--deep-forest);
+
+color: var(--white);
+
+font-size: 14px;
+
+font-weight: 600;
+
+letter-spacing: 5px;
+
+text-transform: uppercase;
+
+box-shadow: 0 3px 12px rgba(11, 77, 53, 0.08);
+
+
 }
 
+/* Subtle decorative line */
 
-/* MAIN */
+.title-bar::after {
+content: "";
+
+
+position: absolute;
+
+bottom: 0;
+
+left: 50%;
+
+transform: translateX(-50%);
+
+width: 70px;
+
+height: 2px;
+
+background: var(--sage);
+
+opacity: 0.7;
+
+
+}
+
+/* =========================================================
+MAIN CONTAINER
+========================================================= */
 
 .admin-container {
-    max-width: 1000px;
+position: relative;
 
-    margin: 40px auto;
 
-    padding: 0 20px;
+width: min(1200px, calc(100% - 40px));
+
+margin: 0 auto;
+
+padding: 42px 0 70px;
+
+isolation: isolate;
+
+
 }
 
+/* =========================================================
+BOTANICAL DECORATION
+========================================================= */
 
-/* WELCOME */
+.admin-container::before {
+content: "";
+
+
+position: absolute;
+
+width: 210px;
+height: 210px;
+
+top: 10px;
+left: -100px;
+
+border-radius: 65% 35% 70% 30% / 45% 55% 45% 55%;
+
+background:
+    radial-gradient(
+        ellipse at center,
+        rgba(221, 235, 221, 0.75) 0%,
+        rgba(221, 235, 221, 0.35) 45%,
+        transparent 70%
+    );
+
+transform: rotate(-25deg);
+
+z-index: -1;
+
+pointer-events: none;
+
+
+}
+
+.admin-container::after {
+content: "";
+
+
+position: absolute;
+
+width: 230px;
+height: 230px;
+
+right: -115px;
+bottom: 100px;
+
+border-radius: 35% 65% 35% 65% / 60% 40% 60% 40%;
+
+background:
+    radial-gradient(
+        ellipse at center,
+        rgba(221, 235, 221, 0.7) 0%,
+        rgba(221, 235, 221, 0.3) 45%,
+        transparent 72%
+    );
+
+transform: rotate(28deg);
+
+z-index: -1;
+
+pointer-events: none;
+
+
+}
+
+/* =========================================================
+WELCOME / HERO SECTION
+========================================================= */
 
 .welcome-section {
-    text-align: center;
+position: relative;
 
-    background: #ffffff;
 
-    border: 1px solid #d1e1d3;
+min-height: 240px;
 
-    border-radius: 12px;
+display: flex;
 
-    padding: 30px;
+flex-direction: column;
 
-    margin-bottom: 25px;
+align-items: center;
+
+justify-content: center;
+
+text-align: center;
+
+padding: 42px 35px;
+
+background:
+    radial-gradient(
+        circle at 8% 15%,
+        rgba(221, 235, 221, 0.65),
+        transparent 25%
+    ),
+    radial-gradient(
+        circle at 92% 85%,
+        rgba(238, 245, 236, 0.9),
+        transparent 30%
+    ),
+    var(--white);
+
+border: 1px solid var(--border);
+
+border-radius: var(--radius-large);
+
+box-shadow: var(--shadow-soft);
+
+overflow: hidden;
+
+
+}
+
+/* Botanical leaf - top left */
+
+.welcome-section::before {
+content: "";
+
+
+position: absolute;
+
+width: 125px;
+height: 75px;
+
+top: -22px;
+left: -25px;
+
+border-radius: 100% 0 100% 0;
+
+background: var(--sage);
+
+opacity: 0.45;
+
+transform: rotate(-30deg);
+
+pointer-events: none;
+
+
+}
+
+/* Botanical leaf - bottom right */
+
+.welcome-section::after {
+content: "";
+
+
+position: absolute;
+
+width: 140px;
+height: 80px;
+
+right: -35px;
+bottom: -25px;
+
+border-radius: 0 100% 0 100%;
+
+background: var(--sage);
+
+opacity: 0.4;
+
+transform: rotate(28deg);
+
+pointer-events: none;
+
+
+}
+
+/* Small uppercase label */
+
+.welcome-section > span {
+position: relative;
+
+
+z-index: 2;
+
+font-size: 11px;
+
+font-weight: 600;
+
+letter-spacing: 3px;
+
+color: var(--primary-green);
+
+text-transform: uppercase;
+
+margin-bottom: 12px;
+
+
+}
+
+/* Main heading */
+
+.welcome-section h2 {
+position: relative;
+
+
+z-index: 2;
+
+font-family: "Playfair Display", Georgia, serif;
+
+font-size: clamp(34px, 4vw, 48px);
+
+font-weight: 600;
+
+line-height: 1.15;
+
+color: var(--deep-forest);
+
+margin-bottom: 12px;
+
+
+}
+
+/* Subtitle */
+
+.welcome-section p {
+position: relative;
+
+
+z-index: 2;
+
+max-width: 650px;
+
+color: var(--muted-text);
+
+font-size: 14px;
+
+line-height: 1.7;
+
+
+}
+
+/* =========================================================
+ADMIN ACTIONS
+========================================================= */
+
+.admin-actions {
+width: 75%;
+
+
+margin: 42px auto 0;
+
+display: flex;
+
+flex-direction: column;
+
+gap: 20px;
+
+position: relative;
+
+
+}
+
+/* =========================================================
+ADMIN BUTTON / CARD
+========================================================= */
+
+.admin-button {
+position: relative;
+
+
+width: 100%;
+
+min-height: 120px;
+
+display: flex;
+
+align-items: center;
+
+text-align: left;
+
+padding: 22px 24px;
+
+background: var(--white);
+
+border: 1px solid var(--border);
+
+border-left: 4px solid var(--primary-green);
+
+border-radius: var(--radius-medium);
+
+box-shadow: var(--shadow-soft);
+
+cursor: pointer;
+
+font-family: inherit;
+
+color: inherit;
+
+transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-left-color 0.28s ease;
+
+overflow: hidden;
+
+
+}
+
+/* Very subtle card background */
+
+.admin-button::before {
+content: "";
+
+
+position: absolute;
+
+width: 180px;
+height: 180px;
+
+right: -100px;
+top: -80px;
+
+border-radius: 50%;
+
+background: var(--light-green);
+
+opacity: 0.45;
+
+pointer-events: none;
+
+transition: transform 0.3s ease;
+
+
+}
+
+/* Hover */
+
+.admin-button:hover {
+transform: translateY(-4px);
+
+
+box-shadow: var(--shadow-hover);
+
+border-left-color: var(--deep-forest);
+
+
+}
+
+.admin-button:hover::before {
+transform: scale(1.25);
+}
+
+/* Keyboard accessibility */
+
+.admin-button:focus-visible {
+outline: 3px solid rgba(23, 107, 69, 0.25);
+
+
+outline-offset: 4px;
+
+
+}
+
+/* =========================================================
+CARD NUMBER
+========================================================= */
+
+.button-number {
+position: relative;
+
+
+z-index: 2;
+
+width: 35px;
+
+flex-shrink: 0;
+
+font-family: "Playfair Display", Georgia, serif;
+
+font-size: 14px;
+
+font-weight: 600;
+
+color: var(--primary-green);
+
+letter-spacing: 1px;
+
+
+}
+
+/* =========================================================
+ICON CONTAINER
+========================================================= */
+
+.button-icon {
+position: relative;
+
+
+z-index: 2;
+
+width: 72px;
+
+height: 72px;
+
+flex-shrink: 0;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+margin: 0 22px 0 5px;
+
+background: #E1F0E3;
+
+border-radius: 15px;
+
+color: var(--deep-forest);
+
+font-size: 28px;
+
+font-weight: 500;
+
+transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+
+
+}
+
+.admin-button:hover .button-icon {
+background: var(--sage);
+
+
+transform: scale(1.04);
+
+
+}
+
+/* =========================================================
+CARD CONTENT
+========================================================= */
+
+.button-content {
+position: relative;
+
+
+z-index: 2;
+
+flex: 1;
+
+min-width: 0;
+
+
+}
+
+.button-content h3 {
+margin: 0 0 6px;
+
+
+font-size: 17px;
+
+font-weight: 700;
+
+letter-spacing: 1px;
+
+color: var(--dark-green);
+
+
+}
+
+.button-content p {
+margin: 0;
+
+
+font-size: 13px;
+
+line-height: 1.5;
+
+color: var(--muted-text);
+
+
+}
+
+/* =========================================================
+ARROW BUTTON
+========================================================= */
+
+.arrow {
+position: relative;
+
+
+z-index: 2;
+
+width: 48px;
+
+height: 48px;
+
+flex-shrink: 0;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+margin-left: 20px;
+
+border-radius: 50%;
+
+background: var(--light-green);
+
+color: var(--primary-green);
+
+font-size: 23px;
+
+font-weight: 500;
+
+transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+
+
+}
+
+.admin-button:hover .arrow {
+background: var(--primary-green);
+
+
+color: var(--white);
+
+transform: translateX(3px);
+
+
+}
+
+/* =========================================================
+DECORATIVE SIDE ELEMENTS
+========================================================= */
+
+/* Creates subtle leaf-like marks near cards */
+
+.admin-actions::before {
+content: "";
+
+
+position: absolute;
+
+left: -105px;
+
+top: 120px;
+
+width: 80px;
+height: 35px;
+
+border-radius: 100% 0 100% 0;
+
+background: var(--sage);
+
+opacity: 0.35;
+
+transform: rotate(-28deg);
+
+pointer-events: none;
+
+
+}
+
+.admin-actions::after {
+content: "";
+
+
+position: absolute;
+
+right: -105px;
+
+bottom: 50px;
+
+width: 90px;
+height: 40px;
+
+border-radius: 0 100% 0 100%;
+
+background: var(--sage);
+
+opacity: 0.35;
+
+transform: rotate(25deg);
+
+pointer-events: none;
+
+
+}
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+body::after {
+content: "© 2026 Academic Support Cell. All rights reserved.";
+
+
+display: block;
+
+width: 100%;
+
+padding: 0 20px 28px;
+
+text-align: center;
+
+color: var(--muted-text);
+
+font-family: "Poppins", Arial, sans-serif;
+
+font-size: 11px;
+
+letter-spacing: 0.4px;
+
+opacity: 0.8;
+
+
+}
+
+/* =========================================================
+RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+
+.admin-container {
+    width: min(92%, 800px);
+
+    padding-top: 32px;
 }
 
 
-.welcome-section span {
-    color: #6d8972;
+.admin-actions {
+    width: 90%;
 
-    font-size: 9px;
+    margin-top: 32px;
+}
 
-    font-weight: 800;
 
-    letter-spacing: 1.5px;
+.welcome-section {
+    min-height: 215px;
+
+    padding: 35px 25px;
 }
 
 
 .welcome-section h2 {
-    color: #285c37;
-
-    font-size: 22px;
-
-    margin: 8px 0;
+    font-size: 38px;
 }
 
 
-.welcome-section p {
-    color: #718076;
+.button-icon {
+    width: 64px;
+    height: 64px;
 
-    font-size: 11px;
-
-    margin: 0;
-}
-
-
-/* ADMIN BUTTON AREA */
-
-.admin-actions {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 18px;
-}
-
-
-/* RESPONSIVE */
-
-@media (max-width: 700px) {
-
-    .admin-actions {
-        grid-template-columns: 1fr;
-    }
-
-    .admin-header h1 {
-        font-size: 14px;
-    }
-
-    .admin-header h2 {
-        font-size: 11px;
-    }
-
-    .admin-container {
-        padding: 0 12px;
-    }
-}
-.admin-actions {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 14px;
-
-    max-width: 760px;
-
-    margin: 0 auto;
+    margin-right: 18px;
 }
 
 
 .admin-button {
-    position: relative;
+    min-height: 110px;
 
+    padding: 20px;
+}
+
+
+}
+
+/* =========================================================
+RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+
+/* Header */
+
+.admin-header {
+    padding-top: 17px;
+}
+
+
+.admin-header h1 {
+    font-size: 11px;
+
+    letter-spacing: 0.8px;
+
+    line-height: 1.5;
+}
+
+
+.admin-header h2 {
+    font-size: 14px;
+
+    letter-spacing: 2px;
+
+    margin-top: 4px;
+}
+
+
+.title-bar {
+    min-height: 44px;
+
+    margin-top: 14px;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+}
+
+
+/* Main */
+
+.admin-container {
+    width: calc(100% - 24px);
+
+    padding: 24px 0 45px;
+}
+
+
+/* Hero */
+
+.welcome-section {
+    min-height: 200px;
+
+    padding: 30px 18px;
+
+    border-radius: 15px;
+}
+
+
+.welcome-section > span {
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 9px;
+}
+
+
+.welcome-section h2 {
+    font-size: 29px;
+
+    line-height: 1.2;
+
+    margin-bottom: 10px;
+}
+
+
+.welcome-section p {
+    max-width: 320px;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* Cards */
+
+.admin-actions {
     width: 100%;
 
-    min-height: 105px;
+    margin-top: 24px;
 
-    display: flex;
+    gap: 14px;
+}
 
-    align-items: center;
 
-    gap: 18px;
+.admin-button {
+    min-height: 100px;
 
-    padding: 20px 24px;
+    padding: 15px;
 
-    background: #ffffff;
+    border-left-width: 3px;
 
-    border: 1px solid #d1e1d3;
+    border-radius: 14px;
+}
+
+
+.button-number {
+    width: 25px;
+
+    font-size: 11px;
+}
+
+
+.button-icon {
+    width: 55px;
+
+    height: 55px;
+
+    margin: 0 13px 0 3px;
 
     border-radius: 12px;
 
-    cursor: pointer;
-
-    text-align: left;
-
-    transition:
-        transform 0.2s,
-        border-color 0.2s,
-        background 0.2s;
+    font-size: 22px;
 }
 
 
-.admin-button:hover {
-    transform: translateX(5px);
+.button-content h3 {
+    font-size: 13px;
 
-    background: #f5faf6;
+    letter-spacing: 0.5px;
 
-    border-color: #8db595;
+    margin-bottom: 4px;
 }
 
 
-/* NUMBER */
+.button-content p {
+    font-size: 10px;
 
-.button-number {
-    position: absolute;
+    line-height: 1.45;
+}
 
-    top: 12px;
 
-    left: 16px;
+.arrow {
+    width: 38px;
 
-    color: #9aae9d;
+    height: 38px;
 
+    margin-left: 10px;
+
+    font-size: 18px;
+}
+
+
+/* Reduce decorations */
+
+.admin-container::before {
+    width: 120px;
+
+    height: 120px;
+
+    left: -70px;
+}
+
+
+.admin-container::after {
+    width: 130px;
+
+    height: 130px;
+
+    right: -70px;
+}
+
+
+.admin-actions::before,
+.admin-actions::after {
+    display: none;
+}
+
+
+.welcome-section::before {
+    width: 90px;
+
+    height: 55px;
+}
+
+
+.welcome-section::after {
+    width: 95px;
+
+    height: 60px;
+}
+
+
+body::after {
     font-size: 9px;
 
-    font-weight: bold;
+    padding-bottom: 20px;
 }
 
 
-/* ICON */
+}
+
+/* =========================================================
+VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+
+.welcome-section h2 {
+    font-size: 25px;
+}
+
+
+.button-number {
+    display: none;
+}
+
 
 .button-icon {
     width: 48px;
 
     height: 48px;
 
-    flex-shrink: 0;
+    margin-right: 10px;
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 10px;
-
-    background: #e4f2e5;
-
-    color: #326d40;
-
-    font-size: 21px;
-
-    font-weight: bold;
-}
-
-
-/* CONTENT */
-
-.button-content {
-    flex: 1;
+    font-size: 19px;
 }
 
 
 .button-content h3 {
-    margin: 0 0 5px;
-
-    color: #285c37;
-
-    font-size: 14px;
-
-    letter-spacing: 0.3px;
+    font-size: 11px;
 }
 
 
 .button-content p {
-    margin: 0;
-
-    color: #718076;
-
-    font-size: 10px;
+    font-size: 9px;
 }
 
-
-/* ARROW */
 
 .arrow {
-    color: #5c8063;
+    width: 34px;
 
-    font-size: 20px;
+    height: 34px;
 
-    font-weight: bold;
-
-    transition: transform 0.2s;
+    margin-left: 6px;
 }
 
 
-.admin-button:hover .arrow {
-    transform: translateX(4px);
+}
+
+/* =========================================================
+REDUCED MOTION ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+
+* {
+    scroll-behavior: auto !important;
+
+    transition: none !important;
+
+    animation: none !important;
 }
 
 
-/* MOBILE */
+}
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
-@media (max-width: 600px) {
+.college-logo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
 
-    .admin-container {
-        margin-top: 25px;
-    }
-
-    .admin-button {
-        min-height: 95px;
-
-        padding: 20px;
-
-        gap: 13px;
-    }
-
-    .button-icon {
-        width: 42px;
-
-        height: 42px;
-
-        font-size: 18px;
-    }
-
-    .button-content h3 {
-        font-size: 12px;
-    }
-
-    .button-content p {
-        font-size: 9px;
-    }
-
-    .arrow {
-        font-size: 17px;
-    }
+.header-text {
+    flex: 1;
 }

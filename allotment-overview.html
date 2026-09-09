@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Allotment Overview | GCE Erode Counselling</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="allotment-overview.css">
+</head>
+
+<body>
+
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
+
+    <header class="top-header">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                🎓
+            </div>
+
+            <div>
+                <h1>Counselling Portal</h1>
+                <p>Guiding Futures Together</p>
+            </div>
+
+        </div>
+
+        <div class="header-right">
+
+            <div class="notification">
+                ♧
+                <span></span>
+            </div>
+
+            <div class="profile-circle">
+                C
+            </div>
+
+            <div class="profile-details">
+                <strong>Counsellor</strong>
+                <small>Counselling Office</small>
+            </div>
+
+            <div class="dropdown-arrow">
+                ⌄
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main class="main-container">
+
+        <!-- PAGE TITLE -->
+
+        <section class="page-heading">
+
+            <div>
+
+                <h2>Allotment Overview</h2>
+
+                <p>
+                    View the allotment statistics and details for the selected round.
+                </p>
+
+            </div>
+
+            <div class="heading-decoration">
+                <span>Plan Today</span>
+                <span>Progress Tomorrow</span>
+                <div>🍃</div>
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FILTER BAR
+        ====================================================== -->
+
+        <section class="filter-panel">
+
+            <div class="filter-group">
+
+                <label>Academic Year</label>
+
+                <select id="academicYear">
+                    <option>2025 - 2026</option>
+                    <option>2026 - 2027</option>
+                </select>
+
+            </div>
+
+
+            <div class="filter-group">
+
+                <label>Round</label>
+
+                <select id="roundSelect">
+                    <option value="">Loading...</option>
+                </select>
+
+            </div>
+
+
+            <div class="filter-group">
+
+                <label>Department</label>
+
+                <select id="programmeFilter">
+
+                    <option value="all">
+                        All Departments
+                    </option>
+
+                    <option value="CSE">
+                        B.E. CSE
+                    </option>
+
+                    <option value="ECE">
+                        B.E. ECE
+                    </option>
+
+                    <option value="MECH">
+                        B.E. MECH
+                    </option>
+
+                    <option value="CIVIL">
+                        B.E. CIVIL
+                    </option>
+
+                    <option value="IT">
+                        B.Tech IT
+                    </option>
+                    
+                    <option value="EEE">
+                        B.E. EEE
+                    </option>
+
+                    <option value="CSE DS">
+                        B.E. CSE DS
+                    </option>
+
+                     <option value="AUTO">
+                        B.E. AUTO
+                    </option>
+
+
+                </select>
+
+            </div>
+
+
+            <div class="filter-group">
+
+                <label>Category</label>
+
+                <select id="categoryFilter">
+
+                    <option value="all">
+                        All Categories
+                    </option>
+
+                    <option value="OC">OC</option>
+                    <option value="BC">BC</option>
+                    <option value="BCM">BCM</option>
+                    <option value="MBC">MBC</option>
+                    <option value="SC">SC</option>
+                    <option value="ST">ST</option>
+                    <option value="SCA">SCA</option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="apply-button"
+                id="applyFilters">
+
+                <span>⚱</span>
+                Apply Filters
+
+            </button>
+
+        </section>
+
+
+        <!-- =====================================================
+             STATISTICS
+        ====================================================== -->
+
+        <section class="stats-grid">
+
+
+            <!-- TOTAL -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👥
+                </div>
+
+                <div class="stat-content">
+
+                    <span class="stat-title">
+                        Total Applicants
+                    </span>
+
+                    <strong id="totalApplicants">
+                        0
+                    </strong>
+
+                    <span class="stat-badge green">
+                        Current round
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ALLOTTED -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👤✓
+                </div>
+
+                <div class="stat-content">
+
+                    <span class="stat-title">
+                        Students Allotted
+                    </span>
+
+                    <strong id="studentsAllotted">
+                        0
+                    </strong>
+
+                    <span
+                        class="stat-badge green"
+                        id="allottedPercentage">
+
+                        0% of applicants
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- NOT ALLOTTED -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ⌛
+                </div>
+
+                <div class="stat-content">
+
+                    <span class="stat-title">
+                        Not Allotted
+                    </span>
+
+                    <strong id="notAllotted">
+                        0
+                    </strong>
+
+                    <span
+                        class="stat-badge red"
+                        id="notAllottedPercentage">
+
+                        0% of applicants
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPLETED -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+                <div class="stat-content">
+
+                    <span class="stat-title">
+                        Allotment Completed
+                    </span>
+
+                    <strong id="allotmentCompleted">
+                        No
+                    </strong>
+
+                    <span
+                        class="stat-badge green"
+                        id="completedDate">
+
+                        -
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CHARTS
+        ====================================================== -->
+
+        <section class="charts-grid">
+
+
+            <!-- DONUT -->
+
+            <div class="panel allotment-status">
+
+                <h3>
+                    Allotment Status
+                </h3>
+
+                <div class="donut-area">
+
+                    <div
+                        class="donut"
+                        id="donutChart">
+
+                        <div class="donut-center">
+
+                            <strong id="donutTotal">
+                                0
+                            </strong>
+
+                            <span>
+                                Applicants
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="legend">
+
+                        <div class="legend-item">
+
+                            <span class="legend-dot allotted-dot"></span>
+
+                            <div>
+
+                                <strong>
+                                    Allotted
+                                </strong>
+
+                                <p id="legendAllotted">
+                                    0 (0%)
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="legend-item">
+
+                            <span class="legend-dot not-allotted-dot"></span>
+
+                            <div>
+
+                                <strong>
+                                    Not Allotted
+                                </strong>
+
+                                <p id="legendNotAllotted">
+                                    0 (0%)
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DEPARTMENT CHART -->
+
+            <div class="panel programme-panel">
+
+                <h3>
+                    Department-wise Allotment
+                </h3>
+
+                <div
+                    class="bar-chart"
+                    id="programmeChart">
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="panel quick-actions">
+
+                <h3>
+                    ⚙ Quick Actions
+                </h3>
+
+
+                <button
+                    type="button"
+                    id="viewListButton">
+
+                    <span>▣</span>
+
+                    View Allotment List
+
+                    <b>›</b>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="downloadReportButton">
+
+                    <span>⇩</span>
+
+                    Download Allotment Report
+
+                    <b>›</b>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="generateSummaryButton">
+
+                    <span>▣</span>
+
+                    Generate Summary
+
+                    <b>›</b>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="notifyButton">
+
+                    <span>✉</span>
+
+                    Notify Students
+
+                    <b>›</b>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             STUDENT ALLOTMENT LIST
+        ====================================================== -->
+
+        <section
+            class="student-list-panel"
+            id="studentListPanel">
+
+            <div class="table-heading">
+
+                <div>
+
+                    <h3>
+                        Student Allotment List
+                    </h3>
+
+                    <p>
+                        All students allotted up to the selected counselling round.
+                    </p>
+
+                </div>
+
+                <div class="student-count-label">
+
+                    <strong id="studentListCount">
+                        0
+                    </strong>
+
+                    Students
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table class="student-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Rank
+                            </th>
+
+                            <th>
+                                Student Name
+                            </th>
+
+                            <th>
+                                Application No.
+                            </th>
+
+                            <th>
+                                Community
+                            </th>
+
+                            <th>
+                                Cutoff
+                            </th>
+
+                            <th>
+                                Round
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                           
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="studentTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="9"
+                                class="loading-row">
+
+                                Select a round to view students.
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer>
+
+        GCE Erode Online Counselling System
+
+        <span>•</span>
+
+        Counselling Office
+
+    </footer>
+
+
+    <script src="allotment-overview.js"></script>
+
+</body>
+
+</html>
