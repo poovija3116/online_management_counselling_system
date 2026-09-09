@@ -1,46 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Counsellor Dashboard - GCE Erode</title>
 
-    <link rel="stylesheet"
-          href="counsellor-dashboard.css">
-
+    <link rel="stylesheet" href="counsellor-dashboard.css">
 </head>
 
 <body>
 
-    <!-- =========================================
-         MAIN CONTENT
-    ========================================== -->
-
     <main class="main-content">
 
-
         <!-- =====================================================
-             EXISTING COUNSELLOR DASHBOARD
-             DO NOT CHANGE
+             NORMAL COUNSELLOR DASHBOARD
         ====================================================== -->
 
         <div id="normalDashboard">
 
-
-            <!-- =========================================
-                 HEADER
-            ========================================== -->
-
+            <!-- HEADER -->
             <header class="top-header">
 
                 <div>
-
                     <span class="page-label">
                         COUNSELLOR PANEL
                     </span>
@@ -50,40 +33,24 @@
                     </h1>
 
                     <p>
-                        Monitor the current counselling process
-                        and round status.
+                        Monitor the current counselling process and round status.
                     </p>
-
                 </div>
 
-
                 <div class="counsellor-badge">
-
                     <span class="status-dot"></span>
-
-                    <span>
-                        COUNSELLOR
-                    </span>
-
+                    <span>COUNSELLOR</span>
                 </div>
 
             </header>
 
 
-
-            <!-- =========================================
-                 COUNSELLING STATUS
-            ========================================== -->
-
+            <!-- COUNSELLING STATUS -->
             <section class="status-banner">
 
-                <div class="status-icon"
-                     id="statusIcon">
-
+                <div class="status-icon" id="statusIcon">
                     ●
-
                 </div>
-
 
                 <div class="status-content">
 
@@ -104,20 +71,13 @@
             </section>
 
 
-
-            <!-- =========================================
-                 CURRENT ROUND
-            ========================================== -->
-
+            <!-- DASHBOARD CARDS -->
             <section class="dashboard-grid">
 
-
                 <!-- CURRENT ROUND -->
-
                 <div class="dashboard-card">
 
                     <div class="card-header">
-
                         <span class="card-label">
                             CURRENT ROUND
                         </span>
@@ -125,17 +85,11 @@
                         <span class="card-icon">
                             #
                         </span>
-
                     </div>
 
-
-                    <div class="card-value"
-                         id="currentRound">
-
+                    <div class="card-value" id="currentRound">
                         -
-
                     </div>
-
 
                     <p>
                         Active counselling round
@@ -144,13 +98,10 @@
                 </div>
 
 
-
                 <!-- ELIGIBLE RANK -->
-
                 <div class="dashboard-card">
 
                     <div class="card-header">
-
                         <span class="card-label">
                             ELIGIBLE RANK
                         </span>
@@ -158,17 +109,11 @@
                         <span class="card-icon">
                             ↕
                         </span>
-
                     </div>
 
-
-                    <div class="card-value rank-value"
-                         id="eligibleRank">
-
+                    <div class="card-value rank-value" id="eligibleRank">
                         -
-
                     </div>
-
 
                     <p>
                         Students eligible for this round
@@ -177,13 +122,10 @@
                 </div>
 
 
-
                 <!-- CHOICE FILLING -->
-
                 <div class="dashboard-card">
 
                     <div class="card-header">
-
                         <span class="card-label">
                             CHOICE FILLING
                         </span>
@@ -191,17 +133,12 @@
                         <span class="card-icon">
                             ✓
                         </span>
-
                     </div>
-
 
                     <div class="card-value small-value"
                          id="choiceFillingStatus">
-
                         -
-
                     </div>
-
 
                     <p id="choiceFillingTime">
                         -
@@ -212,17 +149,12 @@
             </section>
 
 
-
-            <!-- =========================================
-                 CURRENT ACTIVITY
-            ========================================== -->
-
+            <!-- CURRENT ACTIVITY -->
             <section class="activity-card">
 
                 <div class="activity-header">
 
                     <div>
-
                         <span class="small-label">
                             CURRENT ACTIVITY
                         </span>
@@ -230,7 +162,6 @@
                         <h2>
                             Counselling Progress
                         </h2>
-
                     </div>
 
                 </div>
@@ -238,9 +169,7 @@
 
                 <div class="timeline">
 
-
                     <!-- STEP 1 -->
-
                     <div class="timeline-item"
                          id="stepPreference">
 
@@ -263,9 +192,7 @@
                     </div>
 
 
-
                     <!-- STEP 2 -->
-
                     <div class="timeline-item"
                          id="stepLocked">
 
@@ -288,9 +215,7 @@
                     </div>
 
 
-
                     <!-- STEP 3 -->
-
                     <div class="timeline-item"
                          id="stepAllotment">
 
@@ -305,8 +230,7 @@
                             </strong>
 
                             <span>
-                                Seats are allotted according to rank
-                                and preferences.
+                                Seats are allotted according to rank and preferences.
                             </span>
 
                         </div>
@@ -314,9 +238,7 @@
                     </div>
 
 
-
                     <!-- STEP 4 -->
-
                     <div class="timeline-item"
                          id="stepPayment">
 
@@ -339,9 +261,7 @@
                     </div>
 
 
-
                     <!-- STEP 5 -->
-
                     <div class="timeline-item"
                          id="stepCompleted">
 
@@ -368,11 +288,7 @@
             </section>
 
 
-
-            <!-- =========================================
-                 SCHEDULE
-            ========================================== -->
-
+            <!-- ROUND SCHEDULE -->
             <section class="schedule-card">
 
                 <div class="schedule-title">
@@ -390,9 +306,6 @@
 
                 <div class="schedule-grid">
 
-
-                    <!-- CHOICE FILLING OPENS -->
-
                     <div class="schedule-item">
 
                         <span>
@@ -405,8 +318,6 @@
 
                     </div>
 
-
-                    <!-- CHOICE FILLING CLOSES -->
 
                     <div class="schedule-item">
 
@@ -421,8 +332,6 @@
                     </div>
 
 
-                    <!-- ALLOTMENT -->
-
                     <div class="schedule-item">
 
                         <span>
@@ -435,8 +344,6 @@
 
                     </div>
 
-
-                    <!-- PAYMENT DEADLINE -->
 
                     <div class="schedule-item">
 
@@ -455,11 +362,7 @@
             </section>
 
 
-
-            <!-- =========================================
-                 INFORMATION
-            ========================================== -->
-
+            <!-- INFORMATION -->
             <section class="info-box">
 
                 <div class="info-icon">
@@ -475,8 +378,8 @@
                     <p>
                         Round configuration, choice-filling schedules,
                         preference locking, allotment progression and
-                        payment periods are controlled from the
-                        Round Management page.
+                        payment periods are controlled from the Round
+                        Management page.
                     </p>
 
                 </div>
@@ -495,23 +398,14 @@
         </div>
 
 
-
         <!-- =====================================================
              COUNSELLING COMPLETED SCREEN
-
-             This screen is hidden by default.
-             JavaScript displays it ONLY when every configured
-             counselling round has status = completed.
         ====================================================== -->
 
         <section id="completedScreen"
                  class="completed-screen">
 
-
-            <!-- =========================================
-                 COMPLETED HEADER
-            ========================================== -->
-
+            <!-- COMPLETED HEADER -->
             <header class="completed-header">
 
                 <div class="portal-brand">
@@ -577,13 +471,8 @@
             </header>
 
 
-
-            <!-- =========================================
-                 COMPLETION HERO
-            ========================================== -->
-
+            <!-- COMPLETION HERO -->
             <section class="completion-hero">
-
 
                 <div class="hero-decoration hero-leaf-left">
                     ❧
@@ -595,11 +484,9 @@
 
 
                 <div class="completion-check">
-
                     <span>
                         ✓
                     </span>
-
                 </div>
 
 
@@ -615,7 +502,7 @@
 
                 <p>
                     All scheduled rounds for Academic Year
-                    <strong>2025 - 2026</strong>
+                    <strong id="completedAcademicYear">-</strong>
                     have been successfully completed.
                 </p>
 
@@ -649,18 +536,11 @@
             </section>
 
 
-
-            <!-- =========================================
-                 COMPLETED CONTENT
-            ========================================== -->
-
+            <!-- COMPLETED CONTENT -->
             <section class="completed-content-grid">
 
 
-                <!-- =========================================
-                     COUNSELLING TIMELINE
-                ========================================== -->
-
+                <!-- COUNSELLING TIMELINE -->
                 <div class="completed-card timeline-card">
 
                     <div class="completed-card-header">
@@ -699,197 +579,15 @@
                     </p>
 
 
-                    <div class="completed-timeline">
-
-
-                        <!-- ROUND 1 -->
-
-                        <div class="completed-timeline-item">
-
-                            <div class="timeline-marker">
-                                ✓
-                            </div>
-
-                            <div class="completed-timeline-content">
-
-                                <div class="timeline-title-row">
-
-                                    <strong>
-                                        Round 1
-                                    </strong>
-
-                                    <span>
-                                        COMPLETED
-                                    </span>
-
-                                </div>
-
-                                <p>
-                                    01 Sep 2025 – 05 Sep 2025
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- ROUND 2 -->
-
-                        <div class="completed-timeline-item">
-
-                            <div class="timeline-marker">
-                                ✓
-                            </div>
-
-                            <div class="completed-timeline-content">
-
-                                <div class="timeline-title-row">
-
-                                    <strong>
-                                        Round 2
-                                    </strong>
-
-                                    <span>
-                                        COMPLETED
-                                    </span>
-
-                                </div>
-
-                                <p>
-                                    15 Sep 2025 – 18 Sep 2025
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- MOP-UP -->
-
-                        <div class="completed-timeline-item">
-
-                            <div class="timeline-marker">
-                                ✓
-                            </div>
-
-                            <div class="completed-timeline-content">
-
-                                <div class="timeline-title-row">
-
-                                    <strong>
-                                        Mop-up Round
-                                    </strong>
-
-                                    <span>
-                                        COMPLETED
-                                    </span>
-
-                                </div>
-
-                                <p>
-                                    01 Oct 2025 – 03 Oct 2025
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- ALLOTMENT -->
-
-                        <div class="completed-timeline-item">
-
-                            <div class="timeline-marker">
-                                ✓
-                            </div>
-
-                            <div class="completed-timeline-content">
-
-                                <div class="timeline-title-row">
-
-                                    <strong>
-                                        Allotment Process
-                                    </strong>
-
-                                    <span>
-                                        COMPLETED
-                                    </span>
-
-                                </div>
-
-                                <p>
-                                    04 Oct 2025 – 05 Oct 2025
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- PAYMENT -->
-
-                        <div class="completed-timeline-item">
-
-                            <div class="timeline-marker">
-                                ✓
-                            </div>
-
-                            <div class="completed-timeline-content">
-
-                                <div class="timeline-title-row">
-
-                                    <strong>
-                                        Payment Window
-                                    </strong>
-
-                                    <span>
-                                        COMPLETED
-                                    </span>
-
-                                </div>
-
-                                <p>
-                                    04 Oct 2025 – 12 Oct 2025
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- REPORTING -->
-
-                        <div class="completed-timeline-item last-item">
-
-                            <div class="timeline-marker">
-                                ✓
-                            </div>
-
-                            <div class="completed-timeline-content">
-
-                                <div class="timeline-title-row">
-
-                                    <strong>
-                                        Reporting to Institution
-                                    </strong>
-
-                                    <span>
-                                        COMPLETED
-                                    </span>
-
-                                </div>
-
-                                <p>
-                                    13 Oct 2025 – 20 Oct 2025
-                                </p>
-
-                            </div>
-
+                    <!-- IMPORTANT:
+                         JavaScript fills this using the
+                         counsellor-created round schedule.
+                    -->
+                    <div class="completed-timeline"
+                         id="completedTimeline">
+
+                        <div class="completed-empty-state">
+                            Loading counselling schedule...
                         </div>
 
                     </div>
@@ -897,11 +595,7 @@
                 </div>
 
 
-
-                <!-- =========================================
-                     IMPORTANT NOTIFICATIONS
-                ========================================== -->
-
+                <!-- IMPORTANT NOTIFICATIONS -->
                 <div class="completed-card notification-card">
 
                     <div class="completed-card-header">
@@ -935,170 +629,12 @@
                     </p>
 
 
-                    <div class="notification-list">
-
-
-                        <!-- NOTIFICATION 1 -->
-
-                        <div class="completed-notification">
-
-                            <div class="notification-icon">
-                                ✓
-                            </div>
-
-                            <div class="notification-content">
-
-                                <div class="notification-title-row">
-
-                                    <strong>
-                                        Counselling Process Completed
-                                    </strong>
-
-                                    <time>
-                                        03 Oct 2025
-                                    </time>
-
-                                </div>
-
-                                <p>
-                                    All scheduled rounds for AY 2025 - 2026
-                                    have been successfully completed.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- NOTIFICATION 2 -->
-
-                        <div class="completed-notification">
-
-                            <div class="notification-icon">
-                                ✓
-                            </div>
-
-                            <div class="notification-content">
-
-                                <div class="notification-title-row">
-
-                                    <strong>
-                                        Final Allotment List Published
-                                    </strong>
-
-                                    <time>
-                                        05 Oct 2025
-                                    </time>
-
-                                </div>
-
-                                <p>
-                                    The final allotment list has been published.
-                                    You can download the report from the records section.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- NOTIFICATION 3 -->
-
-                        <div class="completed-notification">
-
-                            <div class="notification-icon">
-                                ✓
-                            </div>
-
-                            <div class="notification-content">
-
-                                <div class="notification-title-row">
-
-                                    <strong>
-                                        Payment Window Closed
-                                    </strong>
-
-                                    <time>
-                                        12 Oct 2025
-                                    </time>
-
-                                </div>
-
-                                <p>
-                                    The payment window for allotted students
-                                    has been closed.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- NOTIFICATION 4 -->
-
-                        <div class="completed-notification">
-
-                            <div class="notification-icon">
-                                ✓
-                            </div>
-
-                            <div class="notification-content">
-
-                                <div class="notification-title-row">
-
-                                    <strong>
-                                        Reporting Period Completed
-                                    </strong>
-
-                                    <time>
-                                        20 Oct 2025
-                                    </time>
-
-                                </div>
-
-                                <p>
-                                    The reporting period at allotted institutions
-                                    has ended.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- NOTIFICATION 5 -->
-
-                        <div class="completed-notification">
-
-                            <div class="notification-icon">
-                                ✓
-                            </div>
-
-                            <div class="notification-content">
-
-                                <div class="notification-title-row">
-
-                                    <strong>
-                                        Counselling Data Archived
-                                    </strong>
-
-                                    <time>
-                                        20 Oct 2025
-                                    </time>
-
-                                </div>
-
-                                <p>
-                                    All counselling data for AY 2025 - 2026
-                                    has been securely archived for future reference.
-                                </p>
-
-                            </div>
-
+                    <!-- JavaScript fills this dynamically -->
+                    <div class="notification-list"
+                         id="completedNotifications">
+
+                        <div class="completed-empty-state">
+                            Loading counselling updates...
                         </div>
 
                     </div>
@@ -1108,15 +644,12 @@
             </section>
 
 
-
-            <!-- =========================================
-                 FOOTER
-            ========================================== -->
-
+            <!-- FOOTER -->
             <footer class="completed-footer">
 
                 <span>
-                    © 2025 GCE Erode Counselling Portal
+                    © <span id="completedFooterYear">2026</span>
+                    GCE Erode Counselling Portal
                 </span>
 
                 <span>
@@ -1130,14 +663,9 @@
     </main>
 
 
-
-    <!-- =========================================
-         JAVASCRIPT
-    ========================================== -->
-
+    <!-- JAVASCRIPT -->
     <script src="counsellor-dashboard.js"></script>
 
 </body>
 
 </html>
-

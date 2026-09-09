@@ -1,552 +1,828 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GCE Erode - Seat Availability</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="style.css">
+    <title>
+        GCE Erode | Management Counselling 2026
+    </title>
 
+    <link
+        rel="stylesheet"
+        href="home.css">
 
 </head>
 
+
 <body>
 
-<header class="college-header">
 
+    <!-- =========================
+         NAVBAR
+    ========================== -->
 
-<h1>
-    GOVERNMENT COLLEGE OF ENGINEERING, ERODE-638316
-</h1>
+    <header class="navbar">
 
-<h2>
-    ACADEMIC SUPPORT CELL
-</h2>
+        <div class="logo-section">
 
-<div class="title-bar">
-    ONLINE COUNSELLING – SEAT AVAILABILITY
+    <div class="logo-box">
+        <img src="logo.jpeg" alt="GCE Erode Logo">
+    </div>
+
+    <div class="college-name">
+
+        <h3>
+            GCE ERODE
+        </h3>
+
+        <span>
+            Government College of Engineering,Erode-638316
+        </span>
+
+    </div>
 </div>
 
 
-</header>
-
-<main class="container">
 
 
-<section class="table-heading">
+        <nav class="nav-links">
 
-    <h2>
-        BRANCH-WISE COMMUNITY SEAT DETAILS
-    </h2>
+            <a href="#home" data-i18n="Home">
+                Home
+            </a>
 
-    <p>
-        Seat Availability, Occupied Seats and Vacancy Status
-    </p>
+            <a href="#how-it-works" data-i18n="How It Works">
+                How It Works
+            </a>
 
-</section>
+            <a href="#faq" data-i18n="FAQ">
+                FAQ
+            </a>
+
+            <a
+                href="student-login.html"
+                class="nav-login" data-i18n="Login">
+
+                Login
+
+            </a>
+            <a>
+                <select id="languageSelect" onchange="changeLanguage(this.value)">
+                    <option value="en">English</option>
+                    <option value="ta">தமிழ்</option>
+                </select>
+            </a>
+
+        </nav>
+        <!-- ANNOUNCEMENT BAR -->
 
 
-<!-- SEARCH -->
 
-<div class="controls">
+    </header>
+    <div class="announcement-bar">
 
-    <label for="branchSearch">
-        Search Branch:
-    </label>
+    <div class="announcement-label">
+        📢 ANNOUNCEMENT
+    </div>
 
-    <input
-        type="text"
-        id="branchSearch"
-        placeholder="Enter branch name..."
-    >
+    <div class="announcement-wrapper">
+        <div id="announcementText" class="announcement-text">
+            Welcome to GCE Erode Management Counselling 2026
+        </div>
+    </div>
 
 </div>
 
 
-<!-- TABLE -->
 
-<div class="table-wrapper">
+    <!-- =========================
+         HERO SECTION
+    ========================== -->
 
-    <table id="seatTable">
+    <main id="home">
 
-        <thead>
+        <section class="hero">
 
-            <!-- CATEGORY ROW -->
+            <div class="hero-content">
 
-            <tr>
+                <div class="hero-badge">
+                    GCE ERODE
+                </div>
 
-                <th rowspan="2" class="branch-header">
-                    BRANCH
-                </th>
+                <h1>
+                    MANAGEMENT
+                    <br>
+                    COUNSELLING 2026
+                </h1>
 
-                <th colspan="3" class="category-header">
-                    OC
-                </th>
+                <p class="hero-subtitle" data-i18n="Choose • Prefer • Allot • Confirm">
+                    Choose • Prefer • Allot • Confirm
+                </p>
 
-                <th colspan="3" class="category-header">
-                    BC
-                </th>
 
-                <th colspan="3" class="category-header">
-                    BCM
-                </th>
+                <a
+                    href="student-login.html"
+                    class="student-login-button">
 
-                <th colspan="3" class="category-header">
-                    SC
-                </th>
+                    STUDENT LOGIN
+                    <span>→</span>
 
-                <th colspan="3" class="category-header">
-                    ST
-                </th>
+                </a>
 
-                <th colspan="3" class="category-header">
-                    SCA
-                </th>
+            </div>
 
-                <th colspan="3" class="total-header">
-                    TOTAL
-                </th>
 
-            </tr>
+            <div class="hero-decoration">
 
+                <div class="circle circle-one"></div>
 
-            <!-- SUB CATEGORY ROW -->
+                <div class="circle circle-two"></div>
 
-            <tr>
+                <div class="circle circle-three"></div>
 
-                <!-- OC -->
+            </div>
 
-                <th>TOTAL</th>
-                <th>OCCUPIED</th>
-                <th>VACANCY</th>
+        </section>
 
 
-                <!-- BC -->
 
-                <th>TOTAL</th>
-                <th>OCCUPIED</th>
-                <th>VACANCY</th>
+        <!-- =========================
+             HOW IT WORKS
+        ========================== -->
 
+        <section
+            id="how-it-works"
+            class="section">
 
-                <!-- BCM -->
+            <div class="section-heading">
 
-                <th>TOTAL</th>
-                <th>OCCUPIED</th>
-                <th>VACANCY</th>
+                <span data-i18n="THE PROCESS">
+                    THE PROCESS
+                </span>
 
+                <h2 data-i18n="HOW IT WORKS">
+                    HOW IT WORKS
+                </h2>
 
-                <!-- SC -->
+                <p data-i18n="Your Choice -> Your College -> Your Future">
+                    Your Choice -> Your College -> Your Future
+                </p>
 
-                <th>TOTAL</th>
-                <th>OCCUPIED</th>
-                <th>VACANCY</th>
+            </div>
 
 
-                <!-- ST -->
+            <div class="steps-container">
 
-                <th>TOTAL</th>
-                <th>OCCUPIED</th>
-                <th>VACANCY</th>
 
+                <div class="step-card">
 
-                <!-- SCA -->
+                    <div class="step-number">
+                        01
+                    </div>
 
-                <th>TOTAL</th>
-                <th>OCCUPIED</th>
-                <th>VACANCY</th>
+                    <div class="step-icon">
+                        🔐
+                    </div>
 
+                    <h3 data-i18n="Login">
+                        Login
+                    </h3>
 
-                <!-- OVERALL -->
+                    <p>
+                        Login using your registered
+                        username and password.
+                    </p>
 
-                <th>TOTAL</th>
-                <th>OCCUPIED</th>
-                <th>VACANCY</th>
+                </div>
 
-            </tr>
 
-        </thead>
+                <div class="step-arrow">
+                    →
+                </div>
 
 
-        <!-- =========================================
-             TABLE BODY
-        ========================================== -->
+                <div class="step-card">
 
-        <tbody id="seatTableBody">
+                    <div class="step-number">
+                        02
+                    </div>
 
+                    <div class="step-icon">
+                        📋
+                    </div>
 
-            <!-- AUTO -->
+                    <h3 data-i18n="Check Your Details">
+                        Check Your Details
+                    </h3>
 
-            <tr>
+                    <p>
+                        Check your counselling rank
+                        and application details.
+                    </p>
 
-                <td class="branch-name">AUTO</td>
+                </div>
 
-                <td>10</td>
-                <td>0</td>
-                <td>10</td>
 
-                <td>20</td>
-                <td>0</td>
-                <td>20</td>
+                <div class="step-arrow">
+                    →
+                </div>
 
-                <td>5</td>
-                <td>0</td>
-                <td>5</td>
 
-                <td>8</td>
-                <td>0</td>
-                <td>8</td>
+                <div class="step-card">
 
-                <td>2</td>
-                <td>0</td>
-                <td>2</td>
+                    <div class="step-number">
+                        03
+                    </div>
 
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
+                    <div class="step-icon">
+                        🎓
+                    </div>
 
-                <td class="overall-total">46</td>
-                <td class="overall-occupied">0</td>
-                <td class="overall-vacancy">46</td>
+                    <h3 data-i18n="Choose Your Preference">
+                        Choose Your Preference
+                    </h3>
 
-            </tr>
+                    <p>
+                        Select your preferred department
+                        when your turn arrives.
+                    </p>
 
+                </div>
 
-            <!-- CIVIL -->
 
-            <tr>
+                <div class="step-arrow">
+                    →
+                </div>
 
-                <td class="branch-name">CIVIL</td>
 
-                <td>10</td>
-                <td>0</td>
-                <td>10</td>
+                <div class="step-card">
 
-                <td>20</td>
-                <td>0</td>
-                <td>20</td>
+                    <div class="step-number">
+                        04
+                    </div>
 
-                <td>5</td>
-                <td>0</td>
-                <td>5</td>
+                    <div class="step-icon">
+                        ✓
+                    </div>
 
-                <td>8</td>
-                <td>0</td>
-                <td>8</td>
+                    <h3 data-i18n="Allotment">
+                        Allotment
+                    </h3>
 
-                <td>2</td>
-                <td>0</td>
-                <td>2</td>
+                    <p>
+                        Confirm your choice and
+                        receive your seat allotment.
+                    </p>
 
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
+                </div>
 
-                <td class="overall-total">46</td>
-                <td class="overall-occupied">0</td>
-                <td class="overall-vacancy">46</td>
+            </div>
 
-            </tr>
+        </section>
 
 
-            <!-- MECH -->
 
-            <tr>
+        <!-- =========================
+             WHY ONLINE
+        ========================== -->
 
-                <td class="branch-name">MECH</td>
+        <section class="section green-section">
 
-                <td>10</td>
-                <td>0</td>
-                <td>10</td>
+            <div class="section-heading">
 
-                <td>20</td>
-                <td>0</td>
-                <td>20</td>
+                <span data-i18n="BENEFITS">
+                    BENEFITS
+                </span>
 
-                <td>5</td>
-                <td>0</td>
-                <td>5</td>
+                <h2 data-i18n="WHY ONLINE COUNSELLING?">
+                    WHY ONLINE COUNSELLING?
+                </h2>
 
-                <td>8</td>
-                <td>0</td>
-                <td>8</td>
+                <p>
+                    A better counselling experience for
+                    students and parents.
+                </p>
 
-                <td>2</td>
-                <td>0</td>
-                <td>2</td>
+            </div>
 
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
 
-                <td class="overall-total">46</td>
-                <td class="overall-occupied">0</td>
-                <td class="overall-vacancy">46</td>
+            <div class="benefits-container">
 
-            </tr>
 
+                <div class="benefit-card">
 
-            <!-- CSE -->
+                    <div class="benefit-icon">
+                        ⏱
+                    </div>
 
-            <tr>
+                    <h3 data-i18n="Save Time">
+                        Save Time
+                    </h3>
 
-                <td class="branch-name">CSE</td>
+                    <p>
+                        Reduce long waiting hours at the
+                        college during counselling.
+                    </p>
 
-                <td>10</td>
-                <td>0</td>
-                <td>10</td>
+                </div>
 
-                <td>20</td>
-                <td>0</td>
-                <td>20</td>
 
-                <td>5</td>
-                <td>0</td>
-                <td>5</td>
+                <div class="benefit-card">
 
-                <td>8</td>
-                <td>0</td>
-                <td>8</td>
+                    <div class="benefit-icon">
+                        📋
+                    </div>
 
-                <td>2</td>
-                <td>0</td>
-                <td>2</td>
+                    <h3 data-i18n="Easy Process">
+                        Easy Process
+                    </h3>
 
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
+                    <p>
+                        Follow a simple digital process
+                        from login to allotment.
+                    </p>
 
-                <td class="overall-total">46</td>
-                <td class="overall-occupied">0</td>
-                <td class="overall-vacancy">46</td>
+                </div>
 
-            </tr>
 
+                <div class="benefit-card">
 
-            <!-- ECE -->
+                    <div class="benefit-icon">
+                        🔒
+                    </div>
 
-            <tr>
+                    <h3 data-i18n="Transparent">
+                        Transparent
+                    </h3>
 
-                <td class="branch-name">ECE</td>
+                    <p>
+                        Rank-based counselling with
+                        clear seat availability.
+                    </p>
 
-                <td>10</td>
-                <td>0</td>
-                <td>10</td>
+                </div>
 
-                <td>20</td>
-                <td>0</td>
-                <td>20</td>
+            </div>
 
-                <td>5</td>
-                <td>0</td>
-                <td>5</td>
+        </section>
 
-                <td>8</td>
-                <td>0</td>
-                <td>8</td>
 
-                <td>2</td>
-                <td>0</td>
-                <td>2</td>
 
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
+        <!-- =========================
+             COUNSELLING INFORMATION
+        ========================== -->
 
-                <td class="overall-total">46</td>
-                <td class="overall-occupied">0</td>
-                <td class="overall-vacancy">46</td>
+        <section class="section">
 
-            </tr>
+            <div class="section-heading">
 
+                <span data-i18n="IMPORTANT">
+                    IMPORTANT
+                </span>
 
-            <!-- EEE -->
+                <h2 data-i18n="COUNSELLING INFORMATION">
+                    COUNSELLING INFORMATION
+                </h2>
 
-            <tr>
+                <p>
+                    Everything students need before counselling.
+                </p>
 
-                <td class="branch-name">EEE</td>
+            </div>
 
-                <td>10</td>
-                <td>0</td>
-                <td>10</td>
 
-                <td>20</td>
-                <td>0</td>
-                <td>20</td>
+            <div class="information-container">
 
-                <td>5</td>
-                <td>0</td>
-                <td>5</td>
 
-                <td>8</td>
-                <td>0</td>
-                <td>8</td>
+                <div class="information-card">
 
-                <td>2</td>
-                <td>0</td>
-                <td>2</td>
+                    <div class="information-icon">
+                        📅
+                    </div>
 
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
+                    <div>
 
-                <td class="overall-total">46</td>
-                <td class="overall-occupied">0</td>
-                <td class="overall-vacancy">46</td>
+                        <h3 data-i18n="Counselling Schedule">
+                            Counselling Schedule
+                        </h3>
 
-            </tr>
+                        <p>
+                            View important counselling
+                            dates and timings.
+                        </p>
 
+                    </div>
 
-            <!-- IT -->
+                    <span class="card-arrow">
+                        →
+                    </span>
 
-            <tr>
+                </div>
 
-                <td class="branch-name">IT</td>
 
-                <td>10</td>
-                <td>0</td>
-                <td>10</td>
+                <div class="information-card">
 
-                <td>20</td>
-                <td>0</td>
-                <td>20</td>
+                    <div class="information-icon">
+                        📢
+                    </div>
 
-                <td>5</td>
-                <td>0</td>
-                <td>5</td>
+                    <div>
 
-                <td>8</td>
-                <td>0</td>
-                <td>8</td>
+                        <h3 data-i18n="Announcements">
+                            Announcements
+                        </h3>
 
-                <td>2</td>
-                <td>0</td>
-                <td>2</td>
+                        <p>
+                            Stay updated with important
+                            counselling announcements.
+                        </p>
 
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
+                    </div>
 
-                <td class="overall-total">46</td>
-                <td class="overall-occupied">0</td>
-                <td class="overall-vacancy">46</td>
+                    <span class="card-arrow">
+                        →
+                    </span>
 
-            </tr>
+                </div>
 
 
-            <!-- CSE DS -->
+                <div class="information-card">
 
-            <tr>
+                    <div class="information-icon">
+                        📄
+                    </div>
 
-                <td class="branch-name">CSE DS</td>
+                    <div>
 
-                <td>5</td>
-                <td>0</td>
-                <td>5</td>
+                        <h3 data-i18n="Required Documents">
+                            Required Documents
+                        </h3>
 
-                <td>10</td>
-                <td>0</td>
-                <td>10</td>
+                        <p>
+                            Check the documents required
+                            before counselling.
+                        </p>
 
-                <td>3</td>
-                <td>0</td>
-                <td>3</td>
+                    </div>
 
-                <td>4</td>
-                <td>0</td>
-                <td>4</td>
+                    <span class="card-arrow">
+                        →
+                    </span>
 
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
+                </div>
 
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
 
-                <td class="overall-total">24</td>
-                <td class="overall-occupied">0</td>
-                <td class="overall-vacancy">24</td>
+                <div class="information-card">
 
-            </tr>
+                    <div class="information-icon">
+                        ℹ️
+                    </div>
 
+                    <div>
 
-            <!-- =========================================
-                 GRAND TOTAL
-            ========================================== -->
+                        <h3 data-i18n="Guidelines">
+                            Guidelines
+                        </h3>
 
-            <tr class="total-row">
+                        <p>
+                            Read the important counselling
+                            instructions and rules.
+                        </p>
 
-                <td>
-                    TOTAL
-                </td>
+                    </div>
 
+                    <span class="card-arrow">
+                        →
+                    </span>
 
-                <!-- OC -->
+                </div>
 
-                <td id="ocTotal">75</td>
-                <td id="ocOccupied">0</td>
-                <td id="ocVacancy">75</td>
+            </div>
 
+        </section>
 
-                <!-- BC -->
 
-                <td id="bcTotal">150</td>
-                <td id="bcOccupied">0</td>
-                <td id="bcVacancy">150</td>
 
+        <!-- =========================
+             COUNSELLING PROCESS
+        ========================== -->
 
-                <!-- BCM -->
+        <section class="section process-section">
 
-                <td id="bcmTotal">38</td>
-                <td id="bcmOccupied">0</td>
-                <td id="bcmVacancy">38</td>
+            <div class="section-heading">
 
+                <span data-i18n="STEP BY STEP">
+                    STEP BY STEP
+                </span>
 
-                <!-- SC -->
+                <h2 data-i18n="COUNSELLING PROCESS">
+                    COUNSELLING PROCESS
+                </h2>
 
-                <td id="scTotal">60</td>
-                <td id="scOccupied">0</td>
-                <td id="scVacancy">60</td>
+            </div>
 
 
-                <!-- ST -->
+            <div class="process-wrapper">
 
-                <td id="stTotal">15</td>
-                <td id="stOccupied">0</td>
-                <td id="stVacancy">15</td>
 
+                <div class="process-item">
 
-                <!-- SCA -->
+                    <div class="process-circle">
+                        01
+                    </div>
 
-                <td id="scaTotal">8</td>
-                <td id="scaOccupied">0</td>
-                <td id="scaVacancy">8</td>
+                    <h3 data-i18n="Login">
+                        Login
+                    </h3>
 
+                </div>
 
-                <!-- GRAND TOTAL -->
 
-                <td id="grandTotal">367</td>
-                <td id="grandOccupied">0</td>
-                <td id="grandVacancy">367</td>
+                <div class="process-connector"></div>
 
-            </tr>
 
-        </tbody>
+                <div class="process-item">
 
-    </table>
+                    <div class="process-circle">
+                        02
+                    </div>
 
-</div>
-```
+                    <h3 data-i18n="Details">
+                        Details
+                    </h3>
 
-</main>
+                </div>
 
-<!-- =========================================
-     JAVASCRIPT
-========================================== -->
 
-<script src="script.js"></script>
+                <div class="process-connector"></div>
+
+
+                <div class="process-item">
+
+                    <div class="process-circle">
+                        03
+                    </div>
+
+                    <h3 data-i18n="Preference">
+                        Preference
+                    </h3>
+
+                </div>
+
+
+                <div class="process-connector"></div>
+
+
+                <div class="process-item">
+
+                    <div class="process-circle">
+                        04
+                    </div>
+
+                    <h3 data-i18n="Allotment">
+                        Allotment
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             FAQ
+        ========================== -->
+
+        <section
+            id="faq"
+            class="section faq-section">
+
+            <div class="section-heading">
+
+                <span data-i18n="HELP">
+                    HELP
+                </span>
+
+                <h2 data-i18n="FAQ">
+                    FAQ
+                </h2>
+
+                <p data-i18n="Frequently asked questions.">
+                    Frequently asked questions.
+                </p>
+
+            </div>
+
+
+            <div class="faq-container">
+
+
+                <details>
+
+                    <summary data-i18n="Who can participate in the counselling?">
+                        Who can participate in the counselling?
+                    </summary>
+
+                    <p>
+                        Eligible candidates included in the
+                        management counselling process can
+                        participate using their registered
+                        student credentials.
+                    </p>
+
+                </details>
+
+
+                <details>
+
+                    <summary data-i18n="What documents are required?">
+                        What documents are required?
+                    </summary>
+
+                    <p>
+                        Candidates should keep the documents
+                        specified by the college ready before
+                        participating in counselling.
+                    </p>
+
+                </details>
+
+
+                <details>
+
+                    <summary data-i18n="How does seat allotment work?">
+                        How does seat allotment work?
+                    </summary>
+
+                    <p>
+                        Counselling proceeds according to the
+                        assigned rank. When a candidate's turn
+                        arrives, available department seats can
+                        be selected according to the counselling
+                        rules.
+                    </p>
+
+                </details>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             CONTACT
+        ========================== -->
+
+        <section class="contact-section">
+
+            <div class="section-heading">
+
+                <span data-i18n="SUPPORT">
+                    SUPPORT
+                </span>
+
+                <h2 data-i18n="CONTACT US">
+                    CONTACT US
+                </h2>
+
+            </div>
+
+
+            <div class="contact-container">
+
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+                        📍
+                    </div>
+
+                    <h3 data-i18n="GCE Erode">
+                        GCE Erode
+                    </h3>
+
+                    <p>
+                        Government College of Engineering,
+                        Vasavi College Post,
+                        Erode-638 316, Tamil Nadu, India
+                    </p>
+
+                </div>
+
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+                        📞
+                    </div>
+
+                    <h3 data-i18n="College Contact">
+                        College Contact
+                    </h3>
+
+                    <p>
+                    
+                             Principal Office  928009827<br>
+                             Exam Cell  928009827
+                        
+                    </p>
+
+                </div>
+
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+                        ✉️
+                    </div>
+
+                    <h3 data-i18n="College Email">
+                        College Email
+                    </h3>
+
+                    <p>
+                        <a href="mailto:gceeprincipal@gmail.com">gceeprincipal@gmail.com</a>
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <div>
+
+                <h3>
+                    GCE ERODE
+                </h3>
+
+                <p data-i18n="Management Counselling 2026">
+                    Management Counselling 2026
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <a href="#home" data-i18n="Home">
+                    Home
+                </a>
+
+                <a href="#how-it-works" data-i18n="How It Works">
+                    How It Works
+                </a>
+
+                <a href="#faq" data-i18n="FAQ">
+                    FAQ
+                </a>
+
+                <a href="student-login.html" data-i18n="Login">
+                    Login
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+
+            
+            <p>
+                © 2026 GCE Erode Management Counselling
+            </p>
+
+        </div>
+
+    </footer>
+    <script src="language.js"></script>
+
 
 </body>
+
 </html>

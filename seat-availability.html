@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GCE Erode - Seat Availability</title>
+
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body>
+
+<header class="college-header">
+
+
+<h1>
+    GOVERNMENT COLLEGE OF ENGINEERING, ERODE-638316
+</h1>
+
+<h2>
+    ACADEMIC SUPPORT CELL
+</h2>
+
+<div class="title-bar">
+    ONLINE COUNSELLING – SEAT AVAILABILITY
+</div>
+
+
+</header>
+
+<main class="container">
+
+
+<section class="table-heading">
+
+    <h2>
+        BRANCH-WISE COMMUNITY SEAT DETAILS
+    </h2>
+
+    <p>
+        Seat Availability, Occupied Seats and Vacancy Status
+    </p>
+
+</section>
+
+
+<!-- SEARCH -->
+
+<div class="controls">
+
+    <label for="branchSearch">
+        Search Branch:
+    </label>
+
+    <input
+        type="text"
+        id="branchSearch"
+        placeholder="Enter branch name..."
+    >
+
+</div>
+
+
+<!-- TABLE -->
+
+<div class="table-wrapper">
+
+    <table id="seatTable">
+
+        <thead>
+
+            <!-- CATEGORY ROW -->
+
+            <tr>
+
+                <th rowspan="2" class="branch-header">
+                    BRANCH
+                </th>
+
+                <th colspan="3" class="category-header">
+                    OC
+                </th>
+
+                <th colspan="3" class="category-header">
+                    BC
+                </th>
+
+                <th colspan="3" class="category-header">
+                    BCM
+                </th>
+
+                <th colspan="3" class="category-header">
+                    SC
+                </th>
+
+                <th colspan="3" class="category-header">
+                    ST
+                </th>
+
+                <th colspan="3" class="category-header">
+                    SCA
+                </th>
+
+                <th colspan="3" class="total-header">
+                    TOTAL
+                </th>
+
+            </tr>
+
+
+            <!-- SUB CATEGORY ROW -->
+
+            <tr>
+
+                <!-- OC -->
+
+                <th>TOTAL</th>
+                <th>OCCUPIED</th>
+                <th>VACANCY</th>
+
+
+                <!-- BC -->
+
+                <th>TOTAL</th>
+                <th>OCCUPIED</th>
+                <th>VACANCY</th>
+
+
+                <!-- BCM -->
+
+                <th>TOTAL</th>
+                <th>OCCUPIED</th>
+                <th>VACANCY</th>
+
+
+                <!-- SC -->
+
+                <th>TOTAL</th>
+                <th>OCCUPIED</th>
+                <th>VACANCY</th>
+
+
+                <!-- ST -->
+
+                <th>TOTAL</th>
+                <th>OCCUPIED</th>
+                <th>VACANCY</th>
+
+
+                <!-- SCA -->
+
+                <th>TOTAL</th>
+                <th>OCCUPIED</th>
+                <th>VACANCY</th>
+
+
+                <!-- OVERALL -->
+
+                <th>TOTAL</th>
+                <th>OCCUPIED</th>
+                <th>VACANCY</th>
+
+            </tr>
+
+        </thead>
+
+
+        <!-- =========================================
+             TABLE BODY
+        ========================================== -->
+
+        <tbody id="seatTableBody">
+
+
+            <!-- AUTO -->
+
+            <tr>
+
+                <td class="branch-name">AUTO</td>
+
+                <td>10</td>
+                <td>0</td>
+                <td>10</td>
+
+                <td>20</td>
+                <td>0</td>
+                <td>20</td>
+
+                <td>5</td>
+                <td>0</td>
+                <td>5</td>
+
+                <td>8</td>
+                <td>0</td>
+                <td>8</td>
+
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+
+                <td class="overall-total">46</td>
+                <td class="overall-occupied">0</td>
+                <td class="overall-vacancy">46</td>
+
+            </tr>
+
+
+            <!-- CIVIL -->
+
+            <tr>
+
+                <td class="branch-name">CIVIL</td>
+
+                <td>10</td>
+                <td>0</td>
+                <td>10</td>
+
+                <td>20</td>
+                <td>0</td>
+                <td>20</td>
+
+                <td>5</td>
+                <td>0</td>
+                <td>5</td>
+
+                <td>8</td>
+                <td>0</td>
+                <td>8</td>
+
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+
+                <td class="overall-total">46</td>
+                <td class="overall-occupied">0</td>
+                <td class="overall-vacancy">46</td>
+
+            </tr>
+
+
+            <!-- MECH -->
+
+            <tr>
+
+                <td class="branch-name">MECH</td>
+
+                <td>10</td>
+                <td>0</td>
+                <td>10</td>
+
+                <td>20</td>
+                <td>0</td>
+                <td>20</td>
+
+                <td>5</td>
+                <td>0</td>
+                <td>5</td>
+
+                <td>8</td>
+                <td>0</td>
+                <td>8</td>
+
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+
+                <td class="overall-total">46</td>
+                <td class="overall-occupied">0</td>
+                <td class="overall-vacancy">46</td>
+
+            </tr>
+
+
+            <!-- CSE -->
+
+            <tr>
+
+                <td class="branch-name">CSE</td>
+
+                <td>10</td>
+                <td>0</td>
+                <td>10</td>
+
+                <td>20</td>
+                <td>0</td>
+                <td>20</td>
+
+                <td>5</td>
+                <td>0</td>
+                <td>5</td>
+
+                <td>8</td>
+                <td>0</td>
+                <td>8</td>
+
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+
+                <td class="overall-total">46</td>
+                <td class="overall-occupied">0</td>
+                <td class="overall-vacancy">46</td>
+
+            </tr>
+
+
+            <!-- ECE -->
+
+            <tr>
+
+                <td class="branch-name">ECE</td>
+
+                <td>10</td>
+                <td>0</td>
+                <td>10</td>
+
+                <td>20</td>
+                <td>0</td>
+                <td>20</td>
+
+                <td>5</td>
+                <td>0</td>
+                <td>5</td>
+
+                <td>8</td>
+                <td>0</td>
+                <td>8</td>
+
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+
+                <td class="overall-total">46</td>
+                <td class="overall-occupied">0</td>
+                <td class="overall-vacancy">46</td>
+
+            </tr>
+
+
+            <!-- EEE -->
+
+            <tr>
+
+                <td class="branch-name">EEE</td>
+
+                <td>10</td>
+                <td>0</td>
+                <td>10</td>
+
+                <td>20</td>
+                <td>0</td>
+                <td>20</td>
+
+                <td>5</td>
+                <td>0</td>
+                <td>5</td>
+
+                <td>8</td>
+                <td>0</td>
+                <td>8</td>
+
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+
+                <td class="overall-total">46</td>
+                <td class="overall-occupied">0</td>
+                <td class="overall-vacancy">46</td>
+
+            </tr>
+
+
+            <!-- IT -->
+
+            <tr>
+
+                <td class="branch-name">IT</td>
+
+                <td>10</td>
+                <td>0</td>
+                <td>10</td>
+
+                <td>20</td>
+                <td>0</td>
+                <td>20</td>
+
+                <td>5</td>
+                <td>0</td>
+                <td>5</td>
+
+                <td>8</td>
+                <td>0</td>
+                <td>8</td>
+
+                <td>2</td>
+                <td>0</td>
+                <td>2</td>
+
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+
+                <td class="overall-total">46</td>
+                <td class="overall-occupied">0</td>
+                <td class="overall-vacancy">46</td>
+
+            </tr>
+
+
+            <!-- CSE DS -->
+
+            <tr>
+
+                <td class="branch-name">CSE DS</td>
+
+                <td>5</td>
+                <td>0</td>
+                <td>5</td>
+
+                <td>10</td>
+                <td>0</td>
+                <td>10</td>
+
+                <td>3</td>
+                <td>0</td>
+                <td>3</td>
+
+                <td>4</td>
+                <td>0</td>
+                <td>4</td>
+
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+
+                <td class="overall-total">24</td>
+                <td class="overall-occupied">0</td>
+                <td class="overall-vacancy">24</td>
+
+            </tr>
+
+
+            <!-- =========================================
+                 GRAND TOTAL
+            ========================================== -->
+
+            <tr class="total-row">
+
+                <td>
+                    TOTAL
+                </td>
+
+
+                <!-- OC -->
+
+                <td id="ocTotal">75</td>
+                <td id="ocOccupied">0</td>
+                <td id="ocVacancy">75</td>
+
+
+                <!-- BC -->
+
+                <td id="bcTotal">150</td>
+                <td id="bcOccupied">0</td>
+                <td id="bcVacancy">150</td>
+
+
+                <!-- BCM -->
+
+                <td id="bcmTotal">38</td>
+                <td id="bcmOccupied">0</td>
+                <td id="bcmVacancy">38</td>
+
+
+                <!-- SC -->
+
+                <td id="scTotal">60</td>
+                <td id="scOccupied">0</td>
+                <td id="scVacancy">60</td>
+
+
+                <!-- ST -->
+
+                <td id="stTotal">15</td>
+                <td id="stOccupied">0</td>
+                <td id="stVacancy">15</td>
+
+
+                <!-- SCA -->
+
+                <td id="scaTotal">8</td>
+                <td id="scaOccupied">0</td>
+                <td id="scaVacancy">8</td>
+
+
+                <!-- GRAND TOTAL -->
+
+                <td id="grandTotal">367</td>
+                <td id="grandOccupied">0</td>
+                <td id="grandVacancy">367</td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+```
+
+</main>
+
+<!-- =========================================
+     JAVASCRIPT
+========================================== -->
+
+<script src="script.js"></script>
+
+</body>
+</html>

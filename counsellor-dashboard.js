@@ -37,11 +37,9 @@ function checkAuthentication() {
         window.location.href = "login.html";
 
         return false;
-
     }
 
     return true;
-
 }
 
 
@@ -63,10 +61,10 @@ function getHeaders() {
 
 
 // ============================================================
-// CHECK WHETHER ALL COUNSELLING ROUNDS ARE COMPLETED
+// GET ALL ROUNDS
 // ============================================================
 
-async function checkAllRoundsCompleted() {
+async function getAllRounds() {
 
     try {
 
@@ -80,78 +78,48 @@ async function checkAllRoundsCompleted() {
         );
 
 
+        if (!response.ok) {
+
+            console.error(
+                "Rounds API error:",
+                response.status
+            );
+
+            return [];
+
+        }
+
+
         const data = await response.json();
 
 
         console.log(
-            "ALL COUNSELLING ROUNDS:",
+            "ALL ROUNDS:",
             data
         );
 
 
-        // --------------------------------------------------------
-        // If API fails, do not show completed screen
-        // --------------------------------------------------------
+        if (!data.success) {
 
-        if (!response.ok || !data.success) {
-
-            return false;
+            return [];
 
         }
 
 
-        // --------------------------------------------------------
-        // Get rounds
-        // --------------------------------------------------------
-
-        const rounds = Array.isArray(data.rounds)
+        return Array.isArray(data.rounds)
             ? data.rounds
             : [];
-
-
-        // --------------------------------------------------------
-        // No rounds configured
-        // --------------------------------------------------------
-        //
-        // IMPORTANT:
-        // No rounds does NOT mean counselling completed.
-        //
-
-        if (rounds.length === 0) {
-
-            return false;
-
-        }
-
-
-        // --------------------------------------------------------
-        // Check every configured round
-        // --------------------------------------------------------
-
-        const allCompleted =
-            rounds.every(round => {
-
-                return (
-                    String(
-                        round.status || ""
-                    ).toLowerCase() === "completed"
-                );
-
-            });
-
-
-        return allCompleted;
 
     }
 
     catch (error) {
 
         console.error(
-            "CHECK ALL ROUNDS ERROR:",
+            "GET ALL ROUNDS ERROR:",
             error
         );
 
-        return false;
+        return [];
 
     }
 
@@ -159,7 +127,651 @@ async function checkAllRoundsCompleted() {
 
 
 // ============================================================
-// SHOW FINAL COUNSELLING COMPLETED SCREEN
+// CHECK WHETHER ALL COUNSELLING ROUNDS ARE COMPLETED
+// ============================================================
+
+async function checkAllRoundsCompleted() {
+
+    const rounds =
+        await getAllRounds();
+
+
+    // No rounds means counselling is NOT completed.
+
+    if (rounds.length === 0) {
+
+        return false;
+
+    }
+
+
+    return rounds.every(
+        round =>
+            String(
+                round.status || ""
+            ).toLowerCase() === "completed"
+    );
+
+}
+
+
+// ============================================================
+// FORMAT COMPLETED PAGE DATE + TIME
+//
+// IMPORTANT:
+// These values come directly from the counsellor's
+// Round Management settings.
+// ============================================================
+
+function formatCompletedDateTime(value) {
+
+    if (!value) {
+
+        return "Not scheduled";
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return String(value);
+
+    }
+
+
+    return date.toLocaleString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true
+        }
+    );
+
+}
+
+
+// ============================================================
+// ESCAPE HTML
+// ============================================================
+
+function escapeHtml(value) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// ============================================================
+// RENDER COMPLETED COUNSELLING PAGE
+//
+// EVERYTHING BELOW IS DYNAMIC.
+//
+// No hard-coded counselling dates are used.
+// ============================================================
+
+function renderCompletedSchedule(rounds) {
+
+    const timeline =
+        document.getElementById(
+            "completedTimeline"
+        );
+
+
+    const notifications =
+        document.getElementById(
+            "completedNotifications"
+        );
+
+
+    const academicYear =
+        document.getElementById(
+            "completedAcademicYear"
+        );
+
+
+    const footerYear =
+        document.getElementById(
+            "completedFooterYear"
+        );
+
+
+    // ========================================================
+    // FOOTER YEAR
+    // ========================================================
+
+    if (footerYear) {
+
+        footerYear.textContent =
+            new Date().getFullYear();
+
+    }
+
+
+    // ========================================================
+    // SORT ROUNDS
+    //
+    // Round 1
+    // Round 2
+    // Round 3
+    // etc.
+    // ========================================================
+
+    const sortedRounds =
+        [...rounds].sort(
+            (a, b) =>
+                Number(
+                    a.round_number || 0
+                ) -
+                Number(
+                    b.round_number || 0
+                )
+        );
+
+
+    // ========================================================
+    // ACADEMIC YEAR
+    //
+    // We don't hard-code 2025 - 2026.
+    //
+    // It is calculated from the first scheduled round.
+    // ========================================================
+
+    if (academicYear) {
+
+        const firstRound =
+            sortedRounds[0];
+
+
+        const firstDate =
+            firstRound?.preference_start ||
+            firstRound?.allotment_at ||
+            firstRound?.payment_deadline;
+
+
+        if (firstDate) {
+
+            const year =
+                new Date(
+                    firstDate
+                ).getFullYear();
+
+
+            academicYear.textContent =
+                `${year} - ${year + 1}`;
+
+        }
+
+        else {
+
+            academicYear.textContent =
+                "-";
+
+        }
+
+    }
+
+
+    // ========================================================
+    // TIMELINE
+    // ========================================================
+
+    if (timeline) {
+
+        const timelineItems = [];
+
+
+        sortedRounds.forEach(
+            (round) => {
+
+                const roundNumber =
+                    Number(
+                        round.round_number || 0
+                    );
+
+
+                const roundLabel =
+                    roundNumber > 0
+                        ? `Round ${roundNumber}`
+                        : "Counselling Round";
+
+
+                // ============================================
+                // CHOICE FILLING
+                // ============================================
+
+                if (
+                    round.preference_start ||
+                    round.preference_end
+                ) {
+
+                    timelineItems.push(`
+
+                        <div class="completed-timeline-item">
+
+                            <div class="timeline-marker">
+                                ✓
+                            </div>
+
+                            <div class="completed-timeline-content">
+
+                                <div class="timeline-title-row">
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            roundLabel
+                                        )}
+                                    </strong>
+
+                                    <span>
+                                        COMPLETED
+                                    </span>
+
+                                </div>
+
+                                <p>
+
+                                    Choice Filling:
+
+                                    ${formatCompletedDateTime(
+                                        round.preference_start
+                                    )}
+
+                                    –
+
+                                    ${formatCompletedDateTime(
+                                        round.preference_end
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    `);
+
+                }
+
+
+                // ============================================
+                // ALLOTMENT
+                // ============================================
+
+                if (round.allotment_at) {
+
+                    timelineItems.push(`
+
+                        <div class="completed-timeline-item">
+
+                            <div class="timeline-marker">
+                                ✓
+                            </div>
+
+                            <div class="completed-timeline-content">
+
+                                <div class="timeline-title-row">
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            roundLabel
+                                        )}
+                                        — Allotment
+                                    </strong>
+
+                                    <span>
+                                        COMPLETED
+                                    </span>
+
+                                </div>
+
+                                <p>
+
+                                    Allotment:
+
+                                    ${formatCompletedDateTime(
+                                        round.allotment_at
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    `);
+
+                }
+
+
+                // ============================================
+                // PAYMENT
+                // ============================================
+
+                if (round.payment_deadline) {
+
+                    timelineItems.push(`
+
+                        <div class="completed-timeline-item">
+
+                            <div class="timeline-marker">
+                                ✓
+                            </div>
+
+                            <div class="completed-timeline-content">
+
+                                <div class="timeline-title-row">
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            roundLabel
+                                        )}
+                                        — Payment
+                                    </strong>
+
+                                    <span>
+                                        COMPLETED
+                                    </span>
+
+                                </div>
+
+                                <p>
+
+                                    Payment Deadline:
+
+                                    ${formatCompletedDateTime(
+                                        round.payment_deadline
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    `);
+
+                }
+
+            }
+        );
+
+
+        // ====================================================
+        // SHOW TIMELINE
+        // ====================================================
+
+        if (timelineItems.length > 0) {
+
+            timeline.innerHTML =
+                timelineItems.join("");
+
+        }
+
+        else {
+
+            timeline.innerHTML = `
+
+                <div class="completed-empty-state">
+
+                    No counselling schedule found.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    // ========================================================
+    // NOTIFICATIONS
+    // ========================================================
+
+    if (notifications) {
+
+        const notificationItems = [];
+
+
+        sortedRounds.forEach(
+            (round) => {
+
+                const roundNumber =
+                    Number(
+                        round.round_number || 0
+                    );
+
+
+                const roundLabel =
+                    roundNumber > 0
+                        ? `Round ${roundNumber}`
+                        : "Counselling Round";
+
+
+                // ============================================
+                // CHOICE FILLING CLOSED
+                // ============================================
+
+                if (round.preference_end) {
+
+                    notificationItems.push(`
+
+                        <div class="completed-notification">
+
+                            <div class="notification-icon">
+                                ✓
+                            </div>
+
+                            <div class="notification-content">
+
+                                <div class="notification-title-row">
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            roundLabel
+                                        )}
+                                        Choice Filling Closed
+                                    </strong>
+
+                                    <time>
+
+                                        ${formatCompletedDateTime(
+                                            round.preference_end
+                                        )}
+
+                                    </time>
+
+                                </div>
+
+                                <p>
+
+                                    The choice-filling window
+                                    configured by the counsellor
+                                    has been completed.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    `);
+
+                }
+
+
+                // ============================================
+                // ALLOTMENT COMPLETED
+                // ============================================
+
+                if (round.allotment_at) {
+
+                    notificationItems.push(`
+
+                        <div class="completed-notification">
+
+                            <div class="notification-icon">
+                                ✓
+                            </div>
+
+                            <div class="notification-content">
+
+                                <div class="notification-title-row">
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            roundLabel
+                                        )}
+                                        Allotment Completed
+                                    </strong>
+
+                                    <time>
+
+                                        ${formatCompletedDateTime(
+                                            round.allotment_at
+                                        )}
+
+                                    </time>
+
+                                </div>
+
+                                <p>
+
+                                    The allotment time configured
+                                    by the counsellor has been
+                                    completed.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    `);
+
+                }
+
+
+                // ============================================
+                // PAYMENT CLOSED
+                // ============================================
+
+                if (round.payment_deadline) {
+
+                    notificationItems.push(`
+
+                        <div class="completed-notification">
+
+                            <div class="notification-icon">
+                                ✓
+                            </div>
+
+                            <div class="notification-content">
+
+                                <div class="notification-title-row">
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            roundLabel
+                                        )}
+                                        Payment Window Closed
+                                    </strong>
+
+                                    <time>
+
+                                        ${formatCompletedDateTime(
+                                            round.payment_deadline
+                                        )}
+
+                                    </time>
+
+                                </div>
+
+                                <p>
+
+                                    The payment deadline configured
+                                    by the counsellor has passed.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    `);
+
+                }
+
+            }
+        );
+
+
+        // ====================================================
+        // SHOW NOTIFICATIONS
+        // ====================================================
+
+        if (notificationItems.length > 0) {
+
+            notifications.innerHTML =
+                notificationItems.join("");
+
+        }
+
+        else {
+
+            notifications.innerHTML = `
+
+                <div class="completed-empty-state">
+
+                    No counselling updates found.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+// ============================================================
+// SHOW COMPLETED SCREEN
 // ============================================================
 
 function showCompletedScreen() {
@@ -176,10 +788,6 @@ function showCompletedScreen() {
         );
 
 
-    // --------------------------------------------------------
-    // Hide normal dashboard
-    // --------------------------------------------------------
-
     if (normalDashboard) {
 
         normalDashboard.style.display =
@@ -187,10 +795,6 @@ function showCompletedScreen() {
 
     }
 
-
-    // --------------------------------------------------------
-    // Show completed screen
-    // --------------------------------------------------------
 
     if (completedScreen) {
 
@@ -203,7 +807,7 @@ function showCompletedScreen() {
 
 
 // ============================================================
-// SHOW NORMAL COUNSELLOR DASHBOARD
+// SHOW NORMAL DASHBOARD
 // ============================================================
 
 function showNormalDashboard() {
@@ -220,10 +824,6 @@ function showNormalDashboard() {
         );
 
 
-    // --------------------------------------------------------
-    // Show normal dashboard
-    // --------------------------------------------------------
-
     if (normalDashboard) {
 
         normalDashboard.style.display =
@@ -231,10 +831,6 @@ function showNormalDashboard() {
 
     }
 
-
-    // --------------------------------------------------------
-    // Hide completed screen
-    // --------------------------------------------------------
 
     if (completedScreen) {
 
@@ -254,46 +850,68 @@ async function loadCurrentRound() {
 
     try {
 
-        // --------------------------------------------------------
-        // Check whether ALL configured rounds are completed
-        // --------------------------------------------------------
+        // ====================================================
+        // GET ALL ROUNDS
+        // ====================================================
 
-        const allRoundsCompleted =
-            await checkAllRoundsCompleted();
+        const rounds =
+            await getAllRounds();
 
 
-        // --------------------------------------------------------
-        // ALL ROUNDS COMPLETED
-        // --------------------------------------------------------
+        // ====================================================
+        // IF ALL ROUNDS ARE COMPLETED
+        // ====================================================
 
-        if (allRoundsCompleted) {
+        if (
+            rounds.length > 0 &&
+            rounds.every(
+                round =>
+                    String(
+                        round.status || ""
+                    ).toLowerCase() === "completed"
+            )
+        ) {
+
+            // IMPORTANT:
+            // Use the actual rounds configured by counsellor.
+
+            renderCompletedSchedule(
+                rounds
+            );
+
 
             showCompletedScreen();
+
 
             return;
 
         }
 
 
-        // --------------------------------------------------------
-        // Counselling is not completely finished
-        // Keep normal dashboard visible
-        // --------------------------------------------------------
+        // ====================================================
+        // COUNSELLING STILL RUNNING
+        // ====================================================
 
         showNormalDashboard();
 
 
-        const response = await fetch(
-            `${API_BASE_URL}/api/rounds/current`,
-            {
-                method: "GET",
-                headers: getHeaders(),
-                cache: "no-store"
-            }
-        );
+        // ====================================================
+        // GET CURRENT ROUND
+        // ====================================================
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/rounds/current`,
+                {
+                    method: "GET",
+                    headers: getHeaders(),
+                    cache: "no-store"
+                }
+            );
 
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
 
         console.log(
@@ -315,19 +933,19 @@ async function loadCurrentRound() {
         }
 
 
-        const round = data.round;
-
-
-        displayRound(round);
+        displayRound(
+            data.round
+        );
 
     }
 
     catch (error) {
 
         console.error(
-            "CURRENT ROUND ERROR:",
+            "LOAD CURRENT ROUND ERROR:",
             error
         );
+
 
         showNoCounselling();
 
@@ -337,29 +955,30 @@ async function loadCurrentRound() {
 
 
 // ============================================================
-// DISPLAY ROUND
+// DISPLAY CURRENT ROUND
 // ============================================================
 
 function displayRound(round) {
 
-    const status = String(
-        round.status || ""
-    ).toLowerCase();
+    const status =
+        String(
+            round.status || ""
+        ).toLowerCase();
 
 
     // ========================================================
     // CURRENT ROUND
     // ========================================================
 
-    const currentRoundElement =
+    const currentRound =
         document.getElementById(
             "currentRound"
         );
 
 
-    if (currentRoundElement) {
+    if (currentRound) {
 
-        currentRoundElement.textContent =
+        currentRound.textContent =
             `ROUND ${String(
                 round.round_number
             ).padStart(2, "0")}`;
@@ -368,25 +987,25 @@ function displayRound(round) {
 
 
     // ========================================================
-    // ELIGIBLE RANK
+    // ELIGIBLE RANK RANGE
     // ========================================================
 
-    const eligibleRankElement =
+    const eligibleRank =
         document.getElementById(
             "eligibleRank"
         );
 
 
-    if (eligibleRankElement) {
+    if (eligibleRank) {
 
-        eligibleRankElement.textContent =
+        eligibleRank.textContent =
             `${round.min_rank} – ${round.max_rank}`;
 
     }
 
 
     // ========================================================
-    // COUNSELLING STATUS
+    // STATUS
     // ========================================================
 
     let statusText =
@@ -403,150 +1022,100 @@ function displayRound(round) {
 
     switch (status) {
 
-
-        // ----------------------------------------------------
-        // NOT STARTED
-        // ----------------------------------------------------
-
         case "not_started":
 
             statusText =
                 "COUNSELLING NOT STARTED";
 
-
             description =
                 "The current round has not started yet.";
-
 
             choiceStatus =
                 "NOT STARTED";
 
-
             break;
 
-
-        // ----------------------------------------------------
-        // CHOICE FILLING OPEN
-        // ----------------------------------------------------
 
         case "preference_open":
 
             statusText =
                 "COUNSELLING IS RUNNING";
 
-
             description =
                 "Choice filling is currently open for eligible students.";
-
 
             choiceStatus =
                 "OPEN";
 
-
             break;
 
-
-        // ----------------------------------------------------
-        // PREFERENCES LOCKED
-        // ----------------------------------------------------
 
         case "preferences_locked":
 
             statusText =
                 "COUNSELLING IS RUNNING";
 
-
             description =
                 "Choice filling has been closed. Preferences are locked.";
-
 
             choiceStatus =
                 "LOCKED";
 
-
             break;
 
-
-        // ----------------------------------------------------
-        // ALLOTMENT COMPLETED
-        // ----------------------------------------------------
 
         case "allotment_completed":
 
             statusText =
                 "COUNSELLING IS RUNNING";
 
-
             description =
                 "Allotment for this round has been completed.";
-
 
             choiceStatus =
                 "LOCKED";
 
-
             break;
 
-
-        // ----------------------------------------------------
-        // PAYMENT PERIOD
-        // ----------------------------------------------------
 
         case "payment_period":
 
             statusText =
                 "COUNSELLING IS RUNNING";
 
-
             description =
                 "Payment period is currently active for allotted students.";
-
 
             choiceStatus =
                 "COMPLETED";
 
-
             break;
 
-
-        // ----------------------------------------------------
-        // COMPLETED
-        // ----------------------------------------------------
 
         case "completed":
 
             statusText =
                 "ROUND COMPLETED";
 
-
             description =
                 "This counselling round has been completed.";
-
 
             choiceStatus =
                 "COMPLETED";
 
-
             break;
 
-
-        // ----------------------------------------------------
-        // OTHER STATUS
-        // ----------------------------------------------------
 
         default:
 
             statusText =
                 "COUNSELLING STATUS";
 
-
             description =
                 "Current counselling status loaded.";
 
-
             choiceStatus =
                 status || "NOT STARTED";
-
 
             break;
 
@@ -557,15 +1126,15 @@ function displayRound(round) {
     // UPDATE STATUS
     // ========================================================
 
-    const counsellingStatusElement =
+    const counsellingStatus =
         document.getElementById(
             "counsellingStatus"
         );
 
 
-    if (counsellingStatusElement) {
+    if (counsellingStatus) {
 
-        counsellingStatusElement.textContent =
+        counsellingStatus.textContent =
             statusText;
 
     }
@@ -575,33 +1144,33 @@ function displayRound(round) {
     // UPDATE DESCRIPTION
     // ========================================================
 
-    const statusDescriptionElement =
+    const statusDescription =
         document.getElementById(
             "statusDescription"
         );
 
 
-    if (statusDescriptionElement) {
+    if (statusDescription) {
 
-        statusDescriptionElement.textContent =
+        statusDescription.textContent =
             description;
 
     }
 
 
     // ========================================================
-    // UPDATE CHOICE FILLING STATUS
+    // UPDATE CHOICE STATUS
     // ========================================================
 
-    const choiceFillingStatusElement =
+    const choiceFillingStatus =
         document.getElementById(
             "choiceFillingStatus"
         );
 
 
-    if (choiceFillingStatusElement) {
+    if (choiceFillingStatus) {
 
-        choiceFillingStatusElement.textContent =
+        choiceFillingStatus.textContent =
             choiceStatus;
 
     }
@@ -609,17 +1178,19 @@ function displayRound(round) {
 
     // ========================================================
     // UPDATE SCHEDULE
+    //
+    // These are also taken directly from the counsellor.
     // ========================================================
 
-    const preferenceStartElement =
+    const preferenceStart =
         document.getElementById(
             "preferenceStart"
         );
 
 
-    if (preferenceStartElement) {
+    if (preferenceStart) {
 
-        preferenceStartElement.textContent =
+        preferenceStart.textContent =
             formatDate(
                 round.preference_start
             );
@@ -627,15 +1198,15 @@ function displayRound(round) {
     }
 
 
-    const preferenceEndElement =
+    const preferenceEnd =
         document.getElementById(
             "preferenceEnd"
         );
 
 
-    if (preferenceEndElement) {
+    if (preferenceEnd) {
 
-        preferenceEndElement.textContent =
+        preferenceEnd.textContent =
             formatDate(
                 round.preference_end
             );
@@ -643,15 +1214,15 @@ function displayRound(round) {
     }
 
 
-    const allotmentAtElement =
+    const allotmentAt =
         document.getElementById(
             "allotmentAt"
         );
 
 
-    if (allotmentAtElement) {
+    if (allotmentAt) {
 
-        allotmentAtElement.textContent =
+        allotmentAt.textContent =
             formatDate(
                 round.allotment_at
             );
@@ -659,15 +1230,15 @@ function displayRound(round) {
     }
 
 
-    const paymentDeadlineElement =
+    const paymentDeadline =
         document.getElementById(
             "paymentDeadline"
         );
 
 
-    if (paymentDeadlineElement) {
+    if (paymentDeadline) {
 
-        paymentDeadlineElement.textContent =
+        paymentDeadline.textContent =
             formatDate(
                 round.payment_deadline
             );
@@ -679,16 +1250,18 @@ function displayRound(round) {
     // CHOICE FILLING TIME
     // ========================================================
 
-    const choiceFillingTimeElement =
+    const choiceFillingTime =
         document.getElementById(
             "choiceFillingTime"
         );
 
 
-    if (choiceFillingTimeElement) {
+    if (choiceFillingTime) {
 
-        choiceFillingTimeElement.textContent =
-            getChoiceTime(round);
+        choiceFillingTime.textContent =
+            getChoiceTime(
+                round
+            );
 
     }
 
@@ -697,13 +1270,15 @@ function displayRound(round) {
     // UPDATE TIMELINE
     // ========================================================
 
-    updateTimeline(status);
+    updateTimeline(
+        status
+    );
 
 }
 
 
 // ============================================================
-// CHOICE TIME
+// CHOICE FILLING TIME
 // ============================================================
 
 function getChoiceTime(round) {
@@ -714,11 +1289,9 @@ function getChoiceTime(round) {
         ).toLowerCase();
 
 
-    // --------------------------------------------------------
-    // CHOICE FILLING OPEN
-    // --------------------------------------------------------
-
-    if (status === "preference_open") {
+    if (
+        status === "preference_open"
+    ) {
 
         return (
             "Closes: " +
@@ -730,22 +1303,18 @@ function getChoiceTime(round) {
     }
 
 
-    // --------------------------------------------------------
-    // CHOICE FILLING LOCKED
-    // --------------------------------------------------------
-
-    if (status === "preferences_locked") {
+    if (
+        status === "preferences_locked"
+    ) {
 
         return "Choice filling closed";
 
     }
 
 
-    // --------------------------------------------------------
-    // NOT STARTED
-    // --------------------------------------------------------
-
-    if (status === "not_started") {
+    if (
+        status === "not_started"
+    ) {
 
         return (
             "Opens: " +
@@ -757,33 +1326,27 @@ function getChoiceTime(round) {
     }
 
 
-    // --------------------------------------------------------
-    // ALLOTMENT COMPLETED
-    // --------------------------------------------------------
-
-    if (status === "allotment_completed") {
+    if (
+        status === "allotment_completed"
+    ) {
 
         return "Choice filling completed";
 
     }
 
 
-    // --------------------------------------------------------
-    // PAYMENT
-    // --------------------------------------------------------
-
-    if (status === "payment_period") {
+    if (
+        status === "payment_period"
+    ) {
 
         return "Payment period active";
 
     }
 
 
-    // --------------------------------------------------------
-    // ROUND COMPLETED
-    // --------------------------------------------------------
-
-    if (status === "completed") {
+    if (
+        status === "completed"
+    ) {
 
         return "Round completed";
 
@@ -796,7 +1359,7 @@ function getChoiceTime(round) {
 
 
 // ============================================================
-// TIMELINE
+// UPDATE TIMELINE
 // ============================================================
 
 function updateTimeline(status) {
@@ -816,7 +1379,6 @@ function updateTimeline(status) {
 
         },
 
-
         {
             id: "stepLocked",
 
@@ -829,7 +1391,6 @@ function updateTimeline(status) {
 
         },
 
-
         {
             id: "stepAllotment",
 
@@ -841,7 +1402,6 @@ function updateTimeline(status) {
 
         },
 
-
         {
             id: "stepPayment",
 
@@ -851,7 +1411,6 @@ function updateTimeline(status) {
             ].includes(status)
 
         },
-
 
         {
             id: "stepCompleted",
@@ -864,38 +1423,40 @@ function updateTimeline(status) {
     ];
 
 
-    steps.forEach(step => {
+    steps.forEach(
+        step => {
 
-        const element =
-            document.getElementById(
-                step.id
-            );
+            const element =
+                document.getElementById(
+                    step.id
+                );
 
 
-        if (!element) {
+            if (!element) {
 
-            return;
+                return;
+
+            }
+
+
+            if (step.active) {
+
+                element.classList.add(
+                    "active"
+                );
+
+            }
+
+            else {
+
+                element.classList.remove(
+                    "active"
+                );
+
+            }
 
         }
-
-
-        if (step.active) {
-
-            element.classList.add(
-                "active"
-            );
-
-        }
-
-        else {
-
-            element.classList.remove(
-                "active"
-            );
-
-        }
-
-    });
+    );
 
 }
 
@@ -990,72 +1551,66 @@ function showNoCounselling() {
     }
 
 
-    // --------------------------------------------------------
     // CLEAR SCHEDULE
-    // --------------------------------------------------------
 
-    const scheduleFields = [
-
+    [
         "preferenceStart",
         "preferenceEnd",
         "allotmentAt",
         "paymentDeadline"
+    ].forEach(
+        id => {
 
-    ];
+            const element =
+                document.getElementById(
+                    id
+                );
 
 
-    scheduleFields.forEach(id => {
+            if (element) {
 
-        const element =
-            document.getElementById(id);
+                element.textContent =
+                    "-";
 
-
-        if (element) {
-
-            element.textContent =
-                "-";
+            }
 
         }
+    );
 
-    });
 
-
-    // --------------------------------------------------------
     // RESET TIMELINE
-    // --------------------------------------------------------
 
-    const timelineSteps = [
-
+    [
         "stepPreference",
         "stepLocked",
         "stepAllotment",
         "stepPayment",
         "stepCompleted"
+    ].forEach(
+        id => {
 
-    ];
+            const element =
+                document.getElementById(
+                    id
+                );
 
 
-    timelineSteps.forEach(id => {
+            if (element) {
 
-        const element =
-            document.getElementById(id);
+                element.classList.remove(
+                    "active"
+                );
 
-
-        if (element) {
-
-            element.classList.remove(
-                "active"
-            );
+            }
 
         }
-
-    });
+    );
 
 }
 
 
 // ============================================================
-// FORMAT DATE
+// FORMAT NORMAL DASHBOARD DATE
 // ============================================================
 
 function formatDate(value) {
@@ -1089,7 +1644,8 @@ function formatDate(value) {
             month: "short",
             year: "numeric",
             hour: "2-digit",
-            minute: "2-digit"
+            minute: "2-digit",
+            hour12: true
         }
     );
 
@@ -1099,18 +1655,11 @@ function formatDate(value) {
 // ============================================================
 // AUTO REFRESH
 // ============================================================
-//
-// The Counsellor Dashboard checks the backend every 5 seconds.
-// Therefore, changes made in Round Management will appear
-// automatically without manually refreshing the page.
-//
 
 let dashboardRefreshTimer = null;
 
 
 function startDashboardAutoRefresh() {
-
-    // Prevent duplicate timers
 
     if (dashboardRefreshTimer) {
 
@@ -1164,47 +1713,57 @@ function stopDashboardAutoRefresh() {
 // LOGOUT
 // ============================================================
 
-const logoutButton =
-    document.getElementById(
-        "logoutButton"
-    );
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-
-if (logoutButton) {
-
-    logoutButton.addEventListener(
-        "click",
-        () => {
-
-            stopDashboardAutoRefresh();
-
-
-            localStorage.removeItem(
-                "token"
+        const logoutButton =
+            document.getElementById(
+                "logoutButton"
             );
 
 
-            localStorage.removeItem(
-                "authToken"
-            );
+        if (!logoutButton) {
 
-
-            localStorage.removeItem(
-                "counsellorToken"
-            );
-
-
-            window.location.href =
-                "login.html";
+            return;
 
         }
-    );
 
-}
+
+        logoutButton.addEventListener(
+            "click",
+            () => {
+
+                stopDashboardAutoRefresh();
+
+
+                localStorage.removeItem(
+                    "token"
+                );
+
+
+                localStorage.removeItem(
+                    "authToken"
+                );
+
+
+                localStorage.removeItem(
+                    "counsellorToken"
+                );
+
+
+                window.location.href =
+                    "login.html";
+
+            }
+        );
+
+    }
+);
 
 
 // ============================================================
-// STOP REFRESH WHEN PAGE IS HIDDEN
+// PAGE VISIBILITY
 // ============================================================
 
 document.addEventListener(
@@ -1219,11 +1778,7 @@ document.addEventListener(
 
         else {
 
-            // Refresh immediately when
-            // counsellor comes back to the page
-
             loadCurrentRound();
-
 
             startDashboardAutoRefresh();
 
@@ -1251,12 +1806,8 @@ async function initializeDashboard() {
     }
 
 
-    // First load
-
     await loadCurrentRound();
 
-
-    // Then keep checking backend
 
     startDashboardAutoRefresh();
 

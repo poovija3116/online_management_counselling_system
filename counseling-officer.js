@@ -602,7 +602,7 @@ document
         function () {
 
             window.location.href =
-                "index.html";
+                "seat-availability.html";
 
         }
     );
